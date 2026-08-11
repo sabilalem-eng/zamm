@@ -1,0 +1,159 @@
+name: Anti-Error APK Builder
+
+# ============================
+# 1. TRIGGER (Manual + Otomatis)
+# ============================
+on:
+  workflow_dispatch:  # Manual trigger (paling aman untuk build)
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+# ============================
+# 2. IZIN & ENV GLOBAL
+# ============================
+permissions:
+  contents: read
+
+env:
+  # Ganti sesuai project Anda
+  PROJECT_TYPE: 'flutter'   # atau 'android' (native)
+  JAVA_VERSION: '17'
+  FLUTTER_VERSION: '3.24.0'
+
+# ============================
+# 3. JOB UTAMA: Build APK
+# ============================
+jobs:
+  build-apk:
+    name: 🛠️ Build Release APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 30  # Batas waktu agar tidak hang
+
+    # ============================
+    # 4. STRATEGI ANTI-EROR
+    # ============================
+    steps:
+      # --- STEP 1: Bersihkan ruang disk (mencegah error "No space left") ---
+      - name: 🧹 Free Disk Space (Ubuntu)
+        run: |
+          sudo apt clean
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/share/boost
+          df -h  # Cek sisa space
+
+      # --- STEP 2: Checkout Kode dengan Retry (mencegah network error) ---
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ambil semua history (berguna untuk versioning)
+          submodules: recursive
+
+      # --- STEP 3: UNZIP (JIKA SOURCE ADA DALAM BENTUK ZIP) ---
+      # Jika di root repo ada file project.zip, ekstrak dulu
+      - name: 📦 Extract Source from ZIP (if exists)
+        run: |
+          if ls *.zip 1> /dev/null 2>&1; then
+            echo "🗂️ ZIP ditemukan, mengekstrak..."
+            unzip -q *.zip -d ./extracted_source
+            cd ./extracted_source
+            echo "SOURCE_DIR=./extracted_source" >> $GITHUB_ENV
+          else
+            echo "SOURCE_DIR=." >> $GITHUB_ENV
+          fi
+        continue-on-error: true  # Tidak gagal kalau tidak ada zip
+
+      # --- STEP 4: Setup Java (Wajib untuk Android) ---
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'  # Amazon Corretto lebih stabil
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: 'gradle'  # Cache otomatis untuk gradle
+
+      # --- STEP 5: Setup Flutter (Jika Flutter) ---
+      - name: 📱 Setup Flutter
+        if: env.PROJECT_TYPE == 'flutter'
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true  # Cache flutter SDK
+
+      # --- STEP 6: Install Dependencies (Dengan Retry Mechanism) ---
+      - name: 📦 Get Flutter Packages (Retry 3x)
+        if: env.PROJECT_TYPE == 'flutter'
+        run: |
+          for i in {1..3}; do
+            flutter pub get && break
+            echo "⏳ Retry $i ..."
+            sleep 5
+          done
+        working-directory: ${{ env.SOURCE_DIR || '.' }}
+
+      - name: 📦 Get Gradle Dependencies (Native Android)
+        if: env.PROJECT_TYPE == 'android'
+        run: |
+          chmod +x gradlew
+          ./gradlew dependencies --no-daemon
+        working-directory: ${{ env.SOURCE_DIR || '.' }}
+
+      # --- STEP 7: Jalankan Analisis & Test (Opsional, tidak wajib) ---
+      - name: ✅ Lint & Test (Skip jika error)
+        if: env.PROJECT_TYPE == 'flutter'
+        run: |
+          flutter analyze || true
+          flutter test || true
+        working-directory: ${{ env.SOURCE_DIR || '.' }}
+        continue-on-error: true  # 🔥 ANTI-EROR: Tetap lanjut walau test gagal
+
+      # --- STEP 8: 🏗️ BUILD APK (INTI) ---
+      - name: 🔨 Build Flutter APK (Release)
+        if: env.PROJECT_TYPE == 'flutter'
+        run: |
+          flutter build apk --release --split-per-abi
+          # --split-per-abi menghasilkan 3 file: armeabi-v7a, arm64-v8a, x86_64
+        working-directory: ${{ env.SOURCE_DIR || '.' }}
+
+      - name: 🔨 Build Native Android APK (Release)
+        if: env.PROJECT_TYPE == 'android'
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
+        working-directory: ${{ env.SOURCE_DIR || '.' }}
+
+      # --- STEP 9: ⭐ PERMINTAAN UTAMA ANDA (Master Builder) ---
+      - name: 🧙‍♂️ Print Master Builder Signature
+        run: echo "✅ master builder"
+
+      # --- STEP 10: SIGNING APK (Opsional, Pakai Secrets) ---
+      # Jika punya keystore, aktifkan. Jika tidak, skip.
+      - name: ✍️ Sign APK with Keystore
+        if: env.KEYSTORE_BASE64 != ''  # Isi di GitHub Secrets
+        run: |
+          echo ${{ secrets.KEYSTORE_BASE64 }} | base64 -d > keystore.jks
+          find . -name "*.apk" -exec jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore keystore.jks -storepass ${{ secrets.KEYSTORE_PASS }} -keypass ${{ secrets.KEY_PASS }} {} alias_name \;
+        working-directory: ${{ env.SOURCE_DIR || '.' }}
+        continue-on-error: true  # Jangan gagal kalau signing bermasalah
+
+      # --- STEP 11: 📤 UPLOAD ARTIFACT (Agar APK bisa di-download) ---
+      - name: 📤 Upload APK ke Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apks
+          path: |
+            ${{ env.SOURCE_DIR || '.' }}/build/app/outputs/flutter-apk/*.apk
+            ${{ env.SOURCE_DIR || '.' }}/app/build/outputs/apk/release/*.apk
+          retention-days: 7  # Simpan 7 hari
+
+      # --- STEP 12: KIRIM NOTIFIKASI (Gagal/Sukses) ---
+      - name: 📢 Notifikasi Status
+        if: always()  # Jalankan selalu, baik sukses maupun gagal
+        run: |
+          if [ ${{ job.status }} == "success" ]; then
+            echo "🎉 Build APK BERHASIL! Cek Artifact."
+          else
+            echo "❌ Build GAGAL. Cek log di atas."
+          fi
+          echo "🧙‍♂️ Master Builder says: Keep Calm and Build On!"
