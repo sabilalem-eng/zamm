@@ -2,587 +2,110 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>🔒 SYSTEM LOCKED</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Adek Sayang Ku</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
-  html,body{
-    font-family:'Courier New',monospace;
-    background:#000;height:100%;overflow:hidden;color:#0f0;
-    cursor:none;
-  }
-
-  /* ============================================
-     EFEK STROBE DI LAYAR
-     ============================================ */
-  body.strobe{
-    animation:screenStrobe .15s infinite;
-  }
-  @keyframes screenStrobe{
-    0%,100%{background:#000}
-    50%{background:#fff}
-  }
-  body.strobe .lock-box{
-    animation:boxStrobe .15s infinite;
-  }
-  @keyframes boxStrobe{
-    0%,100%{border-color:#0f0;box-shadow:0 0 30px #0f0}
-    50%{border-color:#fff;box-shadow:0 0 100px #fff, 0 0 200px #fff}
-  }
-
-  .scanline{
-    position:fixed;inset:0;pointer-events:none;z-index:90;
-    background:repeating-linear-gradient(0deg,
-      rgba(0,0,0,.18) 0px, rgba(0,0,0,.18) 1px,
-      transparent 1px, transparent 2px);
-    animation:scan 6s linear infinite;
-  }
-  @keyframes scan{0%{transform:translateY(0)}100%{transform:translateY(6px)}}
-
-  .noise{
-    position:fixed;inset:0;pointer-events:none;z-index:89;
-    opacity:.055;
-    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    animation:noiseMove .3s steps(2) infinite;
-  }
-  @keyframes noiseMove{
-    0%{transform:translate(0,0)}25%{transform:translate(-2%,1%)}
-    50%{transform:translate(1%,-2%)}75%{transform:translate(-1%,2%)}
-    100%{transform:translate(2%,-1%)}
-  }
-
-  /* ============================================
-     IZIN KAMERA (MUNCUL PERTAMA)
-     ============================================ */
-  .permission-overlay{
-    position:fixed;inset:0;z-index:500;
-    background:#000;
-    display:flex;flex-direction:column;
-    justify-content:center;align-items:center;
-    padding:32px;text-align:center;
-  }
-  .permission-overlay.hidden{display:none}
-  .perm-icon{
-    font-size:80px;margin-bottom:20px;
-    animation:flashBlink 1s infinite;
-  }
-  @keyframes flashBlink{
-    0%,100%{opacity:1;filter:drop-shadow(0 0 20px #ffd700)}
-    50%{opacity:.3;filter:drop-shadow(0 0 5px #ffd700)}
-  }
-  .perm-title{
-    font-size:22px;font-weight:900;color:#0f0;
-    letter-spacing:3px;margin-bottom:12px;
-    text-shadow:0 0 10px #0f0;
-  }
-  .perm-desc{
-    font-size:13px;color:rgba(0,255,0,.6);
-    line-height:1.6;margin-bottom:32px;max-width:300px;
-  }
-  .perm-btn{
-    padding:16px 40px;border:2px solid #0f0;
-    background:transparent;color:#0f0;
-    font-size:15px;font-weight:900;font-family:inherit;
-    letter-spacing:3px;cursor:pointer;
-    transition:all .2s;
-    text-shadow:0 0 8px #0f0;
-  }
-  .perm-btn:active{background:#0f0;color:#000}
-
-  /* ============================================
-     LOCK SCREEN
-     ============================================ */
-  .lock-screen{
-    position:fixed;inset:0;
-    display:flex;justify-content:center;align-items:center;
-    padding:20px;z-index:100;
-  }
-
-  .container{width:100%;max-width:400px;position:relative;z-index:2}
-
-  .lock-box{
-    border:3px solid #0f0;
-    padding:24px 20px;
-    background:rgba(0,0,0,.96);
-    box-shadow:0 0 30px rgba(0,255,0,.3), 0 0 60px rgba(0,255,0,.15);
-    position:relative;
-    transition:all .15s;
-  }
-  .lock-box::before{
-    content:'';position:absolute;inset:0;
-    background-image:
-      linear-gradient(rgba(0,255,0,.08) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,255,0,.08) 1px, transparent 1px);
-    background-size:20px 20px;pointer-events:none;z-index:-1;
-  }
-
-  .header{text-align:center;font-size:11px;letter-spacing:6px;opacity:.75;margin-bottom:18px}
-
-  .logo{text-align:center;margin-bottom:16px}
-  .logo-icon{display:inline-block;border:2px solid #0f0;padding:10px 22px;position:relative}
-  .logo-icon::before,.logo-icon::after{content:'';position:absolute;width:10px;height:10px;border:2px solid #0f0}
-  .logo-icon::before{top:-5px;left:-5px;border-right:none;border-bottom:none}
-  .logo-icon::after{bottom:-5px;right:-5px;border-left:none;border-top:none}
-
-  .skull{font-size:32px;display:block;animation:skullPulse 1.4s infinite;filter:drop-shadow(0 0 10px #ff2b2b)}
-  @keyframes skullPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.14);opacity:.7}}
-
-  .title{
-    text-align:center;font-size:22px;font-weight:900;
-    letter-spacing:4px;margin:14px 0;
-    text-shadow:0 0 10px #0f0, 0 0 22px rgba(0,255,0,.5);
-    animation:glitch 4s infinite;
-  }
-  @keyframes glitch{
-    0%,90%,100%{transform:translate(0)}
-    92%{transform:translate(-2px,1px)}
-    94%{transform:translate(2px,-1px)}
-    96%{transform:translate(-1px,-2px)}
-    98%{transform:translate(1px,2px)}
-  }
-
-  .brand{text-align:center;font-size:10px;letter-spacing:5px;opacity:.55;margin-bottom:18px}
-
-  .message-box{
-    border:2px solid #ff2b2b;padding:14px;margin-bottom:18px;
-    text-align:center;min-height:58px;
-    display:flex;align-items:center;justify-content:center;
-    background:rgba(255,43,43,.05);
-    animation:msgGlow 2s infinite;
-  }
-  @keyframes msgGlow{
-    0%,100%{box-shadow:0 0 15px rgba(255,43,43,.2)}
-    50%{box-shadow:0 0 30px rgba(255,43,43,.5)}
-  }
-  .message{
-    font-size:15px;font-weight:900;letter-spacing:2px;
-    color:#ff2b2b;text-shadow:0 0 10px #ff2b2b;
-    animation:blink 1.2s infinite;
-  }
-  @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
-
-  .status{font-size:9px;line-height:1.9;opacity:.75;margin-bottom:18px}
-  .status div::before{content:'> ';color:#0f0}
-  .status .red{color:#ff2b2b}
-  .status .red::before{color:#ff2b2b}
-
-  .pin-display{
-    border:2px solid #0f0;padding:12px;text-align:center;
-    font-size:26px;font-weight:900;letter-spacing:14px;
-    margin-bottom:18px;min-height:54px;
-    background:rgba(0,255,0,.05);text-shadow:0 0 12px #0f0;
-  }
-
-  .keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .key{
-    border:2px solid #0f0;background:#000;color:#0f0;
-    padding:16px 0;font-size:19px;font-weight:900;
-    font-family:'Courier New',monospace;cursor:pointer;
-    transition:all .1s;text-align:center;
-  }
-  .key:active{background:#0f0;color:#000;transform:scale(.95)}
-  .key.del{color:#ff2b2b;border-color:#ff2b2b}
-  .key.del:active{background:#ff2b2b;color:#000}
-  .key.ok{background:rgba(0,255,0,.15)}
-  .key.ok:active{background:#0f0;color:#000}
-
-  .footer{text-align:center;font-size:8px;letter-spacing:4px;opacity:.45;margin-top:18px}
-
-  .toast{
-    position:fixed;bottom:30px;left:50%;
-    transform:translateX(-50%) translateY(120px);
-    background:#ff2b2b;color:#fff;
-    padding:12px 22px;font-weight:900;font-size:13px;
-    border:2px solid #fff;transition:transform .3s;
-    z-index:300;font-family:'Courier New',monospace;
-    white-space:nowrap;
-  }
-  .toast.show{transform:translateX(-50%) translateY(0)}
-  .toast.success{background:#00cc66}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background: radial-gradient(ellipse at top, #1a0b2e 0%, #0f0a1e 100%);min-height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;color:white}
+.hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.heart{position:absolute;bottom:-20px;font-size:20px;animation: floatUp linear infinite;opacity:0.8}
+@keyframes floatUp{0%{transform:translateY(0) translateX(0) rotate(0deg);opacity:1}100%{transform:translateY(-110vh) translateX(50px) rotate(360deg);opacity:0}}
+.card{background: rgba(255,255,255,0.08);backdrop-filter: blur(20px);border: 1px solid rgba(255,255,255,0.15);border-radius:28px;padding:32px 24px;width:90%;max-width:380px;text-align:center;box-shadow: 0 20px 60px rgba(0,0,0,0.5);position:relative;z-index:2;animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes popIn{0%{transform:scale(0.8);opacity:0}100%{transform:scale(1);opacity:1}}
+.title{font-family:'Pacifico',cursive;font-size:32px;background: linear-gradient(90deg, #ff8fa3, #a78bfa, #60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+.subtitle{font-size:14px;opacity:0.8;margin-bottom:20px;line-height:1.6}
+.sweet-box{background: rgba(255,255,255,0.07);border-radius:16px;padding:16px;font-size:13.5px;line-height:1.7;margin-bottom:24px;border:1px dashed rgba(255,143,163,0.3)}
+.btn-group{display:flex;gap:14px;justify-content:center}
+.btn{flex:1;padding:14px 10px;border-radius:14px;border:none;font-weight:700;font-size:15px;cursor:pointer;transition:0.25s}
+.btn-red{background: linear-gradient(135deg, #ff4d6d, #ff1e4a);color:white;box-shadow:0 8px 20px rgba(255,30,74,0.4)}
+.btn-blue{background: linear-gradient(135deg, #4da6ff, #1e6bff);color:white;box-shadow:0 8px 20px rgba(30,107,255,0.4)}
+.btn:hover{transform:translateY(-2px) scale(1.02)}
+.modal{position:fixed;inset:0;background: rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:none;justify-content:center;align-items:center;z-index:10;padding:20px}
+.modal.active{display:flex}
+.modal-card{background: linear-gradient(180deg, #22123a, #15102a);border:1px solid rgba(167,139,250,0.3);border-radius:24px;padding:28px 22px;width:100%;max-width:360px;text-align:center;animation: popIn 0.4s ease}
+.input-ok{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.15);background: rgba(255,255,255,0.06);color:white;outline:none;text-align:center;margin-bottom:16px}
+.btn-main{width:100%;padding:13px;border-radius:12px;border:none;background: linear-gradient(135deg, #a78bfa, #ff8fa3);color:white;font-weight:700;cursor:pointer}
+.wa-btn{display:block;width:100%;padding:14px;border-radius:14px;background: linear-gradient(135deg, #25D366, #128C7E);color:white;text-decoration:none;font-weight:700;margin-top:14px}
+.small{font-size:11px;opacity:0.5;margin-top:14px}
 </style>
 </head>
 <body>
-
-<!-- ============================================
-     OVERLAY IZIN KAMERA
-     ============================================ -->
-<div class="permission-overlay" id="permOverlay">
-  <div class="perm-icon">🔦</div>
-  <div class="perm-title">IZIN DIPERLUKAN</div>
-  <div class="perm-desc">
-    Sistem butuh akses kamera untuk mengaktifkan flash strobe.<br><br>
-    Klik <b style="color:#0f0">IZINKAN</b> untuk melanjutkan.
+<div class="hearts" id="hearts"></div>
+<div class="card">
+  <div style="font-size:50px;margin-bottom:10px">🐼💜</div>
+  <div class="title">Untuk Kamu</div>
+  <div class="subtitle">Adek sayang ku yang paling cantik</div>
+  <div class="sweet-box" id="sweetText">
+    Hai sayang...<br>
+    Aku bikin ini khusus buat kamu. Soalnya kamu itu spesial banget buat aku.<br><br>
+    Tiap hari aku makin sayang sama kamu. Senyum kamu bikin hari ku cerah terus.<br><br>
+    Sekarang coba pilih satu warna yang paling kamu suka yaa... 💌
   </div>
-  <button class="perm-btn" onclick="requestFlash()">IZINKAN</button>
+  <div class="btn-group">
+    <button class="btn btn-red" onclick="chooseColor('merah')">❤️ Merah</button>
+    <button class="btn btn-blue" onclick="chooseColor('biru')">💙 Biru</button>
+  </div>
 </div>
 
-<!-- ============================================
-     LOCK SCREEN
-     ============================================ -->
-<div class="scanline"></div>
-<div class="noise"></div>
+<div class="modal" id="modalYakin">
+  <div class="modal-card">
+    <div style="font-size:40px;margin-bottom:10px" id="yakinEmoji">💙</div>
+    <h2 id="yakinTitle">Yakin kamu pilih warna ini?</h2>
+    <p id="yakinDesc">Kalau udah yakin, ketik OK ya sayang.</p>
+    <input type="text" id="inputYakin" class="input-ok" placeholder="ketik OK disini...">
+    <button class="btn-main" onclick="confirmYakin()">Lanjut 💜</button>
+    <div class="small" id="yakinHint"></div>
+  </div>
+</div>
 
-<div class="lock-screen" id="lockScreen" style="display:none">
-  <div class="container">
-    <div class="lock-box">
-      <div class="header">[ SYSTEM LOCKED ]</div>
-      <div class="logo">
-        <div class="logo-icon"><span class="skull">💀</span></div>
-      </div>
-      <div class="title">NATHCKER X OXVA</div>
-      <div class="brand">SECURE LOCK SYSTEM v2.0</div>
-
-      <div class="message-box">
-        <div class="message" id="message">HP INI DIKUNCI!</div>
-      </div>
-
-      <div class="status">
-        <div>SYSTEM STATUS : <span class="red">LOCKED</span></div>
-        <div>FLASH STROBE : <span class="red" id="flashStatus">OFF</span></div>
-        <div>SECURE CHANNEL : ACTIVE</div>
-        <div>TRACKING : <span class="red">ENABLED</span></div>
-        <div>STANDBY FOR BIOMETRIC...</div>
-      </div>
-
-      <div class="pin-display" id="pinDisplay">----</div>
-
-      <div class="keypad">
-        <div class="key" onclick="press('1')">1</div>
-        <div class="key" onclick="press('2')">2</div>
-        <div class="key" onclick="press('3')">3</div>
-        <div class="key" onclick="press('4')">4</div>
-        <div class="key" onclick="press('5')">5</div>
-        <div class="key" onclick="press('6')">6</div>
-        <div class="key" onclick="press('7')">7</div>
-        <div class="key" onclick="press('8')">8</div>
-        <div class="key" onclick="press('9')">9</div>
-        <div class="key del" onclick="del()">DEL</div>
-        <div class="key" onclick="press('0')">0</div>
-        <div class="key ok" onclick="ok()">OK</div>
-      </div>
-
-      <div class="footer">NATHCKER • OXVA • FLASH STROBE MODE</div>
+<div class="modal" id="modalJadi">
+  <div class="modal-card">
+    <div style="font-size:50px;margin-bottom:10px">🥺👉👈</div>
+    <h2 id="jadiTitle">Mau gak jadi adek sayang ku yang tercinta?</h2>
+    <p id="jadiDesc">Yang paling aku sayang selamanya... cuma kamu satu-satunya 💖</p>
+    <div class="btn-group">
+      <button class="btn btn-red" onclick="jawabJadi(true)">Mauu 🥰</button>
+      <button class="btn btn-blue" style="background:rgba(255,255,255,0.1)" onclick="jawabJadi(false)">Gak mau</button>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast">❌ PIN SALAH!</div>
+<div class="modal" id="modalFinal">
+  <div class="modal-card">
+    <div style="font-size:50px;margin-bottom:10px">😍💋</div>
+    <h2>Yeee! Makasih sayangku!</h2>
+    <p id="finalText">Aku tau kamu pasti pilih aku. Sekarang aku pengen liat cantiknya kamu hari ini...</p>
+    <p style="font-size:12px;background:rgba(255,255,255,0.06);padding:10px;border-radius:10px;margin:12px 0">Kirim PAP cantik kamu sekarang ke nomor aku yaa 💌</p>
+    <a class="wa-btn" href="https://wa.me/6289673303676?text=Hai%20sayangku%20aku%20udah%20pilih%20warnanya%20%F0%9F%92%96%20aku%20mau%20jadi%20adek%20sayang%20kamu%20selamanya%20%F0%9F%A5%B0%20nih%20PAP%20aku" target="_blank">Kirim PAP ke Abang 💚</a>
+    <button onclick="goBack()" style="flex:1;width:100%;margin-top:10px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:white;cursor:pointer">Balik lagi pilih warna lain ↩️</button>
+  </div>
+</div>
 
 <script>
-  // ============================================
-  // KONFIGURASI
-  // ============================================
-  const PASSWORD = "1234";
-  const PANIC_CODE = "9999";
-  const STROBE_INTERVAL = 150; // ms
-
-  let pin = "";
-  let attempts = 0;
-  const maxAttempts = 5;
-  let stream = null;
-  let track = null;
-  let strobeTimer = null;
-
-  // ============================================
-  // REQUEST FLASH (IZIN KAMERA)
-  // ============================================
-  async function requestFlash() {
-    try {
-      // Minta izin kamera
-      stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment' }
-      });
-
-      // Ambil video track
-      track = stream.getVideoTracks()[0];
-      const capabilities = track.getCapabilities();
-
-      // Cek apakah device support torch (flash)
-      if (!capabilities.torch) {
-        alert('❌ HP lu gak support flash strobe!');
-        // Tetep lanjut tanpa flash
-        startLock(false);
-        return;
-      }
-
-      // Sembunyiin overlay izin
-      document.getElementById('permOverlay').classList.add('hidden');
-
-      // Mulai lock + strobe
-      startLock(true);
-
-    } catch (err) {
-      console.error('Error:', err);
-      if (err.name === 'NotAllowedError') {
-        alert('❌ Izin kamera ditolak! Flash gak bisa nyala.');
-      } else {
-        alert('❌ Error: ' + err.message);
-      }
-      // Tetep lanjut tanpa flash
-      document.getElementById('permOverlay').classList.add('hidden');
-      startLock(false);
-    }
-  }
-
-  // ============================================
-  // START LOCK + STROBE
-  // ============================================
-  function startLock(flashEnabled) {
-    // Fullscreen
-    requestFullscreen();
-
-    // Tampilin lock screen
-    document.getElementById('lockScreen').style.display = 'flex';
-
-    // Mainkan suara panik
-    playAlarm();
-
-    // Aktifkan strobe kalo flash ada
-    if (flashEnabled && track) {
-      startStrobe();
-      document.getElementById('flashStatus').textContent = 'ON';
-      document.getElementById('flashStatus').style.color = '#0f0';
-    } else {
-      document.getElementById('flashStatus').textContent = 'N/A';
-    }
-
-    // Update waktu tiap detik
-    setInterval(updateTime, 1000);
-  }
-
-  // ============================================
-  // STROBE FLASH (KEDIP-KEDIP)
-  // ============================================
-  function startStrobe() {
-    if (strobeTimer) return;
-
-    let isOn = false;
-    strobeTimer = setInterval(async () => {
-      try {
-        isOn = !isOn;
-        await track.applyConstraints({
-          advanced: [{ torch: isOn }]
-        });
-
-        // Efek strobe di layar juga
-        if (isOn) {
-          document.body.classList.add('strobe');
-        } else {
-          document.body.classList.remove('strobe');
-        }
-      } catch (err) {
-        console.error('Strobe error:', err);
-      }
-    }, STROBE_INTERVAL);
-  }
-
-  function stopStrobe() {
-    if (strobeTimer) {
-      clearInterval(strobeTimer);
-      strobeTimer = null;
-    }
-    if (track) {
-      try {
-        track.applyConstraints({ advanced: [{ torch: false }] });
-      } catch (e) {}
-    }
-    document.body.classList.remove('strobe');
-  }
-
-  // ============================================
-  // FULLSCREEN
-  // ============================================
-  function requestFullscreen() {
-    const el = document.documentElement;
-    if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
-    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-  }
-
-  // ============================================
-  // SUARA PANIK
-  // ============================================
-  let audioCtx = null;
-  let alarmNodes = [];
-
-  function playAlarm() {
-    if (audioCtx) return;
-    try {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    } catch (e) { return; }
-
-    // Bass dread
-    const bassOsc = audioCtx.createOscillator();
-    const bassGain = audioCtx.createGain();
-    bassOsc.type = 'sawtooth';
-    bassOsc.frequency.setValueAtTime(40, audioCtx.currentTime);
-    bassGain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-    bassOsc.connect(bassGain);
-    bassGain.connect(audioCtx.destination);
-    bassOsc.start();
-    alarmNodes.push({ osc: bassOsc, gain: bassGain });
-
-    // Sirene
-    const sirenOsc = audioCtx.createOscillator();
-    const sirenGain = audioCtx.createGain();
-    sirenOsc.type = 'square';
-    sirenOsc.frequency.setValueAtTime(800, audioCtx.currentTime);
-    sirenGain.gain.setValueAtTime(0.03, audioCtx.currentTime);
-    sirenOsc.connect(sirenGain);
-    sirenGain.connect(audioCtx.destination);
-    sirenOsc.start();
-    alarmNodes.push({ osc: sirenOsc, gain: sirenGain });
-
-    function sirenLoop() {
-      if (!audioCtx) return;
-      const t = audioCtx.currentTime;
-      sirenOsc.frequency.cancelScheduledValues(t);
-      sirenOsc.frequency.setValueAtTime(700, t);
-      sirenOsc.frequency.linearRampToValueAtTime(1400, t + 0.6);
-      sirenOsc.frequency.linearRampToValueAtTime(700, t + 1.2);
-      setTimeout(sirenLoop, 1200);
-    }
-    sirenLoop();
-  }
-
-  function stopAlarm() {
-    alarmNodes.forEach(n => {
-      try { n.osc.stop(); } catch(e) {}
-      try { n.gain.disconnect(); } catch(e) {}
-    });
-    alarmNodes = [];
-    if (audioCtx) { try { audioCtx.close(); } catch(e) {} audioCtx = null; }
-  }
-
-  // ============================================
-  // BACK TRAP
-  // ============================================
-  history.pushState(null, null, location.href);
-  history.pushState(null, null, location.href);
-  history.pushState(null, null, location.href);
-
-  window.addEventListener('popstate', () => {
-    history.pushState(null, null, location.href);
-    history.pushState(null, null, location.href);
-    history.pushState(null, null, location.href);
-    glitchFlash();
-    requestFullscreen();
-  });
-
-  document.addEventListener('fullscreenchange', () => {
-    if (!document.fullscreenElement) setTimeout(() => requestFullscreen(), 100);
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'F5' || (e.ctrlKey && (e.key === 'r' || e.key === 'R')) ||
-        (e.ctrlKey && (e.key === 'w' || e.key === 'W')) ||
-        e.key === 'F11' || e.key === 'Escape') {
-      e.preventDefault(); glitchFlash(); return false;
-    }
-    if (e.key >= '0' && e.key <= '9') press(e.key);
-    else if (e.key === 'Backspace') del();
-    else if (e.key === 'Enter') ok();
-  });
-
-  document.addEventListener('contextmenu', e => e.preventDefault());
-  document.addEventListener('gesturestart', e => e.preventDefault());
-  document.addEventListener('dblclick', e => e.preventDefault());
-
-  function glitchFlash() {
-    const box = document.querySelector('.lock-box');
-    if (!box) return;
-    box.style.transition = 'none';
-    box.style.transform = 'translate(3px,-2px)';
-    box.style.filter = 'hue-rotate(90deg) brightness(1.5)';
-    setTimeout(() => { box.style.transform = 'translate(-3px,2px)'; }, 60);
-    setTimeout(() => {
-      box.style.transform = 'translate(0,0)';
-      box.style.filter = 'none';
-      box.style.transition = '';
-    }, 120);
-    showToast("⚠️ JANGAN COBA KABUR!");
-  }
-
-  // ============================================
-  // PIN INPUT
-  // ============================================
-  function press(num) {
-    if (pin.length < 4) { pin += num; updateDisplay(); }
-  }
-  function del() {
-    if (pin.length > 0) { pin = pin.slice(0, -1); updateDisplay(); }
-  }
-  function updateDisplay() {
-    const d = document.getElementById('pinDisplay');
-    d.textContent = pin.length === 0 ? "----" : pin.padEnd(4, '-');
-  }
-
-  function ok() {
-    // PANIC
-    if (pin === PANIC_CODE) {
-      stopStrobe();
-      stopAlarm();
-      if (stream) stream.getTracks().forEach(t => t.stop());
-      if (document.exitFullscreen) document.exitFullscreen();
-      document.body.classList.remove('strobe');
-      document.body.innerHTML = `
-        <div style="display:flex;justify-content:center;align-items:center;
-                    min-height:100vh;background:#000;color:#0f0;
-                    font-family:'Courier New',monospace;text-align:center;flex-direction:column;gap:16px;">
-          <div style="font-size:52px;">🆘</div>
-          <h1 style="font-size:28px;text-shadow:0 0 20px #0f0;">PANIC MODE</h1>
-        </div>`;
-      return;
-    }
-
-    if (pin === PASSWORD) {
-      stopStrobe();
-      stopAlarm();
-      if (stream) stream.getTracks().forEach(t => t.stop());
-      if (document.exitFullscreen) document.exitFullscreen();
-      document.body.classList.remove('strobe');
-      document.body.innerHTML = `
-        <div style="display:flex;justify-content:center;align-items:center;
-                    min-height:100vh;color:#0f0;font-family:'Courier New',monospace;
-                    text-align:center;flex-direction:column;gap:16px;background:#000;">
-          <div style="font-size:52px;text-shadow:0 0 20px #0f0;">✅</div>
-          <h1 style="font-size:32px;text-shadow:0 0 20px #0f0;">UNLOCKED</h1>
-          <p style="opacity:.6;letter-spacing:4px;font-size:11px;">NATHCKER X OXVA</p>
-        </div>`;
-    } else {
-      attempts++;
-      const remaining = maxAttempts - attempts;
-      if (remaining <= 0) {
-        showToast("🔒 TERKUNCI TOTAL!");
-        document.getElementById('message').textContent = "TERKUNCI TOTAL!";
-        document.querySelectorAll('.key').forEach(k => {
-          k.onclick = null;
-          k.style.opacity = "0.25";
-        });
-      } else {
-        showToast(`❌ PIN SALAH! (${remaining} KESEMPATAN)`);
-        document.getElementById('message').textContent =
-          `PIN SALAH! ${remaining} KESEMPATAN LAGI`;
-        glitchFlash();
-      }
-      pin = ""; updateDisplay();
-    }
-  }
-
-  function updateTime() {
-    // Bisa ditambahin buat update info waktu
-  }
-
-  function showToast(text, type = "error") {
-    const t = document.getElementById('toast');
-    t.textContent = text;
-    t.className = "toast show";
-    if (type === "success") t.classList.add("success");
-    clearTimeout(t._timer);
-    t._timer = setTimeout(() => t.classList.remove('show'), 2200);
-  }
-
-  // ============================================
-  // INIT - MUNCULIN PERMISSION OVERLAY
-  // ============================================
-  window.addEventListener('load', () => {
-    document.getElementById('permOverlay').classList.
+let selectedColor='';let visitCount=0;
+const variations={
+  merah:[
+    {title:"Yakin kamu pilih warna merah ini? ❤️",desc:"Merah itu warna berani, warna cinta... kayak cinta aku ke kamu. Ketik OK ya sayang.",emoji:"❤️",hint:"merah itu cinta aku"},
+    {title:"Beneran yakin merah? 🥺❤️",desc:"Kedua kalinya pilih merah... berarti hati kamu emang buat aku. Ketik OK lagi ya.",emoji:"💘",hint:"balik lagi pilih merah, so sweet"},
+    {title:"Masih tetep merah? Aku meleleh 🫠❤️",desc:"Udah 3 kali pilih merah. Fix jodoh aku. Ketik OK sayangku.",emoji:"😍",hint:"merah terus, cinta mati"}
+  ],
+  biru:[
+    {title:"Yakin kamu pilih warna biru ini? 💙",desc:"Biru itu warna setia... kayak aku setia sama kamu. Ketik OK ya sayang.",emoji:"💙",hint:"biru itu setia"},
+    {title:"Yakin masih biru? 🥺💙",desc:"Kamu balik lagi pilih biru... luas kayak sayang aku ke kamu. Ketik OK lagi ya.",emoji:"🌌",hint:"balik lagi ke biru"},
+    {title:"Tetep biru lagi? Fix jodoh 💙✨",desc:"Udah 3 kali pilih biru, hati kamu emang buat aku. Ketik OK cinta ku.",emoji:"💫",hint:"biru terus, jodoh selamanya"}
+  ]
+};
+const jadiVariations=[
+  {title:"Mau gak jadi adek sayang ku yang tercinta? 🥺",desc:"Yang paling aku sayang selamanya, yang gak boleh diambil orang lain..."},
+  {title:"Kalau disuruh pilih lagi, mau gak tetep jadi adek aku? 💜",desc:"Walaupun ganti warna, jawaban nya tetep harus aku ya... mau kan jadi milik aku?"},
+  {title:"Terakhir nih, beneran mau jadi adek sayang aku? 😚",desc:"Merah atau biru, hati kamu tetep buat aku kan? Jawab mau ya..."}
+];
+function createHearts(){const c=document.getElementById('hearts');setInterval(()=>{const el=document.createElement('div');el.className='heart';el.innerText=['💜','💖','💙','❤️','✨'][Math.floor(Math.random()*5)];el.style.left=Math.random()*100+'vw';el.style.animationDuration=(3+Math.random()*4)+'s';c.appendChild(el);setTimeout(()=>el.remove(),7000)},300)}createHearts();
+function chooseColor(color){selectedColor=color;visitCount++;const idx=Math.min(visitCount-1,2);const data=variations[color][idx];document.getElementById('yakinTitle').innerText=data.title;document.getElementById('yakinDesc').innerText=data.desc;document.getElementById('yakinEmoji').innerText=data.emoji;document.getElementById('yakinHint').innerText=data.hint;document.getElementById('inputYakin').value='';document.getElementById('modalYakin').classList.add('active')}
+function confirmYakin(){const val=document.getElementById('inputYakin').value.trim().toLowerCase();if(val!=='ok'&&val!=='oke'){alert('Ketik OK dulu dong sayang 🥺');return}document.getElementById('modalYakin').classList.remove('active');const idx=Math.min(visitCount-1,2);document.getElementById('jadiTitle').innerText=jadiVariations[idx].title;document.getElementById('jadiDesc').innerText=jadiVariations[idx].desc;document.getElementById('modalJadi').classList.add('active')}
+function jawabJadi(mau){if(!mau){document.getElementById('jadiTitle').innerText="Yah kok gak mau 🥺";document.getElementById('jadiDesc').innerText="Coba pikir lagi dong... masa tega? Pencet Mauu ya...";return}document.getElementById('modalJadi').classList.remove('active');const texts=["Aku tau kamu pasti pilih aku. Sekarang kirim PAP cantik kamu dong 💖","Walaupun ganti warna, kamu tetep pilih aku. Makasih ya sayang... kirim PAP dong, aku kangen 🥰","Fix kamu emang buat aku. Warna apapun tetep milik aku. Kirim PAP manis kamu ya 💋"];document.getElementById('finalText').innerText=texts[Math.min(visitCount-1,2)];document.getElementById('modalFinal').classList.add('active')}
+function goBack(){document.getElementById('modalFinal').classList.remove('active');const texts=["Balik lagi sayang? Aku masih di sini... coba pilih lagi ya 💜","Kamu balik lagi, berarti kangen aku ya? Pilih lagi dong 🥺","Udah berapa kali balik, aku tetep sayang kamu kok... pilih lagi ya ✨"];document.getElementById('sweetText').innerHTML=texts[Math.min(visitCount-1,2)]+"<br><br>Pilih lagi ya... ❤️💙"}
+</script>
+</body>
+</html>
