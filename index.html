@@ -1,111 +1,631 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Untuk Adek Sayang Ku</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zenixt V4 - Dashboard</title>
+
+  <!-- Google Font & Icon -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Poppins',sans-serif;background: radial-gradient(ellipse at top, #1a0b2e 0%, #0f0a1e 100%);min-height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;color:white}
-.hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden}
-.heart{position:absolute;bottom:-20px;font-size:20px;animation: floatUp linear infinite;opacity:0.8}
-@keyframes floatUp{0%{transform:translateY(0) translateX(0) rotate(0deg);opacity:1}100%{transform:translateY(-110vh) translateX(50px) rotate(360deg);opacity:0}}
-.card{background: rgba(255,255,255,0.08);backdrop-filter: blur(20px);border: 1px solid rgba(255,255,255,0.15);border-radius:28px;padding:32px 24px;width:90%;max-width:380px;text-align:center;box-shadow: 0 20px 60px rgba(0,0,0,0.5);position:relative;z-index:2;animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1)}
-@keyframes popIn{0%{transform:scale(0.8);opacity:0}100%{transform:scale(1);opacity:1}}
-.title{font-family:'Pacifico',cursive;font-size:32px;background: linear-gradient(90deg, #ff8fa3, #a78bfa, #60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
-.subtitle{font-size:14px;opacity:0.8;margin-bottom:20px;line-height:1.6}
-.sweet-box{background: rgba(255,255,255,0.07);border-radius:16px;padding:16px;font-size:13.5px;line-height:1.7;margin-bottom:24px;border:1px dashed rgba(255,143,163,0.3)}
-.btn-group{display:flex;gap:14px;justify-content:center}
-.btn{flex:1;padding:14px 10px;border-radius:14px;border:none;font-weight:700;font-size:15px;cursor:pointer;transition:0.25s}
-.btn-red{background: linear-gradient(135deg, #ff4d6d, #ff1e4a);color:white;box-shadow:0 8px 20px rgba(255,30,74,0.4)}
-.btn-blue{background: linear-gradient(135deg, #4da6ff, #1e6bff);color:white;box-shadow:0 8px 20px rgba(30,107,255,0.4)}
-.btn:hover{transform:translateY(-2px) scale(1.02)}
-.modal{position:fixed;inset:0;background: rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:none;justify-content:center;align-items:center;z-index:10;padding:20px}
-.modal.active{display:flex}
-.modal-card{background: linear-gradient(180deg, #22123a, #15102a);border:1px solid rgba(167,139,250,0.3);border-radius:24px;padding:28px 22px;width:100%;max-width:360px;text-align:center;animation: popIn 0.4s ease}
-.input-ok{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.15);background: rgba(255,255,255,0.06);color:white;outline:none;text-align:center;margin-bottom:16px}
-.btn-main{width:100%;padding:13px;border-radius:12px;border:none;background: linear-gradient(135deg, #a78bfa, #ff8fa3);color:white;font-weight:700;cursor:pointer}
-.wa-btn{display:block;width:100%;padding:14px;border-radius:14px;background: linear-gradient(135deg, #25D366, #128C7E);color:white;text-decoration:none;font-weight:700;margin-top:14px}
-.small{font-size:11px;opacity:0.5;margin-top:14px}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #1a1a1a; /* abu-abu gelap */
+      font-family: 'Poppins', sans-serif;
+      color: #c0c0c0;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    #particles {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      z-index: 2;
+      padding: 20px;
+      text-align: center;
+      background: rgba(26, 26, 26, 0.8);
+      border-bottom: 1px solid rgba(192, 192, 192, 0.2);
+    }
+
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .logo {
+      width: 80px;
+      filter: drop-shadow(0 0 10px #8a2be2);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .nav-link {
+      color: #bbb;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background: rgba(138, 43, 226, 0.15);
+      text-shadow: 0 0 8px #8a2be2;
+      color: #d3b3ff;
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .section {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(138, 43, 226, 0.3);
+      backdrop-filter: blur(8px);
+      padding: 30px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 25px rgba(138, 43, 226, 0.2);
+    }
+
+    .section-title {
+      font-size: 28px;
+      color: #d3b3ff;
+      text-shadow: 0 0 8px #8a2be2;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .hero-title {
+      font-size: 36px;
+      color: #e0e0e0;
+      text-shadow: 0 0 10px #8a2be2;
+      margin-bottom: 10px;
+    }
+
+    .hero-subtitle {
+      font-size: 16px;
+      color: #b3b3b3;
+      margin-bottom: 25px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .plans-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .plan-card {
+      background: rgba(50, 50, 50, 0.5);
+      border: 1px solid rgba(138, 43, 226, 0.4);
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+    }
+
+    .plan-card.featured {
+      background: rgba(80, 80, 80, 0.5);
+      border: 2px solid rgba(138, 43, 226, 0.6);
+    }
+
+    .plan-name {
+      font-size: 22px;
+      color: #d3b3ff;
+      margin-bottom: 15px;
+    }
+
+    .plan-price {
+      font-size: 28px;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .plan-price span {
+      font-size: 16px;
+      color: #b3b3b3;
+    }
+
+    .plan-features {
+      list-style: none;
+      margin-bottom: 25px;
+      text-align: left;
+    }
+
+    .plan-features li {
+      position: relative;
+      padding-left: 40px;
+      margin-bottom: 12px;
+      line-height: 1.6;
+      list-style: none;
+    }
+
+    .plan-features li i {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #d3b3ff;
+      font-size: 18px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #8a2be2, #9370db);
+      color: #fff;
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 0 12px rgba(138, 43, 226, 0.4);
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn:hover {
+      background: #9370db;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(138, 43, 226, 0.5);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #8a2be2;
+      color: #d3b3ff;
+    }
+
+    .btn-outline:hover {
+      background: rgba(138, 43, 226, 0.1);
+    }
+
+    .about-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .about-text {
+      line-height: 1.6;
+    }
+
+    .about-features {
+      list-style: none;
+    }
+
+    .about-features li {
+      margin: 15px 0;
+      padding-left: 42px;
+      position: relative;
+    }
+
+    .about-features li i {
+      color: #d3b3ff;
+      position: absolute;
+      left: 0;
+      top: 2px;
+      font-size: 15px;
+    }
+
+    .contact-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(138, 43, 226, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d3b3ff;
+      font-size: 18px;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      text-align: left;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(138, 43, 226, 0.3);
+      border-radius: 8px;
+      padding: 12px 15px;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #8a2be2;
+      box-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+    }
+
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 20px;
+      background: rgba(26, 26, 26, 0.8);
+      border-top: 1px solid rgba(138, 43, 226, 0.2);
+      margin-top: 50px;
+    }
+
+    .footer-text {
+      font-size: 14px;
+      color: #999;
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      border-radius: 8px;
+      background: rgba(138, 43, 226, 0.9);
+      border: 1px solid #8a2be2;
+      color: #fff;
+      z-index: 1000;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transform: translateX(100vw);
+      transition: transform 0.3s ease;
+    }
+    
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    .fas, .fab, .far {
+      display: inline-block;
+      font-style: normal;
+      font-variant: normal;
+      text-rendering: auto;
+      line-height: 1;
+    }
+
+    .feature-icon {
+      font-size: 1.2em;
+      margin-right: 8px;
+      color: #d3b3ff;
+      width: 24px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 28px;
+      }
+      
+      .section {
+        padding: 20px;
+      }
+      
+      .nav-container {
+        flex-wrap: wrap;
+      }
+      
+      .about-content, .contact-container {
+        grid-template-columns: 1fr;
+      }
+    }
 </style>
 </head>
 <body>
-<div class="hearts" id="hearts"></div>
-<div class="card">
-  <div style="font-size:50px;margin-bottom:10px">🐼💜</div>
-  <div class="title">Untuk Kamu</div>
-  <div class="subtitle">Adek sayang ku yang paling cantik</div>
-  <div class="sweet-box" id="sweetText">
-    Hai sayang...<br>
-    Aku bikin ini khusus buat kamu. Soalnya kamu itu spesial banget buat aku.<br><br>
-    Tiap hari aku makin sayang sama kamu. Senyum kamu bikin hari ku cerah terus.<br><br>
-    Sekarang coba pilih satu warna yang paling kamu suka yaa... 💌
+  <div id="particles"></div>
+  
+  <div id="notification" class="notification">
+    <i class="fas fa-check-circle"></i> Pesan Anda telah terkirim! Kami akan membalas secepatnya.
   </div>
-  <div class="btn-group">
-    <button class="btn btn-red" onclick="chooseColor('merah')">❤️ Merah</button>
-    <button class="btn btn-blue" onclick="chooseColor('biru')">💙 Biru</button>
-  </div>
-</div>
 
-<div class="modal" id="modalYakin">
-  <div class="modal-card">
-    <div style="font-size:40px;margin-bottom:10px" id="yakinEmoji">💙</div>
-    <h2 id="yakinTitle">Yakin kamu pilih warna ini?</h2>
-    <p id="yakinDesc">Kalau udah yakin, ketik OK ya sayang.</p>
-    <input type="text" id="inputYakin" class="input-ok" placeholder="ketik OK disini...">
-    <button class="btn-main" onclick="confirmYakin()">Lanjut 💜</button>
-    <div class="small" id="yakinHint"></div>
-  </div>
-</div>
-
-<div class="modal" id="modalJadi">
-  <div class="modal-card">
-    <div style="font-size:50px;margin-bottom:10px">🥺👉👈</div>
-    <h2 id="jadiTitle">Mau gak jadi adek sayang ku yang tercinta?</h2>
-    <p id="jadiDesc">Yang paling aku sayang selamanya... cuma kamu satu-satunya 💖</p>
-    <div class="btn-group">
-      <button class="btn btn-red" onclick="jawabJadi(true)">Mauu 🥰</button>
-      <button class="btn btn-blue" style="background:rgba(255,255,255,0.1)" onclick="jawabJadi(false)">Gak mau</button>
+  <header>
+    <div class="logo-container">
+      <img src="https://files.catbox.moe/i9yuba.jpg" alt="Logo" class="logo">
     </div>
-  </div>
-</div>
+    <h1 class="hero-title">Produk + Apk Zenixt v3.5</h1>
+    <div class="nav-container">
+      <a href="#plans" class="nav-link">Harga</a>
+      <a href="#about" class="nav-link">Informasi</a>
+      <a href="#contact" class="nav-link">Minat</a>
+      <a href="/login" class="nav-link">Login</a>
+    </div>
+  </header>
 
-<div class="modal" id="modalFinal">
-  <div class="modal-card">
-    <div style="font-size:50px;margin-bottom:10px">😍💋</div>
-    <h2>Yeee! Makasih sayangku!</h2>
-    <p id="finalText">Aku tau kamu pasti pilih aku. Sekarang aku pengen liat cantiknya kamu hari ini...</p>
-    <p style="font-size:12px;background:rgba(255,255,255,0.06);padding:10px;border-radius:10px;margin:12px 0">Kirim PAP cantik kamu sekarang ke nomor aku yaa 💌</p>
-    <a class="wa-btn" href="https://wa.me/6289673303676?text=Hai%20sayangku%20aku%20udah%20pilih%20warnanya%20%F0%9F%92%96%20aku%20mau%20jadi%20adek%20sayang%20kamu%20selamanya%20%F0%9F%A5%B0%20nih%20PAP%20aku" target="_blank">Kirim PAP ke Abang 💚</a>
-    <button onclick="goBack()" style="flex:1;width:100%;margin-top:10px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:white;cursor:pointer">Balik lagi pilih warna lain ↩️</button>
-  </div>
-</div>
+  <main>
+    <section class="section hero">
+      <div class="hero-subtitle">Welcome to Zenixt V4 - Advanced System API Bug.</div>
+      <a href="#plans" class="btn">
+        <i class="fas fa-crown"></i> View Plan
+      </a>
+    </section>
 
-<script>
-let selectedColor='';let visitCount=0;
-const variations={
-  merah:[
-    {title:"Yakin kamu pilih warna merah ini? ❤️",desc:"Merah itu warna berani, warna cinta... kayak cinta aku ke kamu. Ketik OK ya sayang.",emoji:"❤️",hint:"merah itu cinta aku"},
-    {title:"Beneran yakin merah? 🥺❤️",desc:"Kedua kalinya pilih merah... berarti hati kamu emang buat aku. Ketik OK lagi ya.",emoji:"💘",hint:"balik lagi pilih merah, so sweet"},
-    {title:"Masih tetep merah? Aku meleleh 🫠❤️",desc:"Udah 3 kali pilih merah. Fix jodoh aku. Ketik OK sayangku.",emoji:"😍",hint:"merah terus, cinta mati"}
-  ],
-  biru:[
-    {title:"Yakin kamu pilih warna biru ini? 💙",desc:"Biru itu warna setia... kayak aku setia sama kamu. Ketik OK ya sayang.",emoji:"💙",hint:"biru itu setia"},
-    {title:"Yakin masih biru? 🥺💙",desc:"Kamu balik lagi pilih biru... luas kayak sayang aku ke kamu. Ketik OK lagi ya.",emoji:"🌌",hint:"balik lagi ke biru"},
-    {title:"Tetep biru lagi? Fix jodoh 💙✨",desc:"Udah 3 kali pilih biru, hati kamu emang buat aku. Ketik OK cinta ku.",emoji:"💫",hint:"biru terus, jodoh selamanya"}
-  ]
-};
-const jadiVariations=[
-  {title:"Mau gak jadi adek sayang ku yang tercinta? 🥺",desc:"Yang paling aku sayang selamanya, yang gak boleh diambil orang lain..."},
-  {title:"Kalau disuruh pilih lagi, mau gak tetep jadi adek aku? 💜",desc:"Walaupun ganti warna, jawaban nya tetep harus aku ya... mau kan jadi milik aku?"},
-  {title:"Terakhir nih, beneran mau jadi adek sayang aku? 😚",desc:"Merah atau biru, hati kamu tetep buat aku kan? Jawab mau ya..."}
-];
-function createHearts(){const c=document.getElementById('hearts');setInterval(()=>{const el=document.createElement('div');el.className='heart';el.innerText=['💜','💖','💙','❤️','✨'][Math.floor(Math.random()*5)];el.style.left=Math.random()*100+'vw';el.style.animationDuration=(3+Math.random()*4)+'s';c.appendChild(el);setTimeout(()=>el.remove(),7000)},300)}createHearts();
-function chooseColor(color){selectedColor=color;visitCount++;const idx=Math.min(visitCount-1,2);const data=variations[color][idx];document.getElementById('yakinTitle').innerText=data.title;document.getElementById('yakinDesc').innerText=data.desc;document.getElementById('yakinEmoji').innerText=data.emoji;document.getElementById('yakinHint').innerText=data.hint;document.getElementById('inputYakin').value='';document.getElementById('modalYakin').classList.add('active')}
-function confirmYakin(){const val=document.getElementById('inputYakin').value.trim().toLowerCase();if(val!=='ok'&&val!=='oke'){alert('Ketik OK dulu dong sayang 🥺');return}document.getElementById('modalYakin').classList.remove('active');const idx=Math.min(visitCount-1,2);document.getElementById('jadiTitle').innerText=jadiVariations[idx].title;document.getElementById('jadiDesc').innerText=jadiVariations[idx].desc;document.getElementById('modalJadi').classList.add('active')}
-function jawabJadi(mau){if(!mau){document.getElementById('jadiTitle').innerText="Yah kok gak mau 🥺";document.getElementById('jadiDesc').innerText="Coba pikir lagi dong... masa tega? Pencet Mauu ya...";return}document.getElementById('modalJadi').classList.remove('active');const texts=["Aku tau kamu pasti pilih aku. Sekarang kirim PAP cantik kamu dong 💖","Walaupun ganti warna, kamu tetep pilih aku. Makasih ya sayang... kirim PAP dong, aku kangen 🥰","Fix kamu emang buat aku. Warna apapun tetep milik aku. Kirim PAP manis kamu ya 💋"];document.getElementById('finalText').innerText=texts[Math.min(visitCount-1,2)];document.getElementById('modalFinal').classList.add('active')}
-function goBack(){document.getElementById('modalFinal').classList.remove('active');const texts=["Balik lagi sayang? Aku masih di sini... coba pilih lagi ya 💜","Kamu balik lagi, berarti kangen aku ya? Pilih lagi dong 🥺","Udah berapa kali balik, aku tetep sayang kamu kok... pilih lagi ya ✨"];document.getElementById('sweetText').innerHTML=texts[Math.min(visitCount-1,2)]+"<br><br>Pilih lagi ya... ❤️💙"}
-</script>
+    <section id="plans" class="section">
+      <h2 class="section-title">Project by dapz</h2>
+      <div class="plans-container">
+        <div class="plan-card">
+          <h3 class="plan-name">Member</h3>
+          <div class="plan-price">Rp 10.000<span>/Lifetime</span></div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check feature-icon"></i> Requests Month</li>
+            <li><i class="fas fa-check feature-icon"></i> Standard Support</li>
+            <li><i class="fas fa-check feature-icon"></i> Apk Access</li>
+          </ul>
+          <a href="https://t.me/dapz_realss?text=Mas%20Mau%20Buy%20Basic%20User" class="btn btn-outline">Select Plan</a>
+        </div>
+
+        <div class="plan-card">
+          <h3 class="plan-name">Reseller</h3>
+          <div class="plan-price">Rp 20.000 <span>/Lifetime</span></div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check feature-icon"></i> Request Month</li>
+            <li><i class="fas fa-check feature-icon"></i> Standard Support</li>
+            <li><i class="fas fa-check feature-icon"></i> Create Member</li>
+          </ul>
+          <a href="https://t.me/dapz_realss?text=Mas%20Mau%20Buy%20Reseller%20User" class="btn btn-outline">Select Plan</a>
+        </div>
+
+        <div class="plan-card">
+          <h3 class="plan-name">Owner</h3>
+          <div class="plan-price">Rp 40.000 <span>/Lifetime</span></div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check feature-icon"></i> Unlimited Request Limits</li>
+            <li><i class="fas fa-check feature-icon"></i> 24/7 Priority Support</li>
+            <li><i class="fas fa-check feature-icon"></i> Apk Access</li>
+            <li><i class="fas fa-check feature-icon"></i> Create Member And Ress And Owner</li>
+          </ul>
+          <a href="https://t.me/dapz_realss?text=Mas%20Buy%20Admin%20User" class="btn btn-outline">Select Plan</a>
+        </div>
+
+        <div class="plan-card">
+          <h3 class="plan-name">Developer</h3>
+          <div class="plan-price">Rp 80.000 <span>/Lifetime</span></div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check feature-icon"></i> Request Month</li>
+            <li><i class="fas fa-check feature-icon"></i> 24/7 Priority Support</li>
+            <li><i class="fas fa-check feature-icon"></i> Apk Access</li>
+            <li><i class="fas fa-check feature-icon"></i> Create All Role</li>
+          </ul>
+          <a href="https://t.me/dapz_realss?text=Mas%20Buy%20Admin%20User" class="btn btn-outline">Select Plan</a>
+        </div>
+
+        <div class="plan-card">
+          <h3 class="plan-name">jasa buat apk</h3>
+          <div class="plan-price">Rp 35.000<span>/Lifetime</span></div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check feature-icon"></i> Full Req</li>
+            <li><i class="fas fa-check feature-icon"></i> Dev Apk</li>
+            <li><i class="fas fa-check feature-icon"></i> Apk Access</li>
+            <li><i class="fas fa-check feature-icon"></i> Create Sepuasnya</li>
+          </ul>
+          <a href="https://t.me/dapz_realss?text=Mas%20Buy%20Admin%20User" class="btn btn-outline">Select Plan</a>
+        </div>
+
+        <div class="plan-card">
+          <h3 class="plan-name">Saluran Zenixt</h3>
+          <div class="plan-price">Link Saluran <span>/Lifetime</span></div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check feature-icon"></i> Bagi Bagi Apk Free</li>
+            <li><i class="fas fa-check feature-icon"></i> 24 Priority Support</li>
+            <li><i class="fas fa-check feature-icon"></i> Free Link apk</li>
+            <li><i class="fas fa-check feature-icon"></i> Dapet Info</li>
+            <li><i class="fas fa-check feature-icon"></i> Full Upp</li>
+          </ul>
+          <a href="https://whatsapp.com/channel/0029Vb8kfXfGzzKZhELMRw38" class="btn btn-outline">Select Plan</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <h2 class="section-title">About Zenixt V4</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <p>Snowfork is a sophisticated apk for managing and exploring bugs in API systems. Built with the latest technology.</p>
+          <p>Our apk is designed for users of Exploit to WhatsApp Application.</p>
+        </div>
+        <div>
+          <ul class="about-features">
+            <li><i class="fas fa-bug"></i> Apk Sadap Free/buy</li>
+            <li><i class="fas fa-shield-alt"></i> Real-Working</li>
+            <li><i class="fas fa-bolt"></i> High-performance API</li>
+            <li><i class="fas fa-code"></i> Support for Multiple Programming Languages</li>
+            <li><i class="fas fa-mobile-alt"></i> Responsive Design for all Devices</li>
+            <li><i class="fas fa-cloud"></i> Cloud-based Infrastructure</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <h2 class="section-title">Contact Owner</h2>
+      <div class="contact-container">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fab fa-telegram"></i>
+            </div>
+            <div>
+              <h3>Telegram</h3>
+              <p>@dapz_realss</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div>
+              <h3>Email</h3>
+              <p>kepolu@gmail.com</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div>
+              <h3>Response Time</h3>
+              <p>Within 24 hours</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Form dengan action Formspark -->
+        <form class="contact-form" action="https://submit-form.com/L1CukDuye">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" class="form-control" placeholder="Type your message here" required></textarea>
+          </div>
+          
+          <button type="submit" class="btn">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="footer-text">© 2026-2027 apk sadap. All rights reserved.</p>
+  </footer>
+
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/gh/jnicol/particleground/jquery.particleground.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      particleground(document.getElementById('particles'), {
+        dotColor: '#8a2be2',
+        lineColor: '#9370db',
+        minSpeedX: 0.1,
+        maxSpeedX: 0.3,
+        minSpeedY: 0.1,
+        maxSpeedY: 0.3,
+        density: 10000,
+        particleRadius: 3,
+      });
+      
+      // Smooth scrolling untuk navigasi
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+      
+      // Notifikasi form (simulasi)
+      const form = document.querySelector('.contact-form');
+      const notification = document.getElementById('notification');
+      
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          
+          const formData = new FormData(form);
+          const actionUrl = form.getAttribute('action');
+          
+          fetch(actionUrl, {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => {
+            if (response.ok) {
+              // Tampilkan notifikasi seketika
+              notification.classList.add('show');
+              
+              // Sembunyikan setelah 5 detik
+              setTimeout(function () {
+                notification.classList.remove('show');
+              }, 5000);
+              
+              // Reset form
+              form.reset();
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        });
+      }
+    }, false);
+  </script>
 </body>
 </html>
