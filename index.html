@@ -3,326 +3,356 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembayaran — Nebula Theme</title>
+    <title>Mega Arcade System: All-in-One Game</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
-        }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #07090e; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; overflow-x: hidden; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        h1 { color: #00d2ff; text-shadow: 0 0 15px rgba(0,210,255,0.6); margin-bottom: 5px; font-size: 28px; }
+        .subtitle { color: #8a99ad; margin-bottom: 25px; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; }
+        
+        /* Menu Utama */
+        .card { background: #111622; border: 2px solid #1f293d; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .menu-btn { background: #1f293d; color: #fff; border: 2px solid #3b4e6d; padding: 12px; width: 100%; margin: 8px 0; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s; text-align: left; display: flex; align-items: center; justify-content: space-between; }
+        .menu-btn:hover { background: #00d2ff; color: #07090e; border-color: #00d2ff; transform: translateY(-2px); }
+        .menu-btn span { font-size: 12px; opacity: 0.7; }
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #0f0c29, #1a1a40, #2d1b69);
-            overflow: hidden;
-            position: relative;
-            padding: 20px;
-        }
+        /* Sistem Dialog */
+        #dialogBox { background: #111622; border: 3px solid #00d2ff; padding: 20px; border-radius: 12px; margin-top: 40px; text-align: left; display: none; box-shadow: 0 0 20px rgba(0,210,255,0.3); }
+        #speakerName { font-weight: bold; color: #00d2ff; font-size: 20px; margin-bottom: 8px; text-transform: uppercase; }
+        #dialogText { font-size: 16px; line-height: 1.5; min-height: 50px; color: #e1e7f0; }
+        .btn-container { text-align: right; margin-top: 15px; }
+        .action-btn { background: #00d2ff; color: #07090e; border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; cursor: pointer; border-radius: 6px; transition: 0.2s; }
+        .action-btn:hover { background: #00a8cc; transform: scale(1.05); }
 
-        /* Nebula Background */
-        .nebula {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite alternate;
-        }
-
-        @keyframes twinkle {
-            0% { opacity: 0.3; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.2); }
-        }
-
-        .cloud {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            opacity: 0.4;
-            animation: float 8s infinite ease-in-out alternate;
-        }
-
-        .c1 {
-            width: 400px; height: 400px;
-            background: #7b2ffd;
-            top: -100px; left: -100px;
-        }
-        .c2 {
-            width: 500px; height: 500px;
-            background: #ff2ecc;
-            bottom: -150px; right: -100px;
-            animation-delay: -3s;
-        }
-        .c3 {
-            width: 300px; height: 300px;
-            background: #2e9ffd;
-            top: 40%; left: 30%;
-            animation-delay: -5s;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(40px, -30px) scale(1.15); }
-        }
-
-        /* Payment Card */
-        .payment-card {
-            position: relative;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 36px 28px;
-            width: 100%;
-            max-width: 420px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 32px rgba(123, 47, 253, 0.2);
-            animation: cardAppear 0.8s ease-out forwards;
-            opacity: 0;
-            transform: translateY(30px) scale(0.95);
-        }
-
-        @keyframes cardAppear {
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
-
-        .logo {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 12px;
-            background: linear-gradient(135deg, #7b2ffd, #ff2ecc, #2e9ffd);
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            color: white;
-            animation: logoPulse 3s infinite alternate;
-        }
-
-        @keyframes logoPulse {
-            0% { box-shadow: 0 0 15px rgba(123, 47, 253, 0.4); }
-            100% { box-shadow: 0 0 30px rgba(255, 46, 204, 0.6); }
-        }
-
-        h1 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-
-        .sub {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
-        }
-
-        .amount-box {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            padding: 16px;
-            text-align: center;
-            margin-bottom: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .amount-label {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 13px;
-            margin-bottom: 4px;
-        }
-
-        .amount {
-            font-size: 28px;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .section-title {
-            color: #fff;
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .qr-box {
-            background: #fff;
-            border-radius: 14px;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 24px;
-        }
-
-        .qr-placeholder {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto;
-            background: repeating-linear-gradient(45deg, #f0f0f0, #f0f0f0 5px, #fff 5px, #fff 10px);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-weight: 600;
-        }
-
-        .dana-box {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            padding: 18px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .dana-logo {
-            display: inline-block;
-            background: #0088ff;
-            color: white;
-            font-weight: 700;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-
-        .dana-label {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 13px;
-            margin-bottom: 4px;
-        }
-
-        .dana-number {
-            font-size: 20px;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-
-        .dana-name {
-            color: rgba(255, 255, 255, 0.75);
-            font-size: 14px;
-        }
-
-        .copy-btn {
-            background: rgba(123, 47, 253, 0.3);
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.2s;
-        }
-
-        .copy-btn:hover {
-            background: rgba(123, 47, 253, 0.5);
-        }
-
-        .note {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 12px;
-            line-height: 1.6;
-            text-align: center;
-        }
-
-        .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            margin: 20px 0;
-        }
+        /* Layar Game */
+        #gameScreen { display: none; margin-top: 20px; }
+        canvas { background: #161a22; display: block; margin: 15px auto; border: 4px solid #1f293d; max-width: 100%; border-radius: 8px; box-shadow: 0 0 25px rgba(0,0,0,0.5); }
+        .hud { display: flex; justify-content: space-between; background: #111622; padding: 12px 20px; border-radius: 8px; border: 1px solid #1f293d; font-size: 18px; font-weight: bold; font-family: monospace; margin-bottom: 10px; }
+        .controls-hint { font-size: 13px; color: #8a99ad; margin-top: 10px; line-height: 1.4; }
+        
+        /* Tombol Kembali */
+        .back-btn { background: #ff3838; color: white; border: none; padding: 8px 15px; font-size: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-bottom: 15px; display: inline-block; }
+        .back-btn:hover { background: #cc2424; }
     </style>
 </head>
 <body>
 
-    <!-- Nebula Background -->
-    <div class="nebula">
-        <div class="cloud c1"></div>
-        <div class="cloud c2"></div>
-        <div class="cloud c3"></div>
+<div class="container">
+    <div id="mainMenu">
+        <h1>MEGA ARCADE SYSTEM 🎮</h1>
+        <div class="subtitle">Semua Game, Semua Aksi, Semua Latar</div>
+        
+        <div class="card">
+            <h3 style="margin-top:0; text-align:left; color:#00d2ff;">PILIH COMBINASI GAME ANDA:</h3>
+            <button class="menu-btn" onclick="selectGame('catch', 'space')">🚀 1. MENANGKAP + LUAR ANGKASA <span>Space Defender</span></button>
+            <button class="menu-btn" onclick="selectGame('dodge', 'castle')">🏰 2. MENGHINDAR + KERAJAAN FANTASI <span>Castle Dodge</span></button>
+            <button class="menu-btn" onclick="selectGame('click', 'city')">🏙️ 3. MENGETUK + PERKOTAAN MODERN <span>City Clicker</span></button>
+        </div>
+        <p style="color: #53647c; font-size: 12px;">Pilih salah satu mode di atas untuk langsung memuat seluruh aset mekanik (Action), cerita dialog, dan tema latar belakang (Setting).</p>
     </div>
 
-    <!-- Payment Card -->
-    <div class="payment-card">
-        <div class="header">
-            <div class="logo">✦</div>
-            <h1>Konfirmasi Pembayaran</h1>
-            <p class="sub">Selesaikan pembayaran Anda</p>
+    <!-- Sistem Dialog Interaktif -->
+    <div id="dialogBox">
+        <div id="speakerName">-</div>
+        <div id="dialogText">-</div>
+        <div class="btn-container">
+            <button id="nextBtn" class="action-btn" onclick="nextDialog()">Lanjut</button>
         </div>
-
-        <div class="amount-box">
-            <p class="amount-label">Total Pembayaran</p>
-            <p class="amount">Rp <span id="total">150.000</span></p>
-        </div>
-
-        <p class="section-title">📷 Scan QR Code</p>
-        <div class="qr-box">
-            <!-- Ganti bagian di bawah dengan gambar QR Code aslimu -->
-            <div class="qr-placeholder">
-                QR Code<br>di sini
-            </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <p class="section-title">💳 Atau Transfer DANA</p>
-        <div class="dana-box">
-            <span class="dana-logo">DANA</span>
-            <p class="dana-label">Nomor DANA</p>
-            <p class="dana-number" id="dana-num">0812-3456-7890</p>
-            <p class="dana-label">Atas Nama</p>
-            <p class="dana-name" id="dana-name">[Nama Penerima]</p>
-            <button class="copy-btn" onclick="copyNumber()">📋 Salin Nomor</button>
-        </div>
-
-        <p class="note">
-            ✅ Setelah dikirim, mohon konfirmasi ke kami<br>
-            🌌 Nebula Theme — Pembayaran Aman & Terpercaya
-        </p>
     </div>
 
-    <script>
-        // Generate bintang berkedip
-        const nebula = document.querySelector('.nebula');
-        for (let i = 0; i < 150; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            const size = Math.random() * 2.5 + 0.8;
-            star.style.width = star.style.height = size + 'px';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 3 + 's';
-            nebula.appendChild(star);
+    <!-- Layar Utama Arena Gameplay -->
+    <div id="gameScreen">
+        <button class="back-btn" onclick="returnToMenu()">← KELUAR KE MENU</button>
+        <div class="hud">
+            <div>SKOR: <span id="scoreText" style="color:#00d2ff;">0</span></div>
+            <div><span id="liveLabel">NYAWA</span>: <span id="livesText" style="color:#ff3838;">3</span></div>
+        </div>
+        <canvas id="gameCanvas" width="400" height="500"></canvas>
+        <div id="controlsHint" class="controls-hint"></div>
+    </div>
+</div>
+
+<script>
+    // Konfigurasi Database Konten (Semua Action & Semua Setting)
+    const gameDatabase = {
+        'catch_space': {
+            title: "SPACE DEFENDER 🚀",
+            canvasBg: "#121620",
+            playerColor: "#00d2ff",
+            itemColor: "#ff3838",
+            liveLabel: "PERISAI",
+            hint: "Gunakan Tombol Panah Kiri/Kanan atau Sentuh Sisi Layar HP untuk menggeser Tameng Energi dan menangkap Meteor Merah!",
+            dialogs: [
+                { speaker: "KAI (AI Kapal)", text: "Kapten! Terdeteksi badai meteor raksasa mendekati stasiun luar angkasa kita!" },
+                { speaker: "Komandan Alfa", text: "Aktifkan tameng energi biru! Kita harus menampung dan menghancurkan meteor itu sebelum menembus markas utama." },
+                { speaker: "KAI (AI Kapal)", text: "Siap. Energi tameng hanya kuat menahan 3 kebocoran hantaman. Semoga berhasil!" }
+            ]
+        },
+        'dodge_castle': {
+            title: "CASTLE DODGE 🏰",
+            canvasBg: "#1c1510",
+            playerColor: "#ffaa00",
+            itemColor: "#9900ff",
+            liveLabel: "DARAH",
+            hint: "Gunakan Tombol Panah Kiri/Kanan atau Sentuh Sisi Layar HP untuk menghindar dari Sihir Ungu jahat yang jatuh dari langit!",
+            dialogs: [
+                { speaker: "Penyihir Istana", text: "Gawat Yang Mulia! Kastil kita diserang hujan bola api sihir kutukan dari langit!" },
+                { speaker: "Raja Agung", text: "Aku harus bergerak cepat menghindarinya! Jangan sampai tubuhku terkena percikan energi kegelapan itu." },
+                { speaker: "Penyihir Istana", text: "Benar Raja! Bertahanlah, jika terkena 3 kali sihir itu, pelindung fisik Anda akan lenyap!" }
+            ]
+        },
+        'click_city': {
+            title: "CITY CLICKER 🏙️",
+            canvasBg: "#1a1a1a",
+            playerColor: "transparent", 
+            itemColor: "#00ff66",
+            liveLabel: "WAKTU",
+            hint: "Klik / Ketuk langsung pada Kotak Energi Hijau yang muncul acak di layar secepat mungkin sebelum waktu habis!",
+            dialogs: [
+                { speaker: "Walikota", text: "Kota kita mati lampu total karena badai ekstrem! Generator cadangan menyebarkan inti daya hijau di udara." },
+                { speaker: "Teknisi Kota", text: "Saya butuh bantuanmu untuk langsung MENGETUK/MENGEKLIK inti daya hijau itu secepat mungkin untuk menyalakan listrik!" },
+                { speaker: "Walikota", text: "Waktu kita sangat terbatas, sisa energi kota terus berkurang dengan cepat. Ayo selamatkan warga!" }
+            ]
+        }
+    };
+
+    // State Mesin Game global
+    let currentAction = '';
+    let currentSetting = '';
+    let currentConfig = null;
+    let currentDialogIndex = 0;
+    
+    // Variabel Engine Game
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    let player = { x: 160, y: 450, width: 80, height: 15, speed: 8 };
+    let item = { x: 200, y: 0, size: 22, speed: 4 };
+    let score = 0;
+    let lives = 3;
+    let gameOver = false;
+    let keys = {};
+    let loopId = null;
+
+    // Deteksi Kontrol Input
+    document.addEventListener("keydown", (e) => keys[e.key] = true);
+    document.addEventListener("keyup", (e) => keys[e.key] = false);
+    window.addEventListener("touchstart", (e) => {
+        let touchX = e.touches[0].clientX;
+        if (touchX < window.innerWidth / 2) keys["ArrowLeft"] = true;
+        else keys["ArrowRight"] = true;
+    });
+    window.addEventListener("touchend", () => {
+        keys["ArrowLeft"] = false;
+        keys["ArrowRight"] = false;
+    });
+    
+    // Khusus Clicker Game: Deteksi Klik pada Canvas
+    canvas.addEventListener("mousedown", handleCanvasClick);
+    canvas.addEventListener("touchstart", function(e) {
+        e.preventDefault();
+        let rect = canvas.getBoundingClientRect();
+        let touchX = e.touches[0].clientX - rect.left;
+        let touchY = e.touches[0].clientY - rect.top;
+        // Skala koordinat canvas asli
+        let canvasX = touchX * (canvas.width / rect.width);
+        let canvasY = touchY * (canvas.height / rect.height);
+        checkClickHit(canvasX, canvasY);
+    });
+
+    function handleCanvasClick(e) {
+        let rect = canvas.getBoundingClientRect();
+        let clickX = (e.clientX - rect.left) * (canvas.width / rect.width);
+        let clickY = (e.clientY - rect.top) * (canvas.height / rect.height);
+        checkClickHit(clickX, clickY);
+    }
+
+    function checkClickHit(x, y) {
+        if (currentAction !== 'click' || gameOver) return;
+        if (x >= item.x && x <= item.x + item.size && y >= item.y && y <= item.y + item.size) {
+            score += 10;
+            // Pindahkan acak instan setelah diklik
+            item.x = Math.random() * (canvas.width - item.size);
+            item.y = 40 + Math.random() * (canvas.height - 120);
+        }
+    }
+
+    // Navigasi Sistem & Pemilihan Game
+    function selectGame(action, setting) {
+        currentAction = action;
+        currentSetting = setting;
+        currentConfig = gameDatabase[`${action}_${setting}`];
+        currentDialogIndex = 0;
+
+        document.getElementById("mainMenu").style.display = "none";
+        document.getElementById("dialogBox").style.display = "block";
+        document.getElementById("gameTitle").innerText = currentConfig.title;
+        
+        showDialog();
+    }
+
+    function showDialog() {
+        const dBox = currentConfig.dialogs[currentDialogIndex];
+        document.getElementById("speakerName").innerText = dBox.speaker;
+        document.getElementById("dialogText").innerText = dBox.text;
+        
+        const nextBtn = document.getElementById("nextBtn");
+        if (currentDialogIndex === currentConfig.dialogs.length - 1) {
+            nextBtn.innerText = "MULAI GAME ⚡";
+            nextBtn.style.background = "#ff3838";
+            nextBtn.style.color = "#fff";
+        } else {
+            nextBtn.innerText = "Lanjut";
+            nextBtn.style.background = "#00d2ff";
+            nextBtn.style.color = "#07090e";
+        }
+    }
+
+    function nextDialog() {
+        currentDialogIndex++;
+        if (currentDialogIndex < currentConfig.dialogs.length) {
+            showDialog();
+        } else {
+            document.getElementById("dialogBox").style.display = "none";
+            initGameplay();
+        }
+    }
+
+    // Inisialisasi Arena Game Baru
+    function initGameplay() {
+        // Reset state data
+        score = 0;
+        gameOver = false;
+        keys = {};
+        canvas.style.background = currentConfig.canvasBg;
+        document.getElementById("liveLabel").innerText = currentConfig.liveLabel.toUpperCase();
+        document.getElementById("controlsHint").innerText = currentConfig.hint;
+        
+        if (currentAction === 'click') {
+            lives = 15; // Untuk clicker, nyawa dihitung sebagai hitungan mundur Detik Waktu
+            item.x = Math.random() * (canvas.width - item.size);
+            item.y = 100 + Math.random() * 250;
+            // Interval waktu pengurang detik
+            if(window.timerInterval) clearInterval(window.timerInterval);
+            window.timerInterval = setInterval(() => {
+                if (!gameOver) {
+                    lives--;
+                    if (lives <= 0) {
+                        gameOver = true;
+                        alert("WAKTU HABIS! Kota gagal diselamatkan. Total poin energi dikumpulkan: " + score);
+                        returnToMenu();
+                    }
+                }
+            }, 1000);
+        } else {
+            lives = 3; // Game catch / dodge pakai nyawa standar
+            player.x = 160;
+            item.x = Math.random() * (canvas.width - item.size);
+            item.y = 0;
+            item.speed = 4;
         }
 
-        // Salin nomor DANA
-        function copyNumber() {
-            const num = document.getElementById('dana-num').textContent.replace(/-/g, '');
-            navigator.clipboard.writeText(num).then(() => {
-                alert('Nomor DANA disalin! ✅');
-            });
+        document.getElementById("gameScreen").style.display = "block";
+        
+        // Jalankan loop canvas engine
+        if (loopId) cancelAnimationFrame(loopId);
+        gameLoop();
+    }
+
+    // Loop Engine Gambar & Update
+    function update() {
+        if (gameOver) return;
+
+        // Kontrol Gerak Karakter Balok (Hanya untuk mode Catch & Dodge)
+        if (currentAction !== 'click') {
+            if (keys["ArrowLeft"] && player.x > 0) player.x -= player.speed;
+            if (keys["ArrowRight"] && player.x < canvas.width - player.width) player.x += player.speed;
+
+            item.y += item.speed;
+
+            // Logika Batas Layar Bawah
+            if (item.y > canvas.height) {
+                if (currentAction === 'catch') {
+                    lives--; // Lolos = nyawa kurang di game catching
+                }
+                resetItem();
+            }
+
+            // Deteksi Tabrakan Fisik Karakter dengan Objek
+            if (item.y + item.size >= player.y && item.x + item.size >= player.x && item.x <= player.x + player.width) {
+                if (currentAction === 'catch') {
+                    score += 10;
+                    item.speed += 0.35; // Makin cepat
+                } else if (currentAction === 'dodge') {
+                    lives--; // Terkena rintangan = nyawa berkurang di game dodging
+                }
+                resetItem();
+            }
+        } else {
+            // Mode Clicker: Objek bergetar pelan atau berpindah berkala jika diabaikan
+            item.y += Math.sin(Date.now() / 100) * 0.5;
         }
-    </script>
+
+        // Cek Kondisi Kalah / Selesai
+        if (lives <= 0 && !gameOver) {
+            gameOver = true;
+            alert("GAME OVER! Perjuanganmu terhenti di sini. Skor akhir: " + score);
+            returnToMenu();
+        }
+
+        document.getElementById("scoreText").innerText = score;
+        document.getElementById("livesText").innerText = lives;
+    }
+
+    function resetItem() {
+        item.x = Math.random() * (canvas.width - item.size);
+        item.y = 0;
+        if (currentAction === 'dodge') {
+            score += 5; // Bertahan dari rintangan membuahkan skor
+            item.speed += 0.25;
+        }
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (currentAction !== 'click') {
+            // Gambar Player/Tameng Pelindung bawah
+            ctx.fillStyle = currentConfig.playerColor;
+            ctx.shadowBlur = 12;
+            ctx.shadowColor = currentConfig.playerColor;
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+        }
+
+        // Gambar Objek Target/Meteor/Sihir
+        ctx.fillStyle = currentConfig.itemColor;
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = currentConfig.itemColor;
+        
+        // Render bentuk
+        ctx.fillRect(item.x, item.y, item.size, item.size);
+        ctx.shadowBlur = 0; // Matikan shadow agar performa lancar
+    }
+
+    function gameLoop() {
+        update();
+        draw();
+        if (!gameOver) {
+            loopId = requestAnimationFrame(gameLoop);
+        }
+    }
+
+    function returnToMenu() {
+        gameOver = true;
+        if(window.timerInterval) clearInterval(window.timerInterval);
+        if (loopId) cancelAnimationFrame(loopId);
+        
+        document.getElementById("gameScreen").style.display = "none";
+        document.getElementById("dialogBox").style.display = "none";
+        document.getElementById("mainMenu").style.display = "block";
+        document.getElementById("gameTitle").innerHTML = "MEGA ARCADE SYSTEM 🎮";
+    }
+</script>
+
 </body>
 </html>
