@@ -1,410 +1,174 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LAPOR ALL PROJECT</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
-:root{
-  --bg:#fdf7f0;
-  --card:#ffffff;
-  --text:#3d2c1e;
-  --muted:#9a8674;
-  --accent:#e07a5f;
-  --accent-light:#fef0eb;
-  --sukses:#52b788;
-  --pending:#f6ad55;
-  --error:#e64553;
-  --border:#f0e2d0;
-  --shadow:0 4px 20px rgba(92,69,51,0.08);
-}
-body{
-  background:linear-gradient(135deg,#fdf7f0 0%,#faf0e6 100%);
-  min-height:100vh;
-  padding:24px 20px;
-}
-.container{max-width:440px;margin:0 auto}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrinBerkedut - Official Community Hub</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-main: #06110b;
+            --card-bg: rgba(13, 27, 18, 0.75);
+            --accent-green: #2ecc71;
+            --accent-glow: #27ae60;
+            --text-main: #f8f9fa;
+            --text-muted: #a0b2a6;
+            --border-color: rgba(46, 204, 113, 0.25);
+        }
 
-.header{text-align:center;margin-bottom:28px}
-.logo-img{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
-h1{font-size:26px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-0.3px}
-.sub{font-size:15px;color:var(--muted)}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
 
-.info-box{
-  background:var(--accent-light);
-  border-radius:16px;
-  padding:14px 18px;
-  margin-bottom:24px;
-  font-size:14px;
-  color:#91402c;
-  display:flex;align-items:center;gap:10px;
-  border:1px solid #fde0d4;
-}
-.info-box::before{content:"✓";font-weight:700;font-size:16px}
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(46, 204, 113, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(39, 174, 96, 0.08) 0%, transparent 40%);
+        }
 
-.form-card{
-  background:var(--card);
-  border-radius:24px;
-  padding:28px 24px;
-  border:1px solid var(--border);
-  box-shadow:var(--shadow);
-  margin-bottom:28px;
-}
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.8s ease-in-out;
+        }
 
-.status-box{
-  border-radius:14px;
-  padding:16px;
-  text-align:center;
-  font-weight:500;
-  margin-bottom:24px;
-  display:none;
-  line-height:1.6;
-  font-size:14px;
-}
-.status-box.show{display:block}
-.status-pending{background:#fff9ed;color:#956427;border:1px solid #ffe8b8}
-.status-ok{background:#f0faf4;color:#25744e;border:1px solid #caf0dc}
-.status-no{background:#fef1f3;color:#a33c4c;border:1px solid #fcd7dc}
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-.label{
-  font-size:14px;
-  font-weight:600;
-  color:var(--text);
-  margin-bottom:10px;
-  display:flex;align-items:center;gap:8px;
-}
-.input,.textarea{
-  width:100%;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:14px 16px;
-  font-size:15px;
-  outline:none;
-  background:#fefcf9;
-  color:var(--text);
-  transition:.25s ease;
-  margin-bottom:20px;
-}
-.input:focus,.textarea:focus{
-  border-color:var(--accent);
-  background:#fff;
-  box-shadow:0 0 0 4px rgba(224,122,95,0.1);
-}
-.textarea{min-height:110px;resize:none;line-height:1.6}
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-green);
+            margin: 0 auto 20px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.3);
+            background: #0a1f12;
+        }
 
-.file-box{
-  border:2px dashed var(--border);
-  border-radius:12px;
-  padding:32px 20px;
-  text-align:center;
-  cursor:pointer;
-  transition:.25s ease;
-  margin-bottom:20px;
-  background:#fefcf9;
-}
-.file-box:hover{border-color:var(--accent);background:#fff9f6}
-.file-box span{font-size:14px;color:var(--muted)}
-.file-name{font-size:13px;color:var(--accent);margin-top:10px;font-weight:500}
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-.btn{
-  width:100%;
-  background:linear-gradient(135deg,#e07a5f,#d46549);
-  color:#fff;
-  border:none;
-  border-radius:12px;
-  padding:15px;
-  font-size:16px;
-  font-weight:600;
-  cursor:pointer;
-  transition:.25s ease;
-  box-shadow:0 4px 12px rgba(224,122,95,0.25);
-}
-.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(224,122,95,0.35)}
-.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(45deg, #fff, var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-.btn-secondary{
-  background:transparent;
-  color:var(--accent);
-  border:1px solid var(--accent);
-  margin-top:12px;
-}
-.btn-secondary:hover{background:var(--accent);color:#fff;transform:none}
+        p.bio {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
 
-input[type="file"]{display:none}
+        .link-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-.catatan{
-  background:#f8f4ee;
-  border-radius:12px;
-  padding:16px;
-  margin-top:20px;
-  font-size:13px;
-  line-height:1.7;
-  color:#7a6756;
-}
-.catatan strong{color:var(--text)}
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
 
-/* Riwayat Laporan */
-.riwayat-section{
-  background:var(--card);
-  border-radius:24px;
-  padding:24px;
-  border:1px solid var(--border);
-  box-shadow:var(--shadow);
-}
-.riwayat-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:16px;
-}
-.riwayat-title{
-  font-size:18px;
-  font-weight:700;
-  color:var(--text);
-}
-.riwayat-item{
-  background:#fefcf9;
-  border-radius:12px;
-  padding:14px;
-  margin-bottom:12px;
-  border-left:3px solid var(--accent);
-}
-.riwayat-waktu{
-  font-size:12px;
-  color:var(--muted);
-  margin-bottom:6px;
-}
-.riwayat-text{
-  font-size:14px;
-  color:var(--text);
-  line-height:1.5;
-}
-.riwayat-kosong{
-  text-align:center;
-  padding:30px;
-  color:var(--muted);
-  font-size:14px;
-}
+        .btn-discord {
+            background-color: #5865F2;
+            color: #ffffff;
+        }
 
-.footer{
-  text-align:center;
-  margin-top:28px;
-  font-size:13px;
-  color:var(--muted);
-}
-</style>
+        .btn-discord:hover {
+            background-color: #4752c4;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4);
+        }
+
+        .btn-youtube {
+            background-color: #FF0000;
+            color: #ffffff;
+        }
+
+        .btn-youtube:hover {
+            background-color: #d90000;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
 
-  <div class="header">
-    <img src="https://cdn.phototourl.com/member/2026-10-09-40bfad10-aab1-4103-b6e9-d38ac8c4c5d8.jpg" alt="Logo" class="logo-img">
-    <h1>LAPOR ALL PROJECT</h1>
-    <p class="sub">Laporkan akun yang melanggar dengan mudah ✨</p>
-  </div>
+    <div class="container">
+        <!-- Foto Profil dari Link Catbox -->
+        <div class="profile-avatar">
+            <img src="https://files.catbox.moe/ulx2bi.jpg" alt="OrinBerkedut Profile">
+        </div>
 
-  <div class="info-box">Siap digunakan — isi data di bawah lalu klik kirim</div>
+        <h1>OrinBerkedut</h1>
+        <p class="bio">Selamat datang di OrinBekedut Yuk gabung ke komunitas Discord dan tonton keseruan video terbaru di channel YouTube.</p>
 
-  <div class="form-card">
-    <div id="statusPending" class="status-box status-pending">
-      ⏳ <strong>Laporan Terkirim!</strong><br>Silakan tunggu admin menghubungi kamu ya 🙏
+        <div class="link-group">
+            <!-- Tombol Discord -->
+            <a href="https://discord.gg/PaW9UaZXQ" target="_blank" class="social-btn btn-discord">
+                <i class="fa-brands fa-discord" style="font-size: 1.3rem;"></i> Gabung Discord Server
+            </a>
+
+            <!-- Tombol YouTube -->
+            <a href="https://youtube.com/@orinberkedutkedut?si=aCCfEHqWjaWubfjb" target="_blank" class="social-btn btn-youtube">
+                <i class="fa-brands fa-youtube" style="font-size: 1.3rem;"></i> Kunjungi Channel YouTube
+            </a>
+        </div>
+
+        <footer>
+            &copy; 2026 OrinBerkedut. All rights reserved.
+        </footer>
     </div>
-    <div id="statusOk" class="status-box status-ok">
-      ✅ <strong>Berhasil Dikirim!</strong><br>Terima kasih sudah melaporkan ✨
-    </div>
-    <div id="statusNo" class="status-box status-no">
-      ❌ <strong>Gagal Terkirim!</strong><br>Pastikan admin sudah kirim /start ke bot dulu
-    </div>
 
-    <label class="label">📱 Nama APK</label>
-    <input type="text" id="namaApk" class="input" placeholder="Contoh: WhatsApp, TikTok, dll">
-
-    <label class="label">👨‍💻 Developer APK</label>
-    <input type="text" id="devApk" class="input" placeholder="Contoh: Meta, ByteDance, dll">
-
-    <label class="label">✉️ Username Telegram Kamu</label>
-    <input type="text" id="usernamePelapor" class="input" placeholder="@username">
-
-    <label class="label">⚠️ Akun yang Dilaporkan</label>
-    <input type="text" id="usernamePelaku" class="input" placeholder="@username">
-
-    <label class="label">📝 Alasan Laporan</label>
-    <textarea id="alasan" class="textarea" placeholder="Jelaskan secara singkat apa yang terjadi..."></textarea>
-
-    <label class="label">📸 Bukti Pendukung</label>
-    <label class="file-box" for="bukti">
-      <input type="file" id="bukti" accept="image/*">
-      <span id="fileText">📎 Klik untuk pilih gambar</span>
-      <div id="fileNama" class="file-name"></div>
-    </label>
-
-    <button id="btnKirim" class="btn">🚀 KIRIM LAPORAN</button>
-
-    <div class="catatan">
-      <strong>💡 Catatan:</strong><br>
-      Setelah laporan dikirim, admin akan meninjau dan menghubungi kamu lewat Telegram. Terima kasih atas bantuan kamu ✨
-    </div>
-  </div>
-
-  <!-- RIWAYAT LAPORAN -->
-  <div class="riwayat-section">
-    <div class="riwayat-header">
-      <h2 class="riwayat-title">📋 Riwayat Laporan</h2>
-      <button id="btnHapusRiwayat" class="btn btn-secondary" style="padding:8px 12px;font-size:13px">Hapus Semua</button>
-    </div>
-    <div id="daftarRiwayat"></div>
-  </div>
-
-  <p class="footer">🫩 LAPOR ALL PROJECT — Semua Hak Dilindungi</p>
-</div>
-
-<script>
-const BOT_TOKEN = "8988445749:AAFR5ybMSc6286qUA7jVkz6BCSCDteRmQxM";
-const ADMIN_IDS = ["8889669714", "8724904699", "8807164023"];
-const TELEGRAM_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
-
-const fileInput = document.getElementById('bukti');
-const fileNama = document.getElementById('fileNama');
-const daftarRiwayat = document.getElementById('daftarRiwayat');
-
-// Load riwayat saat buka halaman
-function loadRiwayat() {
-  const riwayat = JSON.parse(localStorage.getItem('riwayatLaporan') || '[]');
-  if (riwayat.length === 0) {
-    daftarRiwayat.innerHTML = '<p class="riwayat-kosong">Belum ada laporan yang dikirim 📭</p>';
-    return;
-  }
-  daftarRiwayat.innerHTML = riwayat.map(item => `
-    <div class="riwayat-item">
-      <div class="riwayat-waktu">🕐 ${item.waktu}</div>
-      <div class="riwayat-text">
-        <strong>📱 ${item.namaApk}</strong> • ${item.usernamePelaku}<br>
-        ${item.alasan.length > 40 ? item.alasan.substring(0, 40) + '...' : item.alasan}
-      </div>
-    </div>
-  `).join('');
-}
-
-// Simpan ke riwayat
-function simpanKeRiwayat(data) {
-  const riwayat = JSON.parse(localStorage.getItem('riwayatLaporan') || '[]');
-  riwayat.unshift(data);
-  localStorage.setItem('riwayatLaporan', JSON.stringify(riwayat));
-  loadRiwayat();
-}
-
-// Hapus semua riwayat
-document.getElementById('btnHapusRiwayat').addEventListener('click', () => {
-  if (confirm('Yakin ingin menghapus semua riwayat?')) {
-    localStorage.removeItem('riwayatLaporan');
-    loadRiwayat();
-  }
-});
-
-fileInput.addEventListener('change', () => {
-  fileNama.textContent = fileInput.files[0] ? '✓ ' + fileInput.files[0].name : '';
-});
-
-function resetStatus(){
-  document.getElementById('statusPending').classList.remove('show');
-  document.getElementById('statusOk').classList.remove('show');
-  document.getElementById('statusNo').classList.remove('show');
-}
-
-document.getElementById('btnKirim').addEventListener('click', async () => {
-  resetStatus();
-  const namaApk = document.getElementById('namaApk').value.trim();
-  const devApk = document.getElementById('devApk').value.trim();
-  const usernamePelapor = document.getElementById('usernamePelapor').value.trim();
-  const usernamePelaku = document.getElementById('usernamePelaku').value.trim();
-  const alasan = document.getElementById('alasan').value.trim();
-
-  if(!namaApk || !devApk || !usernamePelapor || !usernamePelaku || !alasan){
-    resetStatus();
-    document.getElementById('statusNo').innerHTML = 
-      '⚠️ <strong>Lengkapi Semua Kolom</strong><br>Isi data dengan benar sebelum dikirim';
-    document.getElementById('statusNo').classList.add('show');
-    return;
-  }
-
-  const btn = document.getElementById('btnKirim');
-  btn.disabled = true;
-  btn.textContent = '⏳ Mengirim...';
-  resetStatus();
-  document.getElementById('statusPending').classList.add('show');
-
-  const waktu = new Date().toLocaleString('id-ID', {
-    weekday:'long',
-    year:'numeric',
-    month:'long',
-    day:'numeric',
-    hour:'2-digit',
-    minute:'2-digit'
-  });
-  
-  const pesan = `
-┌─────────────────────────────┐
-│        🫩 ʟᴀᴘᴏʀ ᴀʟʟ ᴘʀᴏᴊᴇᴄᴛ
-└─────────────────────────────┘
-
-✨ ɪɴғᴏʀᴍᴀsɪ ʟᴀᴘᴏʀᴀɴ
-
-📱 ɴᴀᴍᴀ ᴀᴘᴋ      : ${namaApk}
-👨‍💻 ᴅᴇᴠᴇʟᴏᴘᴇʀ     : ${devApk}
-✉️ ᴘᴇʟᴀᴘᴏʀ       : ${usernamePelapor}
-⚠️ ᴛᴇʀʟᴀᴘᴏʀ      : ${usernamePelaku}
-📝 ᴀʟᴀsᴀɴ        : ${alasan}
-🕐 ᴡᴀᴋᴛᴜ         : ${waktu}
-
-┌─────────────────────────────┐
-│ 💡 ʜᴜʙᴜɴɢɪ ᴘᴇʟᴀᴘᴏʀ
-│    → ${usernamePelapor}
-└─────────────────────────────┘
-  `.trim();
-
-  let berhasil = 0;
-  for(const adminId of ADMIN_IDS){
-    try{
-      const res = await fetch(`${TELEGRAM_API}/sendMessage`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          chat_id: adminId,
-          text: pesan,
-          parse_mode: 'Markdown'
-        })
-      });
-      if(res.ok) berhasil++;
-    }catch(err){
-      console.error(err);
-    }
-  }
-
-  setTimeout(() => {
-    resetStatus();
-    if(berhasil > 0){
-      document.getElementById('statusOk').classList.add('show');
-      // Simpan ke riwayat
-      simpanKeRiwayat({ namaApk, devApk, usernamePelapor, usernamePelaku, alasan, waktu });
-      // Reset form
-      document.getElementById('namaApk').value = '';
-      document.getElementById('devApk').value = '';
-      document.getElementById('usernamePelapor').value = '';
-      document.getElementById('usernamePelaku').value = '';
-      document.getElementById('alasan').value = '';
-      fileInput.value = '';
-      fileNama.textContent = '';
-    }else{
-      document.getElementById('statusNo').classList.add('show');
-    }
-    btn.disabled = false;
-    btn.textContent = '🚀 KIRIM LAPORAN';
-  }, 1500);
-});
-
-// Load riwayat saat halaman dibuka
-loadRiwayat();
-</script>
 </body>
 </html>
