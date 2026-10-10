@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#090d20">
-<title>Sidd Payment</title>
+<title>FerdiPayment</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800;900&display=swap');
 
@@ -617,9 +617,9 @@ body:before{
 
 <main class="wrap">
   <header class="brand">
-    <div class="logo">S!</div>
+    <div class="logo">F!</div>
     <div>
-      <h1 class="brand-title">SIDD PAYMENT</h1>
+      <h1 class="brand-title">FERDIPAYMENT</h1>
       <p class="brand-sub">PAYMENT MADE SIMPLE • OFFICIAL</p>
     </div>
   </header>
@@ -673,7 +673,7 @@ body:before{
     </div>
   </section>
 
-  <p class="footer">© 2026 <b>SIDD PAYMENT</b></p>
+  <p class="footer">© 2026 <b>FERDIPAYMENT</b></p>
 </main>
 
 <div class="overlay" id="overlay" onclick="overlayClick(event)">
@@ -685,8 +685,8 @@ body:before{
 
     <div id="danaPanel" hidden>
       <p class="pay-label">Kirim pembayaran ke nomor DANA</p>
-      <div class="number-box" id="danaNumber" onclick="copyDana()">085249864988</div>
-      <p class="owner">Penerima: <strong>Sidd Payment</strong></p>
+      <div class="number-box" id="danaNumber" onclick="copyDana()">0882022298643</div>
+      <p class="owner">Penerima: <strong>FerdiPayment</strong></p>
       <button class="action" onclick="copyDana()">
         <svg viewBox="0 0 24 24" fill="none">
           <rect x="9" y="9" width="12" height="12" rx="2" stroke="#11152c" stroke-width="2"/>
@@ -704,7 +704,7 @@ body:before{
 
     <div id="qrisPanel" hidden>
       <div class="qr-frame">
-        <img id="qrImage" src="https://files.catbox.moe/1je6jq.jpg" alt="Kode QRIS">
+        <img id="qrImage" src="https://files.catbox.moe/v9o1uk.jpg" alt="Kode QRIS">
       </div>
       <button class="action" onclick="downloadQR()">
         <svg viewBox="0 0 24 24" fill="none">
@@ -754,7 +754,7 @@ document.addEventListener('keydown', e => {
 function sendProof(method){
   const whatsappNumber = '6288242024938';
   const message =
-    'Halo Sidd Payment, saya sudah melakukan pembayaran via ' + method + '.\n' +
+    'Halo FerdiPayment, saya sudah melakukan pembayaran via ' + method + '.\n' +
     'Nama: \n' +
     'Nominal transfer: Rp\n' +
     'Saya akan mengirim bukti transfer di chat ini.';
@@ -800,7 +800,7 @@ async function downloadQR(){
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'qris-sidd.png';
+    a.download = 'qris-ferdipayment.png';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
