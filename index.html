@@ -1,816 +1,410 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#090d20">
-<title>FerdiPayment</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800;900&display=swap');
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-:root{
-  --ink:#11152c;
-  --blue:#31d7ff;
-  --pink:#ff4fa3;
-  --yellow:#ffe56b;
-  --white:#fffdf7;
-  --green:#39e58c;
-}
+  <title>DANA - Dompet Digital Indonesia</title>
+  <meta name="description" content="Dana adalah bentuk baru uang tunai yang lebih baik. Transaksi apapun, berapapun dan dimanapun jadi mudah bersama DANA. Ambil bagian dalam transformasi keuangan digital di Indonesia sekarang!">
 
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%}
+  <!-- Open Graph -->
+  <meta property="og:title" content="DANA - Dompet Digital Indonesia">
+  <meta property="og:description" content="Dana adalah bentuk baru uang tunai yang lebih baik. Transaksi apapun, berapapun dan dimanapun jadi mudah bersama DANA. Ambil bagian dalam transformasi keuangan digital di Indonesia sekarang!">
+  <meta property="og:image" content="https://cdn.jsdelivr.net/gh/ByexeOfficial999/image-to-url@main/1000580773.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://daget-id.vercel.app">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DANA - Dompet Digital Indonesia">
+  <meta property="og:locale" content="id_ID">
 
-body{
-  margin:0;
-  min-height:100vh;
-  overflow-x:hidden;
-  color:var(--white);
-  font-family:Nunito,system-ui,sans-serif;
-  background:
-    radial-gradient(circle at 20% 12%,#293d80 0,transparent 40%),
-    radial-gradient(circle at 85% 80%,#602568 0,transparent 38%),
-    #090d20;
-  padding:32px 18px 40px;
-  display:grid;
-  place-items:center;
-  position:relative;
-}
+  <!-- Twitter Card (biar kompatibel luas) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DANA - Dompet Digital Indonesia">
+  <meta name="twitter:description" content="Dana adalah bentuk baru uang tunai yang lebih baik. Transaksi apapun, berapapun dan dimanapun jadi mudah bersama DANA. Ambil bagian dalam transformasi keuangan digital di Indonesia sekarang!">
+  <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/ByexeOfficial999/image-to-url@main/1000580773.png">
 
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.14;
-  background-image:radial-gradient(#fff 1px,transparent 1.4px);
-  background-size:20px 20px;
-  -webkit-mask-image:radial-gradient(circle at 50% 40%,#000,transparent 78%);
-  mask-image:radial-gradient(circle at 50% 40%,#000,transparent 78%);
-  z-index:1;
-}
+  <!-- Optional tambahan -->
+  <meta name="theme-color" content="#0f172a">
 
-.bg-orb{
-  position:fixed;
-  width:320px;height:320px;
-  border-radius:50%;
-  filter:blur(90px);
-  opacity:.32;
-  pointer-events:none;
-  z-index:0;
-  animation:orbFloat 10s ease-in-out infinite alternate;
-}
-.orb1{background:#13cfff;top:-60px;left:-120px}
-.orb2{background:#ff3c9a;bottom:-80px;right:-130px;animation-delay:-5s}
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-/* ====== BURUNG KEKE ====== */
-.bird{
-  position:fixed;
-  z-index:1;
-  pointer-events:none;
-  width:52px;
-  height:auto;
-  filter:drop-shadow(2px 3px 0 rgba(17,21,44,.6));
-  will-change:transform;
-}
-.bird svg{width:100%;height:auto;display:block;pointer-events:none}
-.bird1{top:12%;left:-80px;animation:flyRight 18s linear infinite}
-.bird2{bottom:18%;right:-80px;width:44px;animation:flyLeft 22s linear infinite;animation-delay:-6s}
-.bird3{top:48%;left:-80px;width:38px;animation:flyZigzag 26s linear infinite;animation-delay:-10s;opacity:.85}
+</head>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-.bird .wing-left,
-.bird .wing-right{
-  transform-origin:center;
-  animation:flap 0.4s ease-in-out infinite;
-}
-.bird .wing-right{animation-delay:.05s}
-.bird .body-group{
-  animation:bob 0.9s ease-in-out infinite;
-  transform-origin:center;
-}
+    html, body {
+      height: 100%;
+      background: #108EE9;
+      font-family: 'Open Sans', sans-serif;
+    }
 
-.wrap{
-  width:min(100%,440px);
-  position:relative;
-  z-index:5;
-  animation:rise .9s cubic-bezier(.2,.8,.2,1) both;
-  display:flex;
-  flex-direction:column;
-  gap:22px;
-}
+    .landing-page {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-.brand{display:flex;align-items:center;gap:14px;padding-left:4px}
-.logo{
-  width:58px;height:58px;
-  border:3px solid var(--ink);
-  border-radius:18px;
-  display:grid;
-  place-items:center;
-  font-family:Bangers,cursive;
-  font-size:34px;
-  color:var(--ink);
-  background:linear-gradient(135deg,var(--yellow),#ffad4a);
-  box-shadow:4px 4px 0 var(--pink),7px 7px 0 var(--ink);
-  transform:rotate(-5deg);
-  animation:logoBob 3.5s ease-in-out infinite;
-  position:relative;
-  overflow:hidden;
-}
-.logo:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(120deg,transparent 30%,#ffffffaa 50%,transparent 70%);
-  transform:translateX(-100%);
-  animation:logoShine 3.5s ease-in-out infinite;
-  pointer-events:none;
-}
-.brand-title{
-  font-family:Bangers,cursive;
-  font-size:30px;
-  letter-spacing:1.4px;
-  text-shadow:2px 2px 0 var(--pink),4px 4px 0 var(--ink);
-  margin:0;
-}
-.brand-sub{
-  font-size:11.5px;
-  font-weight:800;
-  color:#c5d9ff;
-  margin:3px 0 0;
-  letter-spacing:.8px;
-}
+    /* Background decoration */
+    .landing-page::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+      pointer-events: none;
+    }
 
-.panel{
-  position:relative;
-  overflow:hidden;
-  padding:30px 24px 26px;
-  border:3px solid var(--ink);
-  border-radius:28px;
-  background:linear-gradient(145deg,#18284c 0%,#131b39 55%,#25183e 100%);
-  box-shadow:7px 7px 0 var(--pink),11px 11px 0 var(--ink),0 25px 70px #0008;
-}
-.panel:before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  opacity:.1;
-  background-image:radial-gradient(var(--blue) 1px,transparent 1.3px);
-  background-size:14px 14px;
-  z-index:0;
-}
-.panel>*{position:relative;z-index:2}
+    .landing-page::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: -60px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      pointer-events: none;
+    }
 
-.head{text-align:center}
-.hero-title{
-  font-family:Bangers,cursive;
-  font-size:clamp(38px,10vw,46px);
-  line-height:1;
-  letter-spacing:1.6px;
-  margin:14px 0 12px;
-  text-shadow:3px 3px 0 #11152c,5px 5px 0 var(--blue),7px 7px 0 var(--pink);
-  animation:titleFloat 4.5s ease-in-out infinite;
-}
-.sub{
-  font-size:13px;
-  color:#c6d4f2;
-  margin:0;
-  font-weight:700;
-  line-height:1.5;
-}
+    /* Lottie / animation area */
+    #animation {
+      width: 240px;
+      height: 240px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-.status{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  margin-top:12px;
-  padding:5px 12px;
-  background:#0a1f3a;
-  border:2px solid var(--ink);
-  border-radius:999px;
-  font-size:11px;
-  font-weight:800;
-  color:var(--green);
-  box-shadow:2px 2px 0 var(--ink);
-}
-.dot{
-  width:8px;height:8px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 8px var(--green);
-  animation:pulseDot 1.5s ease-in-out infinite;
-}
+    /* Animated wallet illustration */
+    .wallet-illustration {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      animation: floatUpDown 3s ease-in-out infinite;
+    }
 
-.methods{display:grid;gap:16px;margin-top:24px;position:relative;z-index:3}
-.method{
-  width:100%;
-  position:relative;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:16px 15px;
-  border:3px solid var(--ink);
-  border-radius:18px;
-  background:linear-gradient(110deg,#f8fcff,#dbeaff);
-  color:var(--ink);
-  text-align:left;
-  box-shadow:4px 4px 0 var(--blue),6px 6px 0 var(--ink);
-  cursor:pointer;
-  transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease;
-  font:inherit;
-  z-index:4;
-  pointer-events:auto;
-  touch-action:manipulation;
-  -webkit-user-select:none;
-  user-select:none;
-}
-.method:before{
-  content:"";
-  position:absolute;
-  top:-60%;left:-60%;
-  height:220%;width:30%;
-  background:linear-gradient(90deg,transparent,#ffffffcc,transparent);
-  transform:rotate(24deg);
-  transition:left .6s ease;
-  pointer-events:none;
-}
-.method:hover:before{left:140%}
-.method:hover{
-  transform:translate(-2px,-3px);
-  box-shadow:6px 6px 0 var(--pink),8px 8px 0 var(--ink);
-}
-.method:active{
-  transform:translate(2px,2px);
-  box-shadow:1px 1px 0 var(--pink);
-}
-.method *{pointer-events:none}
-.icon{
-  height:48px;width:48px;
-  flex:0 0 48px;
-  display:grid;
-  place-items:center;
-  border:2px solid var(--ink);
-  border-radius:14px;
-  box-shadow:2px 2px 0 var(--ink);
-  transition:transform .3s ease;
-  overflow:hidden;
-}
-.method:hover .icon{transform:scale(1.08) rotate(-4deg)}
-.icon svg{width:26px;height:26px;display:block}
-.dana-icon{background:linear-gradient(135deg,#198bff,#0a5fc4)}
-.qris-icon{background:linear-gradient(135deg,#fff,#e0e8f5);padding:8px}
+    @keyframes floatUpDown {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
 
-.method-text{flex:1}
-.method-text strong{display:block;font-size:16px;font-weight:1000;letter-spacing:.3px}
-.method-text small{display:block;margin-top:3px;color:#4e5a79;font-size:11px;font-weight:800;line-height:1.4}
-.arrow{
-  font-size:26px;
-  font-weight:900;
-  transition:transform .3s cubic-bezier(.2,.8,.2,1);
-}
-.method:hover .arrow{transform:translateX(6px)}
+    .wallet-illustration svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 16px 32px rgba(0,0,0,0.2));
+    }
 
-.footer{
-  text-align:center;
-  color:#a3b1d4;
-  font-size:12px;
-  font-weight:800;
-  margin:0;
-  padding:0 10px;
-  line-height:1.5;
-}
-.footer b{color:var(--pink)}
+    /* DANA logo */
+    .dana-logo-wrap {
+      margin: 30px auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
 
-.overlay{
-  position:fixed;
-  inset:0;
-  z-index:50;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:#030615e0;
-  -webkit-backdrop-filter:blur(10px);
-  backdrop-filter:blur(10px);
-  overflow-y:auto;
-}
-.overlay.show{display:flex;animation:fadeIn .3s ease}
-.modal{
-  width:min(100%,390px);
-  max-height:90vh;
-  overflow-y:auto;
-  position:relative;
-  border:3px solid var(--ink);
-  border-radius:26px;
-  padding:24px 22px;
-  background:linear-gradient(145deg,#1b2b50,#17152f);
-  box-shadow:6px 6px 0 var(--pink),10px 10px 0 var(--ink);
-  animation:modalPop .4s cubic-bezier(.2,.8,.2,1);
-  margin:auto;
-  scrollbar-width:thin;
-  scrollbar-color:var(--pink) transparent;
-  pointer-events:auto;
-  z-index:51;
-}
-.modal::-webkit-scrollbar{width:6px}
-.modal::-webkit-scrollbar-thumb{background:var(--pink);border-radius:6px}
-.modal::-webkit-scrollbar-track{background:transparent}
-.modal:before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  opacity:.09;
-  border-radius:23px;
-  background-image:radial-gradient(var(--blue) 1px,transparent 1.4px);
-  background-size:14px 14px;
-  z-index:0;
-}
-.modal>*{position:relative;z-index:2}
-.modal-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:22px;
-}
-.modal-head h3{
-  font-family:Bangers,cursive;
-  font-size:28px;
-  letter-spacing:1px;
-  margin:0;
-  text-shadow:2px 2px 0 var(--pink);
-}
-.close{
-  width:38px;height:38px;
-  flex:0 0 38px;
-  border:2px solid var(--ink);
-  border-radius:12px;
-  background:var(--yellow);
-  color:var(--ink);
-  font-size:22px;
-  font-weight:1000;
-  cursor:pointer;
-  box-shadow:2px 2px 0 var(--pink);
-  transition:transform .25s cubic-bezier(.2,.8,.2,1),background .2s;
-  display:grid;
-  place-items:center;
-  line-height:1;
-  padding:0;
-  pointer-events:auto;
-  touch-action:manipulation;
-}
-.close:hover{transform:rotate(90deg) scale(1.05);background:#ffd94a}
-.close:active{transform:scale(.9) rotate(90deg)}
+    .dana-logo-text {
+      font-size: 36px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
 
-.pay-label{
-  font-size:12px;
-  font-weight:800;
-  color:#c3d6f5;
-  margin:0 0 10px;
-  text-align:center;
-}
-.number-box{
-  padding:16px 12px;
-  border:2px solid var(--ink);
-  border-radius:14px;
-  background:#f5f8ff;
-  color:var(--ink);
-  font-size:23px;
-  font-weight:1000;
-  text-align:center;
-  overflow-wrap:anywhere;
-  box-shadow:3px 3px 0 var(--blue);
-  letter-spacing:1.5px;
-  cursor:pointer;
-  transition:transform .2s;
-  pointer-events:auto;
-  touch-action:manipulation;
-  -webkit-user-select:none;
-  user-select:none;
-}
-.number-box:active{transform:scale(.98)}
-.owner{
-  text-align:center;
-  color:#c6d4f2;
-  font-size:13px;
-  margin:14px 0 20px;
-}
-.owner strong{color:var(--yellow);font-weight:900}
+    /* Fallback if SVG not available */
+    .dana-logo-img {
+      height: 32px;
+    }
 
-.action{
-  width:100%;
-  border:2px solid var(--ink);
-  border-radius:14px;
-  padding:15px;
-  background:linear-gradient(100deg,var(--yellow),#ffad4a);
-  color:var(--ink);
-  font-weight:1000;
-  font-size:14px;
-  cursor:pointer;
-  box-shadow:4px 4px 0 var(--pink);
-  transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease;
-  font-family:inherit;
-  letter-spacing:.4px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  pointer-events:auto;
-  touch-action:manipulation;
-  -webkit-user-select:none;
-  user-select:none;
-}
-.action:hover{transform:translateY(-2px);box-shadow:5px 5px 0 var(--pink)}
-.action:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--pink)}
-.action svg{width:18px;height:18px;flex:0 0 18px;pointer-events:none}
-.action+.action{margin-top:12px}
+    .title {
+      margin: 0 auto 8px;
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1.35;
+      max-width: 340px;
+    }
 
-.proof-action{
-  background:linear-gradient(100deg,#39e58c,#b8ffd5);
-  position:relative;
-  overflow:hidden;
-}
-.proof-action:after{
-  content:"";
-  position:absolute;
-  top:0;left:-100%;
-  width:50%;height:100%;
-  background:linear-gradient(90deg,transparent,#ffffffaa,transparent);
-  animation:shimmer 3s ease-in-out infinite;
-  pointer-events:none;
-}
+    .desc {
+      margin: 0 auto;
+      font-size: 15px;
+      line-height: 1.5;
+      opacity: 0.9;
+      max-width: 300px;
+      font-weight: 400;
+    }
 
-.qr-frame{
-  width:min(100%,260px);
-  aspect-ratio:1;
-  margin:0 auto 18px;
-  padding:12px;
-  border:3px solid var(--ink);
-  border-radius:18px;
-  background:white;
-  display:grid;
-  place-items:center;
-  overflow:hidden;
-  box-shadow:4px 4px 0 var(--blue);
-  position:relative;
-  animation:qrGlow 3s ease-in-out infinite;
-}
-.qr-frame img{
-  width:100%;height:100%;
-  object-fit:contain;
-  display:block;
-  border-radius:8px;
-}
+    /* Button container */
+    .btn-container {
+      display: flex;
+      gap: 12px;
+      margin: 20px auto 0;
+      padding: 0 16px;
+    }
 
-.toast{
-  position:fixed;
-  bottom:26px;
-  left:50%;
-  transform:translate(-50%,20px);
-  opacity:0;
-  pointer-events:none;
-  background:var(--yellow);
-  color:var(--ink);
-  border:2px solid var(--ink);
-  border-radius:13px;
-  padding:12px 18px;
-  font-size:12px;
-  font-weight:1000;
-  box-shadow:3px 3px 0 var(--pink);
-  z-index:60;
-  transition:opacity .3s ease,transform .3s cubic-bezier(.2,.8,.2,1);
-  white-space:nowrap;
-  max-width:90vw;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.toast.show{opacity:1;transform:translate(-50%,0)}
+    button {
+      min-width: 160px;
+      background-color: white;
+      padding: 13px 20px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #108EE9;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    }
 
-@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-@keyframes orbFloat{from{transform:translate(0,0) scale(1)}to{transform:translate(20px,-20px) scale(1.08)}}
-@keyframes logoBob{0%,100%{transform:rotate(-5deg) translateY(0)}50%{transform:rotate(3deg) translateY(-4px)}}
-@keyframes logoShine{0%{transform:translateX(-100%)}60%,100%{transform:translateX(180%)}}
-@keyframes titleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes modalPop{from{opacity:0;transform:translateY(20px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes shimmer{0%{left:-100%}60%,100%{left:200%}}
-@keyframes qrGlow{0%,100%{box-shadow:4px 4px 0 var(--blue)}50%{box-shadow:4px 4px 0 var(--pink)}}
-@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
 
-@keyframes flyRight{
-  0%{transform:translate(0,0) scaleX(1);opacity:0}
-  5%{opacity:1}
-  50%{transform:translate(50vw,-30px) scaleX(1)}
-  95%{opacity:1}
-  100%{transform:translate(110vw,20px) scaleX(1);opacity:0}
-}
-@keyframes flyLeft{
-  0%{transform:translate(0,0) scaleX(-1);opacity:0}
-  5%{opacity:1}
-  50%{transform:translate(-50vw,25px) scaleX(-1)}
-  95%{opacity:1}
-  100%{transform:translate(-110vw,-15px) scaleX(-1);opacity:0}
-}
-@keyframes flyZigzag{
-  0%{transform:translate(0,0) scaleX(1);opacity:0}
-  5%{opacity:.85}
-  25%{transform:translate(30vw,-25px) scaleX(1)}
-  50%{transform:translate(55vw,20px) scaleX(1)}
-  75%{transform:translate(80vw,-15px) scaleX(1)}
-  95%{opacity:.85}
-  100%{transform:translate(110vw,10px) scaleX(1);opacity:0}
-}
-@keyframes flap{
-  0%,100%{transform:rotate(0deg) scaleY(1)}
-  50%{transform:rotate(-18deg) scaleY(.7)}
-}
-@keyframes bob{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-3px)}
-}
+    button:active {
+      transform: translateY(0);
+    }
 
-@media(max-width:400px){
-  body{padding:26px 15px 34px}
-  .wrap{gap:20px}
-  .panel{padding:26px 20px 22px}
-  .hero-title{font-size:38px}
-  .method{padding:14px 12px}
-  .brand-title{font-size:26px}
-  .logo{width:52px;height:52px;font-size:30px}
-  .modal{padding:20px 18px}
-  .modal-head h3{font-size:25px}
-  .bird{width:42px}
-  .bird2{width:36px}
-  .bird3{width:32px}
-}
+    .icon-loading {
+      width: 20px;
+      height: 20px;
+      animation: rotation 1s linear infinite;
+    }
 
-@media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{animation:none!important;transition:none!important;}
-}
-</style>
+    @keyframes rotation {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Spinner SVG inline */
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid rgba(16,142,233,0.25);
+      border-top-color: #108EE9;
+      border-radius: 50%;
+      animation: rotation 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+
+    #mobile-button {
+      display: none;
+    }
+
+    /* Mobile */
+    @media screen and (max-width: 480px) {
+      #animation {
+        width: 180px;
+        height: 180px;
+      }
+
+      .wallet-illustration {
+        width: 160px;
+        height: 160px;
+      }
+
+      .dana-logo-wrap {
+        margin-top: 36px;
+      }
+
+      .title {
+        font-size: 20px;
+      }
+
+      .desc {
+        font-size: 14px;
+      }
+
+      .btn-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 12px 16px 24px;
+        background: linear-gradient(to top, rgba(16,142,233,1) 70%, transparent);
+      }
+
+      button {
+        width: 100%;
+      }
+
+      #mobile-button {
+        display: flex;
+      }
+
+      #desktop-button {
+        display: none;
+      }
+    }
+
+    /* Fade-in animation on load */
+    .landing-page > * {
+      animation: fadeUp 0.6s ease both;
+    }
+    #animation        { animation-delay: 0s; }
+    .dana-logo-wrap   { animation-delay: 0.15s; }
+    .title            { animation-delay: 0.25s; }
+    .desc             { animation-delay: 0.35s; }
+    .btn-container    { animation-delay: 0.45s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
-<div class="bg-orb orb1"></div>
-<div class="bg-orb orb2"></div>
 
-<!-- ====== BURUNG KEKE ====== -->
-<div class="bird bird1" aria-hidden="true">
-  <svg viewBox="0 0 60 50" xmlns="http://www.w3.org/2000/svg">
-    <g class="body-group">
-      <path class="wing-left" d="M22 24 Q12 12 6 22 Q14 24 22 28 Z" fill="#ffb800" stroke="#11152c" stroke-width="1.6" stroke-linejoin="round"/>
-      <path d="M8 30 L2 26 L4 33 L2 38 L10 35 Z" fill="#ffb800" stroke="#11152c" stroke-width="1.6" stroke-linejoin="round"/>
-      <ellipse cx="30" cy="30" rx="18" ry="13" fill="#ffe56b" stroke="#11152c" stroke-width="2"/>
-      <ellipse cx="30" cy="34" rx="11" ry="7" fill="#fff8d6" opacity=".8"/>
-      <path class="wing-right" d="M28 24 Q22 14 14 22 Q22 26 28 30 Z" fill="#ffd23f" stroke="#11152c" stroke-width="1.6" stroke-linejoin="round"/>
-      <circle cx="46" cy="24" r="10" fill="#ffe56b" stroke="#11152c" stroke-width="2"/>
-      <path d="M46 14 L48 8 L50 14 Z" fill="#ff4fa3" stroke="#11152c" stroke-width="1.4" stroke-linejoin="round"/>
-      <circle cx="49" cy="23" r="2.6" fill="#11152c"/>
-      <circle cx="49.8" cy="22.2" r=".9" fill="#fff"/>
-      <circle cx="44" cy="27" r="2" fill="#ff9ec4" opacity=".8"/>
-      <path d="M55 25 L60 26 L55 28 Z" fill="#ff9f1c" stroke="#11152c" stroke-width="1.4" stroke-linejoin="round"/>
-      <line x1="28" y1="42" x2="26" y2="48" stroke="#11152c" stroke-width="2" stroke-linecap="round"/>
-      <line x1="34" y1="42" x2="36" y2="48" stroke="#11152c" stroke-width="2" stroke-linecap="round"/>
-    </g>
-  </svg>
+<div class="landing-page">
+
+  <!-- Animation / Illustration -->
+  <div id="animation">
+    <div class="wallet-illustration">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Phone body -->
+        <rect x="40" y="20" width="120" height="160" rx="18" fill="white" opacity="0.95"/>
+        <rect x="48" y="32" width="104" height="136" rx="10" fill="#E8F4FD"/>
+
+        <!-- Screen content: card -->
+        <rect x="56" y="44" width="88" height="52" rx="8" fill="#108EE9"/>
+        <rect x="56" y="44" width="88" height="52" rx="8" fill="url(#cardGrad)"/>
+        <!-- Card chip -->
+        <rect x="66" y="56" width="18" height="14" rx="3" fill="#FDD835" opacity="0.9"/>
+        <!-- Card number dots -->
+        <circle cx="70" cy="82" r="2.5" fill="white" opacity="0.7"/>
+        <circle cx="78" cy="82" r="2.5" fill="white" opacity="0.7"/>
+        <circle cx="86" cy="82" r="2.5" fill="white" opacity="0.7"/>
+        <circle cx="94" cy="82" r="2.5" fill="white" opacity="0.7"/>
+        <!-- DANA label on card -->
+        <text x="115" y="89" font-size="9" fill="white" font-weight="700" font-family="Open Sans,sans-serif" text-anchor="end" opacity="0.9">DANA</text>
+
+        <!-- Balance label -->
+        <rect x="64" y="106" width="44" height="5" rx="2.5" fill="#108EE9" opacity="0.18"/>
+        <rect x="64" y="115" width="72" height="7" rx="3.5" fill="#108EE9" opacity="0.28"/>
+
+        <!-- Bottom nav bar -->
+        <rect x="56" y="140" width="88" height="18" rx="5" fill="#108EE9" opacity="0.1"/>
+        <circle cx="80" cy="149" r="4" fill="#108EE9" opacity="0.6"/>
+        <circle cx="100" cy="149" r="4" fill="#108EE9" opacity="0.25"/>
+        <circle cx="120" cy="149" r="4" fill="#108EE9" opacity="0.25"/>
+
+        <!-- Home indicator -->
+        <rect x="80" y="172" width="40" height="3" rx="1.5" fill="#108EE9" opacity="0.2"/>
+
+        <!-- Floating coin 1 -->
+        <circle cx="152" cy="60" r="16" fill="#FDD835" opacity="0.95"/>
+        <text x="152" y="65" font-size="14" fill="#E65100" font-weight="700" text-anchor="middle">$</text>
+
+        <!-- Floating coin 2 -->
+        <circle cx="38" cy="120" r="11" fill="#4CAF50" opacity="0.9"/>
+        <text x="38" y="125" font-size="10" fill="white" font-weight="700" text-anchor="middle">Rp</text>
+
+        <!-- Sparkles -->
+        <g opacity="0.8">
+          <path d="M162 100 l2 -5 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 Z" fill="white"/>
+          <path d="M30 68 l1.5 -3.5 l1.5 3.5 l3.5 1.5 l-3.5 1.5 l-1.5 3.5 l-1.5 -3.5 l-3.5 -1.5 Z" fill="white" opacity="0.7"/>
+          <path d="M155 148 l1 -2.5 l1 2.5 l2.5 1 l-2.5 1 l-1 2.5 l-1 -2.5 l-2.5 -1 Z" fill="white" opacity="0.6"/>
+        </g>
+
+        <defs>
+          <linearGradient id="cardGrad" x1="56" y1="44" x2="144" y2="96" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#1565C0"/>
+            <stop offset="100%" stop-color="#42A5F5"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
+  <!-- DANA Logo -->
+  <div class="dana-logo-wrap">
+    <img
+      class="dana-logo-img"
+      src="1000580726.svg"
+      alt="DANA"
+    >
+  </div>
+
+  <h1 class="title" id="content-title">Dompet digital yang aman dan tepercaya!</h1>
+  <p class="desc" id="content-desc">Nikmati kemudahan bertransaksi dengan beragam metode bayar di genggaman</p>
+
+  <div class="btn-container">
+    <button id="desktop-button">
+      <div class="spinner"></div>
+    </button>
+    <button id="mobile-button">
+      <div class="spinner"></div>
+    </button>
+  </div>
+
 </div>
-
-<div class="bird bird2" aria-hidden="true">
-  <svg viewBox="0 0 60 50" xmlns="http://www.w3.org/2000/svg">
-    <g class="body-group">
-      <path class="wing-left" d="M22 24 Q12 12 6 22 Q14 24 22 28 Z" fill="#1aa8d4" stroke="#11152c" stroke-width="1.6" stroke-linejoin="round"/>
-      <path d="M8 30 L2 26 L4 33 L2 38 L10 35 Z" fill="#1aa8d4" stroke="#11152c" stroke-width="1.6" stroke-linejoin="round"/>
-      <ellipse cx="30" cy="30" rx="18" ry="13" fill="#31d7ff" stroke="#11152c" stroke-width="2"/>
-      <ellipse cx="30" cy="34" rx="11" ry="7" fill="#d6f6ff" opacity=".8"/>
-      <path class="wing-right" d="M28 24 Q22 14 14 22 Q22 26 28 30 Z" fill="#21b6e0" stroke="#11152c" stroke-width="1.6" stroke-linejoin="round"/>
-      <circle cx="46" cy="24" r="10" fill="#31d7ff" stroke="#11152c" stroke-width="2"/>
-      <path d="M46 14 L48 8 L50 14 Z" fill="#ff4fa3" stroke="#11152c" stroke-width="1.4" stroke-linejoin="round"/>
-      <circle cx="49" cy="23" r="2.6" fill="#11152c"/>
-      <circle cx="49.8" cy="22.2" r=".9" fill="#fff"/>
-      <circle cx="44" cy="27" r="2" fill="#ff9ec4" opacity=".8"/>
-      <path d="M55 25 L60 26 L55 28 Z" fill="#ff9f1c" stroke="#11152c" stroke-width="1.4" stroke-linejoin="round"/>
-      <line x1="28" y1="42" x2="26" y2="48" stroke="#11152c" stroke-width="2" stroke-linecap="round"/>
-      <line x1="34" y1="42" x2="36" y2="48" stroke="#11152c" stroke-width="2" stroke-linecap="round"/>
-    </g>
-  </svg>
-</div>
-
-<div class="bird bird3" aria-hidden="true">
-  <svg viewBox="0 0 60 50" xmlns="http://www.w3.org/2000/svg">
-    <g class="body-group">
-      <path class="wing-left" d="M22 24 Q12 12 6 22 Q14 24 22 28 Z" fill="#e03a8a" stroke="#11152c" stroke-width="1.6" stroke-linejoin="round"/>
-      <path d="M8 30 L2 26 L4 33 L2 38 L10 35 Z" fill="#e03a8a" stroke="#11152c" stroke-width="1.6" stroke-linejoin="round"/>
-      <ellipse cx="30" cy="30" rx="18" ry="13" fill="#ff8fc4" stroke="#11152c" stroke-width="2"/>
-      <ellipse cx="30" cy="34" rx="11" ry="7" fill="#ffe0f0" opacity=".8"/>
-      <path class="wing-right" d="M28 24 Q22 14 14 22 Q22 26 28 30 Z" fill="#ff4fa3" stroke="#11152c" stroke-width="1.6" stroke-linejoin="round"/>
-      <circle cx="46" cy="24" r="10" fill="#ff8fc4" stroke="#11152c" stroke-width="2"/>
-      <path d="M46 14 L48 8 L50 14 Z" fill="#ffe56b" stroke="#11152c" stroke-width="1.4" stroke-linejoin="round"/>
-      <circle cx="49" cy="23" r="2.6" fill="#11152c"/>
-      <circle cx="49.8" cy="22.2" r=".9" fill="#fff"/>
-      <circle cx="44" cy="27" r="2" fill="#ff4fa3" opacity=".8"/>
-      <path d="M55 25 L60 26 L55 28 Z" fill="#ff9f1c" stroke="#11152c" stroke-width="1.4" stroke-linejoin="round"/>
-      <line x1="28" y1="42" x2="26" y2="48" stroke="#11152c" stroke-width="2" stroke-linecap="round"/>
-      <line x1="34" y1="42" x2="36" y2="48" stroke="#11152c" stroke-width="2" stroke-linecap="round"/>
-    </g>
-  </svg>
-</div>
-
-<main class="wrap">
-  <header class="brand">
-    <div class="logo">F!</div>
-    <div>
-      <h1 class="brand-title">FERDIPAYMENT</h1>
-      <p class="brand-sub">PAYMENT MADE SIMPLE • OFFICIAL</p>
-    </div>
-  </header>
-
-  <section class="panel">
-    <div class="head">
-      <h2 class="hero-title">PILIH PEMBAYARAN!</h2>
-      <p class="sub">Pilih metode favoritmu dan lanjutkan pembayaran.</p>
-      <div class="status">
-        <span class="dot"></span>
-        <span>Online • Fast Respon</span>
-      </div>
-    </div>
-
-    <div class="methods">
-      <button class="method" type="button" onclick="openModal('dana')">
-        <span class="icon dana-icon">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M12 2L4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z" fill="#ffffff" stroke="#11152c" stroke-width="1.6" stroke-linejoin="round"/>
-            <path d="M8.5 12l2.5 2.5L15.5 10" stroke="#198bff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
-        </span>
-        <span class="method-text">
-          <strong>DANA</strong>
-          <small>Bayar dengan dompet digital DANA</small>
-        </span>
-        <span class="arrow">➜</span>
-      </button>
-
-      <button class="method" type="button" onclick="openModal('qris')">
-        <span class="icon qris-icon">
-          <svg viewBox="0 0 24 24" fill="none">
-            <rect x="2" y="2" width="8" height="8" rx="1.5" fill="#11152c"/>
-            <rect x="4" y="4" width="4" height="4" rx="0.5" fill="#fff"/>
-            <rect x="14" y="2" width="8" height="8" rx="1.5" fill="#11152c"/>
-            <rect x="16" y="4" width="4" height="4" rx="0.5" fill="#fff"/>
-            <rect x="2" y="14" width="8" height="8" rx="1.5" fill="#11152c"/>
-            <rect x="4" y="16" width="4" height="4" rx="0.5" fill="#fff"/>
-            <rect x="14" y="14" width="3" height="3" fill="#11152c"/>
-            <rect x="19" y="14" width="3" height="3" fill="#11152c"/>
-            <rect x="14" y="19" width="3" height="3" fill="#11152c"/>
-            <rect x="19" y="19" width="3" height="3" fill="#11152c"/>
-          </svg>
-        </span>
-        <span class="method-text">
-          <strong>QRIS</strong>
-          <small>Scan kode QR dari aplikasi pembayaran</small>
-        </span>
-        <span class="arrow">➜</span>
-      </button>
-    </div>
-  </section>
-
-  <p class="footer">© 2026 <b>FERDIPAYMENT</b></p>
-</main>
-
-<div class="overlay" id="overlay" onclick="overlayClick(event)">
-  <section class="modal" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
-    <div class="modal-head">
-      <h3 id="modalTitle">DANA</h3>
-      <button class="close" onclick="closeModal()" aria-label="Tutup">×</button>
-    </div>
-
-    <div id="danaPanel" hidden>
-      <p class="pay-label">Kirim pembayaran ke nomor DANA</p>
-      <div class="number-box" id="danaNumber" onclick="copyDana()">0882022298643</div>
-      <p class="owner">Penerima: <strong>FerdiPayment</strong></p>
-      <button class="action" onclick="copyDana()">
-        <svg viewBox="0 0 24 24" fill="none">
-          <rect x="9" y="9" width="12" height="12" rx="2" stroke="#11152c" stroke-width="2"/>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="#11152c" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        SALIN NOMOR DANA
-      </button>
-      <button class="action proof-action" onclick="sendProof('DANA')">
-        <svg viewBox="0 0 24 24" fill="none">
-          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="#11152c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        KIRIM BUKTI VIA WA
-      </button>
-    </div>
-
-    <div id="qrisPanel" hidden>
-      <div class="qr-frame">
-        <img id="qrImage" src="https://files.catbox.moe/v9o1uk.jpg" alt="Kode QRIS">
-      </div>
-      <button class="action" onclick="downloadQR()">
-        <svg viewBox="0 0 24 24" fill="none">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="#11152c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M7 10l5 5 5-5" stroke="#11152c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M12 15V3" stroke="#11152c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        DOWNLOAD QRIS
-      </button>
-      <button class="action proof-action" onclick="sendProof('QRIS')">
-        <svg viewBox="0 0 24 24" fill="none">
-          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="#11152c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        KIRIM BUKTI VIA WA
-      </button>
-    </div>
-  </section>
-</div>
-
-<div class="toast" id="toast"></div>
 
 <script>
-const overlay = document.getElementById('overlay');
-let toastTimer = null;
-
-function openModal(method){
-  overlay.classList.add('show');
-  document.getElementById('danaPanel').hidden = method !== 'dana';
-  document.getElementById('qrisPanel').hidden = method !== 'qris';
-  document.getElementById('modalTitle').textContent = method === 'dana' ? 'DANA' : 'QRIS';
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal(){
-  overlay.classList.remove('show');
-  document.body.style.overflow = '';
-}
-
-function overlayClick(e){
-  if(e.target === overlay) closeModal();
-}
-
-document.addEventListener('keydown', e => {
-  if(e.key === 'Escape') closeModal();
-});
-
-function sendProof(method){
-  const whatsappNumber = '6288242024938';
-  const message =
-    'Halo FerdiPayment, saya sudah melakukan pembayaran via ' + method + '.\n' +
-    'Nama: \n' +
-    'Nominal transfer: Rp\n' +
-    'Saya akan mengirim bukti transfer di chat ini.';
-  const url = 'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(message);
-  window.open(url, '_blank', 'noopener');
-}
-
-function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
-}
-
-async function copyDana(){
-  const number = document.getElementById('danaNumber').textContent.trim();
-  try {
-    if(navigator.clipboard && window.isSecureContext){
-      await navigator.clipboard.writeText(number);
-    } else {
-      const ta = document.createElement('textarea');
-      ta.value = number;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
+  // i18n
+  const translations = {
+    id: {
+      title: "Dompet digital yang aman dan tepercaya!",
+      desc: "Nikmati kemudahan bertransaksi dengan beragam metode bayar di genggaman",
+      btn: "Buka DANA"
+    },
+    en: {
+      title: "A safe and secured digital wallet!",
+      desc: "Simpler transactions for all your needs with various payment methods on fingertips",
+      btn: "Open DANA"
     }
-    showToast('Nomor DANA disalin!');
-  } catch(err){
-    showToast('Nomor DANA: ' + number);
-  }
-}
+  };
 
-async function downloadQR(){
-  const img = document.getElementById('qrImage');
-  const src = img.src;
-  try {
-    const res = await fetch(src, { mode: 'cors' });
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'qris-ferdipayment.png';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    showToast('QRIS berhasil di-download!');
-  } catch(err){
-    window.open(src, '_blank', 'noopener');
-    showToast('Tekan lama gambar untuk menyimpan');
-  }
-}
+  const lang = (navigator.language || navigator.userLanguage || 'en').substring(0, 2);
+  const t = translations[lang] || translations['en'];
+
+  document.getElementById('content-title').textContent = t.title;
+  document.getElementById('content-desc').textContent = t.desc;
+  document.querySelectorAll('button').forEach(btn => {
+    btn.textContent = t.btn;
+  });
+
+  // Simulate button loaded state after short delay
+  setTimeout(() => {
+    document.querySelectorAll('button').forEach(btn => {
+      const spinner = btn.querySelector('.spinner');
+      if (spinner) spinner.style.display = 'none';
+    });
+  }, 1500);
+
+  // Play prank.mp4 audio on button click
+  const audio = new Audio('prank.mp3');
+  audio.preload = 'auto';
+
+  document.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      audio.currentTime = 0;
+      audio.play().catch(err => console.warn('Audio play failed:', err));
+    });
+  });
 </script>
+
 </body>
 </html>
