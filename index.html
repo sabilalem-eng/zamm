@@ -1,410 +1,959 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>DANA - Dompet Digital Indonesia</title>
-  <meta name="description" content="Dana adalah bentuk baru uang tunai yang lebih baik. Transaksi apapun, berapapun dan dimanapun jadi mudah bersama DANA. Ambil bagian dalam transformasi keuangan digital di Indonesia sekarang!">
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="DANA - Dompet Digital Indonesia">
-  <meta property="og:description" content="Dana adalah bentuk baru uang tunai yang lebih baik. Transaksi apapun, berapapun dan dimanapun jadi mudah bersama DANA. Ambil bagian dalam transformasi keuangan digital di Indonesia sekarang!">
-  <meta property="og:image" content="https://cdn.jsdelivr.net/gh/ByexeOfficial999/image-to-url@main/1000580773.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:url" content="https://daget-id.vercel.app">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="DANA - Dompet Digital Indonesia">
-  <meta property="og:locale" content="id_ID">
-
-  <!-- Twitter Card (biar kompatibel luas) -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="DANA - Dompet Digital Indonesia">
-  <meta name="twitter:description" content="Dana adalah bentuk baru uang tunai yang lebih baik. Transaksi apapun, berapapun dan dimanapun jadi mudah bersama DANA. Ambil bagian dalam transformasi keuangan digital di Indonesia sekarang!">
-  <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/ByexeOfficial999/image-to-url@main/1000580773.png">
-
-  <!-- Optional tambahan -->
-  <meta name="theme-color" content="#0f172a">
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity Wanzzy Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ultronRed: '#ff1a40',
+                        ultronDark: '#080204',
+                        ultronCard: '#130509',
+                        ultronBorder: '#ff1a4055',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #080204;
+            color: #f3f4f6;
+            overflow-x: hidden;
+            user-select: none;
+        }
+        /* Custom Glowing & Glassmorphism */
+        .ultron-glow {
+            box-shadow: 0 0 20px rgba(255, 26, 64, 0.4);
+        }
+        .ultron-border {
+            border: 1px solid rgba(255, 26, 64, 0.3);
+        }
+        .ultron-gradient {
+            background: linear-gradient(135deg, #130509 0%, #1f080d 50%, #080204 100%);
+        }
+        .ultron-red-gradient {
+            background: linear-gradient(135deg, #ff1a40 0%, #b91c1c 100%);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080204;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff1a40;
+            border-radius: 2px;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); filter: drop-shadow(0 0 15px #ff1a40); }
+        }
+        .animate-ultron {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+    </style>
 </head>
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<body class="min-h-screen flex flex-col relative">
 
-    html, body {
-      height: 100%;
-      background: #108EE9;
-      font-family: 'Open Sans', sans-serif;
-    }
-
-    .landing-page {
-      min-height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 16px;
-      color: white;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Background decoration */
-    .landing-page::before {
-      content: '';
-      position: absolute;
-      top: -80px;
-      right: -80px;
-      width: 320px;
-      height: 320px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.07);
-      pointer-events: none;
-    }
-
-    .landing-page::after {
-      content: '';
-      position: absolute;
-      bottom: -60px;
-      left: -60px;
-      width: 240px;
-      height: 240px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.05);
-      pointer-events: none;
-    }
-
-    /* Lottie / animation area */
-    #animation {
-      width: 240px;
-      height: 240px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Animated wallet illustration */
-    .wallet-illustration {
-      width: 200px;
-      height: 200px;
-      position: relative;
-      animation: floatUpDown 3s ease-in-out infinite;
-    }
-
-    @keyframes floatUpDown {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-12px); }
-    }
-
-    .wallet-illustration svg {
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 16px 32px rgba(0,0,0,0.2));
-    }
-
-    /* DANA logo */
-    .dana-logo-wrap {
-      margin: 30px auto 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .dana-logo-text {
-      font-size: 36px;
-      font-weight: 700;
-      color: white;
-      letter-spacing: 2px;
-      line-height: 1;
-    }
-
-    /* Fallback if SVG not available */
-    .dana-logo-img {
-      height: 32px;
-    }
-
-    .title {
-      margin: 0 auto 8px;
-      font-size: 22px;
-      font-weight: 600;
-      line-height: 1.35;
-      max-width: 340px;
-    }
-
-    .desc {
-      margin: 0 auto;
-      font-size: 15px;
-      line-height: 1.5;
-      opacity: 0.9;
-      max-width: 300px;
-      font-weight: 400;
-    }
-
-    /* Button container */
-    .btn-container {
-      display: flex;
-      gap: 12px;
-      margin: 20px auto 0;
-      padding: 0 16px;
-    }
-
-    button {
-      min-width: 160px;
-      background-color: white;
-      padding: 13px 20px;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      color: #108EE9;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    }
-
-    button:active {
-      transform: translateY(0);
-    }
-
-    .icon-loading {
-      width: 20px;
-      height: 20px;
-      animation: rotation 1s linear infinite;
-    }
-
-    @keyframes rotation {
-      0%   { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Spinner SVG inline */
-    .spinner {
-      width: 20px;
-      height: 20px;
-      border: 2.5px solid rgba(16,142,233,0.25);
-      border-top-color: #108EE9;
-      border-radius: 50%;
-      animation: rotation 0.8s linear infinite;
-      flex-shrink: 0;
-    }
-
-    #mobile-button {
-      display: none;
-    }
-
-    /* Mobile */
-    @media screen and (max-width: 480px) {
-      #animation {
-        width: 180px;
-        height: 180px;
-      }
-
-      .wallet-illustration {
-        width: 160px;
-        height: 160px;
-      }
-
-      .dana-logo-wrap {
-        margin-top: 36px;
-      }
-
-      .title {
-        font-size: 20px;
-      }
-
-      .desc {
-        font-size: 14px;
-      }
-
-      .btn-container {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        padding: 12px 16px 24px;
-        background: linear-gradient(to top, rgba(16,142,233,1) 70%, transparent);
-      }
-
-      button {
-        width: 100%;
-      }
-
-      #mobile-button {
-        display: flex;
-      }
-
-      #desktop-button {
-        display: none;
-      }
-    }
-
-    /* Fade-in animation on load */
-    .landing-page > * {
-      animation: fadeUp 0.6s ease both;
-    }
-    #animation        { animation-delay: 0s; }
-    .dana-logo-wrap   { animation-delay: 0.15s; }
-    .title            { animation-delay: 0.25s; }
-    .desc             { animation-delay: 0.35s; }
-    .btn-container    { animation-delay: 0.45s; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-  </style>
-</head>
-<body>
-
-<div class="landing-page">
-
-  <!-- Animation / Illustration -->
-  <div id="animation">
-    <div class="wallet-illustration">
-      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Phone body -->
-        <rect x="40" y="20" width="120" height="160" rx="18" fill="white" opacity="0.95"/>
-        <rect x="48" y="32" width="104" height="136" rx="10" fill="#E8F4FD"/>
-
-        <!-- Screen content: card -->
-        <rect x="56" y="44" width="88" height="52" rx="8" fill="#108EE9"/>
-        <rect x="56" y="44" width="88" height="52" rx="8" fill="url(#cardGrad)"/>
-        <!-- Card chip -->
-        <rect x="66" y="56" width="18" height="14" rx="3" fill="#FDD835" opacity="0.9"/>
-        <!-- Card number dots -->
-        <circle cx="70" cy="82" r="2.5" fill="white" opacity="0.7"/>
-        <circle cx="78" cy="82" r="2.5" fill="white" opacity="0.7"/>
-        <circle cx="86" cy="82" r="2.5" fill="white" opacity="0.7"/>
-        <circle cx="94" cy="82" r="2.5" fill="white" opacity="0.7"/>
-        <!-- DANA label on card -->
-        <text x="115" y="89" font-size="9" fill="white" font-weight="700" font-family="Open Sans,sans-serif" text-anchor="end" opacity="0.9">DANA</text>
-
-        <!-- Balance label -->
-        <rect x="64" y="106" width="44" height="5" rx="2.5" fill="#108EE9" opacity="0.18"/>
-        <rect x="64" y="115" width="72" height="7" rx="3.5" fill="#108EE9" opacity="0.28"/>
-
-        <!-- Bottom nav bar -->
-        <rect x="56" y="140" width="88" height="18" rx="5" fill="#108EE9" opacity="0.1"/>
-        <circle cx="80" cy="149" r="4" fill="#108EE9" opacity="0.6"/>
-        <circle cx="100" cy="149" r="4" fill="#108EE9" opacity="0.25"/>
-        <circle cx="120" cy="149" r="4" fill="#108EE9" opacity="0.25"/>
-
-        <!-- Home indicator -->
-        <rect x="80" y="172" width="40" height="3" rx="1.5" fill="#108EE9" opacity="0.2"/>
-
-        <!-- Floating coin 1 -->
-        <circle cx="152" cy="60" r="16" fill="#FDD835" opacity="0.95"/>
-        <text x="152" y="65" font-size="14" fill="#E65100" font-weight="700" text-anchor="middle">$</text>
-
-        <!-- Floating coin 2 -->
-        <circle cx="38" cy="120" r="11" fill="#4CAF50" opacity="0.9"/>
-        <text x="38" y="125" font-size="10" fill="white" font-weight="700" text-anchor="middle">Rp</text>
-
-        <!-- Sparkles -->
-        <g opacity="0.8">
-          <path d="M162 100 l2 -5 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 Z" fill="white"/>
-          <path d="M30 68 l1.5 -3.5 l1.5 3.5 l3.5 1.5 l-3.5 1.5 l-1.5 3.5 l-1.5 -3.5 l-3.5 -1.5 Z" fill="white" opacity="0.7"/>
-          <path d="M155 148 l1 -2.5 l1 2.5 l2.5 1 l-2.5 1 l-1 2.5 l-1 -2.5 l-2.5 -1 Z" fill="white" opacity="0.6"/>
-        </g>
-
-        <defs>
-          <linearGradient id="cardGrad" x1="56" y1="44" x2="144" y2="96" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#1565C0"/>
-            <stop offset="100%" stop-color="#42A5F5"/>
-          </linearGradient>
-        </defs>
-      </svg>
+    <!-- Loading Screen (Infinity Ultron Cosmic Theme) -->
+    <div id="loadingScreen" class="fixed inset-0 z-50 bg-[#040102] flex flex-col items-center justify-center transition-opacity duration-700">
+        <div class="relative flex flex-col items-center">
+            <!-- Cosmic glowing circle -->
+            <div class="w-32 h-32 rounded-full ultron-red-gradient animate-ultron flex items-center justify-center shadow-2xl relative mb-6">
+                <div class="absolute inset-2 bg-[#080204] rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-atom text-5xl text-ultronRed animate-spin" style="animation-duration: 8s;"></i>
+                </div>
+            </div>
+            <h1 class="text-2xl font-black tracking-widest text-white mb-2 uppercase drop-shadow-[0_0_10px_#ff1a40]">Infinity Wanzzy</h1>
+            <p class="text-xs text-ultronRed font-mono tracking-widest uppercase mb-6">Multiversal Core Loading...</p>
+            <!-- Progress Bar -->
+            <div class="w-64 h-1.5 bg-gray-900 rounded-full overflow-hidden border border-ultronRed/30">
+                <div id="loadProgress" class="h-full ultron-red-gradient w-0 transition-all duration-300"></div>
+            </div>
+            <span id="loadPercent" class="text-xs text-gray-400 font-mono mt-2">0%</span>
+        </div>
     </div>
-  </div>
 
-  <!-- DANA Logo -->
-  <div class="dana-logo-wrap">
-    <img
-      class="dana-logo-img"
-      src="1000580726.svg"
-      alt="DANA"
-    >
-  </div>
+    <!-- Authentication Modal -->
+    <div id="authModal" class="fixed inset-0 z-40 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="ultron-card ultron-border rounded-2xl p-6 w-full max-w-sm ultron-gradient relative">
+            <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 w-20 h-20 rounded-full ultron-red-gradient flex items-center justify-center shadow-lg border-2 border-ultronRed">
+                <i class="fa-solid fa-user-shield text-3xl text-white"></i>
+            </div>
+            <div class="mt-10 text-center mb-6">
+                <h2 id="authTitle" class="text-xl font-bold text-white tracking-wider">INFINITY WANZZY</h2>
+                <p id="authSubtitle" class="text-xs text-gray-400 mt-1">Masuk untuk mengakses sistem multiversal</p>
+            </div>
 
-  <h1 class="title" id="content-title">Dompet digital yang aman dan tepercaya!</h1>
-  <p class="desc" id="content-desc">Nikmati kemudahan bertransaksi dengan beragam metode bayar di genggaman</p>
+            <form id="authForm" onsubmit="handleAuth(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">Username</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-ultronRed"><i class="fa-solid fa-user"></i></span>
+                        <input type="text" id="authUsername" required placeholder="Masukkan username" class="w-full pl-10 pr-4 py-2.5 bg-gray-900/80 border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed transition-colors">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">Password</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-ultronRed"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" id="authPassword" required placeholder="Masukkan password" class="w-full pl-10 pr-10 py-2.5 bg-gray-900/80 border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed transition-colors">
+                        <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white">
+                            <i id="eyeIcon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3 ultron-red-gradient text-white font-bold rounded-xl shadow-lg hover:opacity-90 active:scale-95 transition-all text-sm tracking-wide">
+                        MASUK SISTEM
+                    </button>
+                </div>
+                <div class="flex items-center justify-between text-xs pt-2 text-gray-400">
+                    <button type="button" onclick="fillDevCredentials()" class="text-ultronRed hover:underline">Gunakan Akun Dev (`wanzzy`)</button>
+                    <span id="authToggleMode" class="cursor-pointer hover:text-white" onclick="switchAuthMode()">Daftar Akun</span>
+                </div>
+            </form>
+        </div>
+    </div>
 
-  <div class="btn-container">
-    <button id="desktop-button">
-      <div class="spinner"></div>
-    </button>
-    <button id="mobile-button">
-      <div class="spinner"></div>
-    </button>
-  </div>
+    <!-- Status Bar (Real-time Clock, Battery, Network Status) -->
+    <header class="w-full bg-[#080204]/90 backdrop-blur-md border-b border-ultronBorder px-4 py-2.5 flex items-center justify-between sticky top-0 z-30">
+        <div class="flex items-center space-x-3">
+            <button onclick="toggleSidebar()" class="text-white hover:text-ultronRed transition-colors p-1">
+                <i class="fa-solid fa-bars text-lg"></i>
+            </button>
+            <div class="flex items-center space-x-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-ultronRed animate-pulse"></div>
+                <span class="font-bold text-sm tracking-wider text-white" id="headerTitle">Dashboard</span>
+            </div>
+        </div>
 
-</div>
+        <!-- Right Status Indicators -->
+        <div class="flex items-center space-x-3 text-xs text-gray-300 font-mono">
+            <!-- Network Status -->
+            <div id="netStatusIndicator" class="flex items-center space-x-1 px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/30">
+                <i id="netIcon" class="fa-solid fa-wifi text-[10px]"></i>
+                <span id="netText" class="text-[10px] font-semibold">Online</span>
+            </div>
+            <!-- Battery Indicator -->
+            <div class="flex items-center space-x-1 px-2 py-0.5 rounded-full bg-gray-900 border border-gray-800">
+                <i id="batteryIcon" class="fa-solid fa-battery-three-quarters text-ultronRed text-[10px]"></i>
+                <span id="batteryText" class="text-[10px]">--%</span>
+            </div>
+            <!-- Clock -->
+            <div id="realTimeClock" class="font-bold text-white text-xs">
+                00:00
+            </div>
+        </div>
+    </header>
 
-<script>
-  // i18n
-  const translations = {
-    id: {
-      title: "Dompet digital yang aman dan tepercaya!",
-      desc: "Nikmati kemudahan bertransaksi dengan beragam metode bayar di genggaman",
-      btn: "Buka DANA"
-    },
-    en: {
-      title: "A safe and secured digital wallet!",
-      desc: "Simpler transactions for all your needs with various payment methods on fingertips",
-      btn: "Open DANA"
-    }
-  };
+    <!-- Sidebar / Drawer -->
+    <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden backdrop-blur-sm transition-opacity"></div>
+    <aside id="sidebarDrawer" class="fixed inset-y-0 left-0 w-72 bg-[#0d0306] border-r border-ultronBorder z-50 transform -translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- Sidebar Header -->
+        <div class="p-5 border-b border-ultronBorder flex items-center space-x-3 bg-[#130509]">
+            <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-ultronRed shadow-md flex-shrink-0">
+                <img src="https://placehold.co/100x100/130509/ff1a40?text=W" alt="Avatar" class="w-full h-full object-cover">
+            </div>
+            <div class="overflow-hidden">
+                <h3 id="drawerUsername" class="font-bold text-white text-sm truncate">wanzzy</h3>
+                <p id="drawerRole" class="text-xs text-ultronRed font-mono">#Owner - Infinity</p>
+            </div>
+        </div>
+        <!-- Sidebar Menu Items -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-1.5">
+            <a href="#" onclick="switchPage('home'); toggleSidebar();" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-colors text-sm">
+                <i class="fa-solid fa-circle-info w-5 text-ultronRed"></i>
+                <span>Tentang Apps</span>
+            </a>
+            <a href="#" onclick="openAccountModal(); toggleSidebar();" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-colors text-sm">
+                <i class="fa-solid fa-user-gear w-5 text-ultronRed"></i>
+                <span>My Account</span>
+            </a>
+            <a href="#" onclick="showModalBox('Database User', 'Menampilkan total 1 terdaftar aktif di database multiversal.'); toggleSidebar();" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-colors text-sm">
+                <i class="fa-solid fa-database w-5 text-ultronRed"></i>
+                <span>Database User</span>
+            </a>
+            <a href="#" onclick="showModalBox('Seller Page', 'Fitur Seller Center aktif. Hubungi Admin untuk upgrade akses reseller.'); toggleSidebar();" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-colors text-sm">
+                <i class="fa-solid fa-shop w-5 text-ultronRed"></i>
+                <span>Seller Page</span>
+            </a>
+            <a href="#" onclick="showModalBox('Admin Page', 'Akses Admin Panel diberikan penuh kepada akun Developer.'); toggleSidebar();" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-colors text-sm">
+                <i class="fa-solid fa-shield-halved w-5 text-ultronRed"></i>
+                <span>Admin Page</span>
+            </a>
+            <div id="devSidebarMenu" class="hidden pt-2 border-t border-gray-800">
+                <span class="px-3 text-[10px] font-mono text-ultronRed tracking-wider uppercase">Developer Area</span>
+                <a href="#" onclick="switchPage('plugins'); toggleSidebar();" class="mt-1 flex items-center space-x-3 px-3 py-2.5 rounded-xl bg-ultronRed/20 border border-ultronRed/40 text-white transition-colors text-sm">
+                    <i class="fa-solid fa-code-merge w-5 text-ultronRed"></i>
+                    <span>Plugin & Code Manager</span>
+                </a>
+            </div>
+            <div class="pt-2 border-t border-gray-800">
+                <a href="#" onclick="logout(); toggleSidebar();" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-red-500/10 text-red-400 transition-colors text-sm">
+                    <i class="fa-solid fa-right-from-bracket w-5"></i>
+                    <span>Logout System</span>
+                </a>
+            </div>
+        </div>
+        <!-- Credits Footer -->
+        <div class="p-4 border-t border-ultronBorder bg-[#080204] text-xs text-gray-400">
+            <p class="font-bold text-white mb-1"><i class="fa-solid fa-code text-ultronRed mr-1"></i> Credits Developer</p>
+            <p class="text-[11px]">#wanzzy [ Owner ]</p>
+            <a href="#" class="text-ultronRed hover:underline text-[11px] block mt-0.5">@InfinityWanzzy [ My Channels ]</a>
+        </div>
+    </aside>
 
-  const lang = (navigator.language || navigator.userLanguage || 'en').substring(0, 2);
-  const t = translations[lang] || translations['en'];
+    <!-- Main App Container -->
+    <main class="flex-1 pb-24 overflow-y-auto">
 
-  document.getElementById('content-title').textContent = t.title;
-  document.getElementById('content-desc').textContent = t.desc;
-  document.querySelectorAll('button').forEach(btn => {
-    btn.textContent = t.btn;
-  });
+        <!-- PAGE 1: HOME / DASHBOARD -->
+        <div id="page-home" class="page-content p-4 space-y-4 max-w-lg mx-auto">
+            <!-- Welcome Card -->
+            <div class="ultron-card ultron-border rounded-2xl p-5 ultron-gradient relative overflow-hidden shadow-lg">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 rounded-full bg-ultronRed/10 blur-2xl"></div>
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center space-x-2 text-ultronRed font-mono text-xs">
+                        <i class="fa-solid fa-cubes"></i>
+                        <span>WELCOME BACK</span>
+                    </div>
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-ultronRed/20 text-ultronRed border border-ultronRed/30">v5.0 Ultimate</span>
+                </div>
+                <h2 class="text-xl font-black text-white tracking-wide mb-1">INFINITY WANZZY DASHBOARD</h2>
+                <p class="text-xs text-gray-400 leading-relaxed">Sistem multiversal terintegrasi real-time untuk manajemen bot, monitoring, dan plugin fleksibel.</p>
+            </div>
 
-  // Simulate button loaded state after short delay
-  setTimeout(() => {
-    document.querySelectorAll('button').forEach(btn => {
-      const spinner = btn.querySelector('.spinner');
-      if (spinner) spinner.style.display = 'none';
-    });
-  }, 1500);
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 gap-3">
+                <div class="ultron-card ultron-border rounded-xl p-4 ultron-gradient flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center flex-shrink-0 border border-ultronRed/30">
+                        <i class="fa-solid fa-users text-lg"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-400 font-mono uppercase">Online Users</p>
+                        <h4 id="onlineUsersCount" class="text-lg font-bold text-white">1</h4>
+                    </div>
+                </div>
+                <div class="ultron-card ultron-border rounded-xl p-4 ultron-gradient flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center flex-shrink-0 border border-ultronRed/30">
+                        <i class="fa-solid fa-link text-lg"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-400 font-mono uppercase">Connections</p>
+                        <h4 class="text-lg font-bold text-white">1</h4>
+                    </div>
+                </div>
+            </div>
 
-  // Play prank.mp4 audio on button click
-  const audio = new Audio('prank.mp3');
-  audio.preload = 'auto';
+            <!-- Latest News Carousel / Card -->
+            <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-gray-300 font-mono uppercase tracking-wider flex items-center space-x-1">
+                        <i class="fa-solid fa-bolt text-ultronRed"></i>
+                        <span>LATEST NEWS</span>
+                    </span>
+                    <span class="text-[10px] text-ultronRed">Update 5.0</span>
+                </div>
+                <div class="ultron-card ultron-border rounded-2xl overflow-hidden ultron-gradient shadow-lg">
+                    <div class="h-32 bg-gray-900 relative overflow-hidden">
+                        <img src="https://placehold.co/600x300/130509/ff1a40?text=Infinity+Ultron+Core" alt="News" class="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#080204] via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-white text-sm mb-1">Infinity Wanzzy Core Update</h3>
+                        <p class="text-xs text-gray-400">Pembaruan sistem keamanan multiversal dan injeksi plugin runtime tanpa mengubah core case.</p>
+                    </div>
+                </div>
+            </div>
 
-  document.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      audio.currentTime = 0;
-      audio.play().catch(err => console.warn('Audio play failed:', err));
-    });
-  });
-</script>
+            <!-- Account Info Summary Card -->
+            <div class="ultron-card ultron-border rounded-2xl p-4 ultron-gradient space-y-3">
+                <div class="flex items-center space-x-2 text-ultronRed font-mono text-xs">
+                    <i class="fa-solid fa-id-card"></i>
+                    <span>ACCOUNT INFO</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-xs pt-1">
+                    <div class="bg-gray-900/60 p-2.5 rounded-xl border border-gray-800">
+                        <span class="text-gray-400 block text-[10px] font-mono">USERNAME</span>
+                        <span id="summaryUsername" class="font-bold text-white text-sm">wanzzy</span>
+                    </div>
+                    <div class="bg-gray-900/60 p-2.5 rounded-xl border border-gray-800">
+                        <span class="text-gray-400 block text-[10px] font-mono">ROLE</span>
+                        <span id="summaryRole" class="font-bold text-ultronRed text-sm">Owner</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- PAGE 2: TOOLS -->
+        <div id="page-tools" class="page-content p-4 space-y-4 max-w-lg mx-auto hidden">
+            <div class="flex items-center justify-between mb-2">
+                <div>
+                    <h2 class="text-lg font-black text-white uppercase tracking-wide">Misc Tools</h2>
+                    <p class="text-xs text-gray-400">Advanced Security & Utility Suite</p>
+                </div>
+                <span class="text-[10px] font-mono px-2 py-1 rounded bg-ultronRed/20 text-ultronRed border border-ultronRed/30">Owner Access</span>
+            </div>
+
+            <!-- Tool Cards Grid -->
+            <div class="grid grid-cols-2 gap-3">
+                <div onclick="runTool('Spam NGL')" class="ultron-card ultron-border rounded-xl p-4 ultron-gradient hover:border-ultronRed transition-all cursor-pointer group">
+                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center mb-3 group-hover:scale-110 transition-transform border border-ultronRed/30">
+                        <i class="fa-solid fa-paper-plane text-lg"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Spam NGL</h3>
+                    <p class="text-[11px] text-gray-400 mt-0.5">Anonymous Message</p>
+                </div>
+
+                <div onclick="runTool('Fake DANA')" class="ultron-card ultron-border rounded-xl p-4 ultron-gradient hover:border-ultronRed transition-all cursor-pointer group">
+                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center mb-3 group-hover:scale-110 transition-transform border border-ultronRed/30">
+                        <i class="fa-solid fa-wallet text-lg"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Fake DANA</h3>
+                    <p class="text-[11px] text-gray-400 mt-0.5">Generate Saldo</p>
+                </div>
+
+                <div onclick="runTool('Fix Merah')" class="ultron-card ultron-border rounded-xl p-4 ultron-gradient hover:border-ultronRed transition-all cursor-pointer group">
+                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center mb-3 group-hover:scale-110 transition-transform border border-ultronRed/30">
+                        <i class="fa-solid fa-screwdriver-wrench text-lg"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Fix Merah</h3>
+                    <p class="text-[11px] text-gray-400 mt-0.5">Tutorial Fix Red</p>
+                </div>
+
+                <div onclick="runTool('Web Blast')" class="ultron-card ultron-border rounded-xl p-4 ultron-gradient hover:border-ultronRed transition-all cursor-pointer group">
+                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center mb-3 group-hover:scale-110 transition-transform border border-ultronRed/30">
+                        <i class="fa-solid fa-globe text-lg"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Web Blast</h3>
+                    <p class="text-[11px] text-gray-400 mt-0.5">Kumpulan Link</p>
+                </div>
+
+                <div onclick="runTool('NIK Check')" class="ultron-card ultron-border rounded-xl p-4 ultron-gradient hover:border-ultronRed transition-all cursor-pointer group">
+                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center mb-3 group-hover:scale-110 transition-transform border border-ultronRed/30">
+                        <i class="fa-solid fa-id-card text-lg"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">NIK Check</h3>
+                    <p class="text-[11px] text-gray-400 mt-0.5">Cek Data KTP</p>
+                </div>
+
+                <div onclick="runTool('Phone Lookup')" class="ultron-card ultron-border rounded-xl p-4 ultron-gradient hover:border-ultronRed transition-all cursor-pointer group">
+                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center mb-3 group-hover:scale-110 transition-transform border border-ultronRed/30">
+                        <i class="fa-solid fa-phone text-lg"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Phone Lookup</h3>
+                    <p class="text-[11px] text-gray-400 mt-0.5">Cek Nomor Telepon</p>
+                </div>
+            </div>
+
+            <!-- Dynamic Loaded Plugins Container -->
+            <div id="dynamicToolsContainer" class="space-y-3 pt-2">
+                <!-- Plugin injected tools will appear here -->
+            </div>
+        </div>
+
+        <!-- PAGE 3: WHATSAPP / FITUR UTAMA -->
+        <div id="page-whatsapp" class="page-content p-4 space-y-4 max-w-lg mx-auto hidden">
+            <!-- Profile Card -->
+            <div class="ultron-card ultron-border rounded-2xl p-5 ultron-gradient flex items-center space-x-4 shadow-lg">
+                <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-ultronRed flex-shrink-0">
+                    <img src="https://placehold.co/120x120/130509/ff1a40?text=W" alt="Wanzzy" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1">
+                    <h3 id="waProfileName" class="font-bold text-white text-base">wanzzy</h3>
+                    <div class="flex items-center space-x-2 mt-1">
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-ultronRed/20 text-ultronRed border border-ultronRed/30">ROLE : Owner</span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-gray-800 text-gray-300">EXPIRED : Lifetime</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Badak WhatsApp System -->
+            <div class="ultron-card ultron-border rounded-2xl p-5 ultron-gradient space-y-4 shadow-lg">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-green-500/20 text-green-400 flex items-center justify-center border border-green-500/30">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">BADAK WHATSAPP</h4>
+                        <p class="text-[11px] text-green-400 font-mono">Status: Active | Method: 4 Available</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 mb-1">TARGET NUMBER</label>
+                        <input type="text" id="targetNumber" placeholder="628xxxxxxxxxx" class="w-full px-4 py-2.5 bg-gray-900/80 border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 mb-1">SELECT METHOD</label>
+                        <select id="selectMethod" class="w-full px-4 py-2.5 bg-gray-900/80 border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed">
+                            <option value="">Select - Badak</option>
+                            <option value="1">Method 1 - Fast Blast</option>
+                            <option value="2">Method 2 - Ultra Spam</option>
+                            <option value="3">Method 3 - Silent Ping</option>
+                            <option value="4">Method 4 - Multiverse Bomb</option>
+                        </select>
+                    </div>
+                    <button onclick="executeBadakWA()" class="w-full py-3 ultron-red-gradient text-white font-bold rounded-xl shadow-lg hover:opacity-90 active:scale-95 transition-all text-sm flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Let's Go</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 4: PLUGIN & CODE MANAGER (KHUSUS DEV - Wanzzy) -->
+        <div id="page-plugins" class="page-content p-4 space-y-4 max-w-lg mx-auto hidden">
+            <div class="flex items-center justify-between mb-2">
+                <div>
+                    <h2 class="text-lg font-black text-white uppercase tracking-wide">Plugin & Code Manager</h2>
+                    <p class="text-xs text-ultronRed font-mono">Developer Restricted Area (wanzzy)</p>
+                </div>
+                <span class="text-[10px] font-mono px-2 py-1 rounded bg-ultronRed/20 text-ultronRed border border-ultronRed/30">Flexible Core</span>
+            </div>
+
+            <!-- Upload / Input Raw Code & JS File -->
+            <div class="ultron-card ultron-border rounded-2xl p-5 ultron-gradient space-y-4 shadow-lg">
+                <div class="flex items-center space-x-2 text-ultronRed font-mono text-xs">
+                    <i class="fa-solid fa-code-merge"></i>
+                    <span>TAMBAH PLUGIN / FUNGSI BARU (TANPA CASE)</span>
+                </div>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 mb-1">Nama Plugin / Tools</label>
+                        <input type="text" id="pluginName" placeholder="Contoh: Auto Bomber v2" class="w-full px-4 py-2.5 bg-gray-900/80 border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 mb-1">Upload File .js (Opsional)</label>
+                        <input type="file" id="pluginFileJs" accept=".js" class="w-full px-3 py-2 bg-gray-900/80 border border-gray-800 rounded-xl text-xs text-gray-300 file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-ultronRed file:text-white hover:file:opacity-90">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 mb-1">Raw Code (JavaScript / HTML Logic)</label>
+                        <textarea id="pluginRawCode" rows="4" placeholder="// Tuliskan raw code js/html di sini...&#10;console.log('Plugin loaded successfully');" class="w-full px-4 py-2.5 bg-gray-900/80 border border-gray-800 rounded-xl text-xs font-mono text-gray-200 focus:outline-none focus:border-ultronRed"></textarea>
+                    </div>
+                    <button onclick="installPlugin()" class="w-full py-3 ultron-red-gradient text-white font-bold rounded-xl shadow-lg hover:opacity-90 active:scale-95 transition-all text-sm flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-plug-circle-plus"></i>
+                        <span>INSTALL PLUGIN & RENDER</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- List of Installed Plugins -->
+            <div class="space-y-2">
+                <h3 class="text-xs font-bold text-gray-300 font-mono uppercase tracking-wider flex items-center space-x-1">
+                    <i class="fa-solid fa-list-check text-ultronRed"></i>
+                    <span>INSTALLED PLUGINS & SCRIPTS</span>
+                </h3>
+                <div id="installedPluginsList" class="space-y-2">
+                    <!-- Dynamically populated list -->
+                    <div class="ultron-card ultron-border rounded-xl p-3 ultron-gradient flex items-center justify-between text-xs">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-puzzle-piece text-ultronRed"></i>
+                            <div>
+                                <span class="font-bold text-white block">Default Core Plugin</span>
+                                <span class="text-[10px] text-gray-400 font-mono">Status: Active (Runtime OK)</span>
+                            </div>
+                        </div>
+                        <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-[10px]">Loaded</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 5: ANIME / LAINNYA -->
+        <div id="page-anime" class="page-content p-4 space-y-4 max-w-lg mx-auto hidden">
+            <div class="ultron-card ultron-border rounded-2xl p-4 ultron-gradient flex items-center justify-between shadow-lg">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center border border-ultronRed/30">
+                        <i class="fa-solid fa-play text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm">ANIME STATION</h3>
+                        <p class="text-[11px] text-gray-400">Streaming & Database System</p>
+                    </div>
+                </div>
+                <span class="text-[10px] font-mono px-2 py-1 rounded bg-ultronRed/20 text-ultronRed border border-ultronRed/30">Live DB</span>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="relative">
+                <input type="text" placeholder="Cari anime (naruto, One Piece)..." class="w-full pl-4 pr-12 py-3 bg-gray-900/80 border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed">
+                <button class="absolute inset-y-0 right-0 px-4 text-ultronRed hover:text-white">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+
+            <!-- Trending Section -->
+            <div class="space-y-3">
+                <h3 class="text-xs font-bold text-gray-300 font-mono uppercase tracking-wider flex items-center space-x-1">
+                    <i class="fa-solid fa-fire text-ultronRed"></i>
+                    <span>TRENDING NOW</span>
+                </h3>
+                <div class="text-center py-10 space-y-3 ultron-card ultron-border rounded-2xl ultron-gradient">
+                    <i class="fa-solid fa-circle-notch text-3xl text-ultronRed animate-spin"></i>
+                    <p class="text-xs text-gray-400">Sedang Memuat Anime...</p>
+                    <button onclick="showModalBox('Anime Station', 'Database anime berhasil disinkronkan dengan multiversal server.')" class="px-5 py-2 ultron-red-gradient text-white text-xs font-bold rounded-xl shadow-lg">
+                        MEMUAT...
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Navigation Bar (5 Pages) -->
+    <nav class="fixed inset-x-0 bottom-0 bg-[#080204]/95 backdrop-blur-md border-t border-ultronBorder py-2 px-4 z-30 max-w-lg mx-auto flex items-center justify-around">
+        <button onclick="switchPage('home')" id="nav-home" class="nav-btn flex flex-col items-center space-y-1 text-ultronRed transition-colors">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span class="text-[10px] font-medium">Home</span>
+        </button>
+        <button onclick="switchPage('whatsapp')" id="nav-whatsapp" class="nav-btn flex flex-col items-center space-y-1 text-gray-400 hover:text-ultronRed transition-colors">
+            <i class="fa-brands fa-whatsapp text-lg"></i>
+            <span class="text-[10px] font-medium">WhatsApp</span>
+        </button>
+        <button onclick="switchPage('tools')" id="nav-tools" class="nav-btn flex flex-col items-center space-y-1 text-gray-400 hover:text-ultronRed transition-colors">
+            <i class="fa-solid fa-screwdriver-wrench text-lg"></i>
+            <span class="text-[10px] font-medium">Tools</span>
+        </button>
+        <button onclick="switchPage('plugins')" id="nav-plugins" class="nav-btn flex flex-col items-center space-y-1 text-gray-400 hover:text-ultronRed transition-colors hidden">
+            <i class="fa-solid fa-code-merge text-lg"></i>
+            <span class="text-[10px] font-medium">Plugins</span>
+        </button>
+        <button onclick="switchPage('anime')" id="nav-anime" class="nav-btn flex flex-col items-center space-y-1 text-gray-400 hover:text-ultronRed transition-colors">
+            <i class="fa-solid fa-film text-lg"></i>
+            <span class="text-[10px] font-medium">Anime</span>
+        </button>
+    </nav>
+
+    <!-- Custom Modal Box (Instead of alert) -->
+    <div id="customModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="ultron-card ultron-border rounded-2xl p-6 w-full max-w-xs ultron-gradient text-center space-y-4 shadow-2xl">
+            <div class="w-12 h-12 rounded-full bg-ultronRed/20 text-ultronRed mx-auto flex items-center justify-center border border-ultronRed/30">
+                <i id="modalIcon" class="fa-solid fa-circle-exclamation text-xl"></i>
+            </div>
+            <div>
+                <h3 id="modalTitle" class="font-bold text-white text-base mb-1">Informasi</h3>
+                <p id="modalMessage" class="text-xs text-gray-300 leading-relaxed">Pesan sistem...</p>
+            </div>
+            <button onclick="closeModalBox()" class="w-full py-2.5 ultron-red-gradient text-white font-bold rounded-xl text-xs shadow-lg">
+                TUTUP
+            </button>
+        </div>
+    </div>
+
+    <!-- Account Details Modal -->
+    <div id="accountModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="ultron-card ultron-border rounded-2xl p-6 w-full max-w-sm ultron-gradient space-y-4 shadow-2xl relative">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+                <div class="flex items-center space-x-2 text-ultronRed font-mono text-xs">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>PROFILE CARD</span>
+                </div>
+                <button onclick="closeAccountModal()" class="text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="space-y-3 font-mono text-xs text-gray-300 bg-gray-900/60 p-4 rounded-xl border border-gray-800">
+                <p><span class="text-ultronRed">></span> <span class="text-gray-400">const</span> username : <span id="accModalUser" class="text-white">wanzzy</span>;</p>
+                <p><span class="text-ultronRed">></span> <span class="text-gray-400">const</span> password : <span class="text-white">******</span>;</p>
+                <p><span class="text-ultronRed">></span> <span class="text-gray-400">const</span> role     : <span id="accModalRole" class="text-ultronRed">Owner</span>;</p>
+                <p><span class="text-ultronRed">></span> <span class="text-gray-400">const</span> expired  : <span class="text-white">Lifetime</span>;</p>
+            </div>
+            <button onclick="closeAccountModal(); showModalBox('Security', 'Password akun dev terenkripsi aman.');" class="w-full py-2.5 ultron-red-gradient text-white font-bold rounded-xl text-xs shadow-lg flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-key"></i>
+                <span>Change Password</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Global State & User Data
+        let currentUser = {
+            username: 'wanzzy',
+            role: 'Owner',
+            isDev: true
+        };
+
+        let isLoginMode = false;
+
+        // 1. Loading Screen Simulator
+        window.addEventListener('DOMContentLoaded', () => {
+            let progress = 0;
+            const progressBar = document.getElementById('loadProgress');
+            const progressPercent = document.getElementById('loadPercent');
+            const loadingScreen = document.getElementById('loadingScreen');
+
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 15) + 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            checkAuthSession();
+                        }, 500);
+                    }, 400);
+                }
+                progressBar.style.width = progress + '%';
+                progressPercent.textContent = progress + '%';
+            }, 120);
+
+            // Initialize Real-time Status & Clock
+            initStatusClock();
+            initBatteryMonitor();
+            initNetworkMonitor();
+        });
+
+        // 2. Auth Session Check
+        function checkAuthSession() {
+            const savedUser = localStorage.getItem('infinity_wanzzy_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                applyUserSession();
+            } else {
+                // Show Auth Modal for login/register
+                document.getElementById('authModal').classList.remove('hidden');
+            }
+        }
+
+        function handleAuth(event) {
+            event.preventDefault();
+            const usernameInput = document.getElementById('authUsername').value.trim();
+            const passwordInput = document.getElementById('authPassword').value;
+
+            if (!isLoginMode) {
+                // Register Mode
+                currentUser = {
+                    username: usernameInput,
+                    role: (usernameInput.toLowerCase() === 'wanzzy') ? 'Owner' : 'Member',
+                    isDev: (usernameInput.toLowerCase() === 'wanzzy')
+                };
+            } else {
+                // Login Mode
+                if (usernameInput === 'wanzzy' && passwordInput === 'wanzzy41') {
+                    currentUser = { username: 'wanzzy', role: 'Owner', isDev: true };
+                } else {
+                    currentUser = { username: usernameInput, role: 'User', isDev: (usernameInput.toLowerCase() === 'wanzzy') };
+                }
+            }
+
+            localStorage.setItem('infinity_wanzzy_user', JSON.stringify(currentUser));
+            document.getElementById('authModal').classList.add('hidden');
+            applyUserSession();
+            showModalBox('Berhasil Masuk', `Selamat datang kembali, ${currentUser.username}! Sistem multiversal aktif.`);
+        }
+
+        function applyUserSession() {
+            document.getElementById('summaryUsername').textContent = currentUser.username;
+            document.getElementById('summaryRole').textContent = currentUser.role;
+            document.getElementById('drawerUsername').textContent = currentUser.username;
+            document.getElementById('drawerRole').textContent = '#' + currentUser.role + ' - Infinity';
+            document.getElementById('waProfileName').textContent = currentUser.username;
+            document.getElementById('accModalUser').textContent = currentUser.username;
+            document.getElementById('accModalRole').textContent = currentUser.role;
+
+            // Show or hide dev menu
+            if (currentUser.isDev) {
+                document.getElementById('devSidebarMenu').classList.remove('hidden');
+                document.getElementById('nav-plugins').classList.remove('hidden');
+            } else {
+                document.getElementById('devSidebarMenu').classList.add('hidden');
+                document.getElementById('nav-plugins').classList.add('hidden');
+            }
+        }
+
+        function fillDevCredentials() {
+            document.getElementById('authUsername').value = 'wanzzy';
+            document.getElementById('authPassword').value = 'wanzzy41';
+        }
+
+        function switchAuthMode() {
+            isLoginMode = !isLoginMode;
+            const title = document.getElementById('authTitle');
+            const subtitle = document.getElementById('authSubtitle');
+            const toggle = document.getElementById('authToggleMode');
+            if (isLoginMode) {
+                title.textContent = 'MASUK AKUN';
+                subtitle.textContent = 'Gunakan kredensial terdaftar (wanzzy / wanzzy41)';
+                toggle.textContent = 'Belum punya akun? Daftar';
+            } else {
+                title.textContent = 'INFINITY WANZZY';
+                subtitle.textContent = 'Daftar akun baru multiversal';
+                toggle.textContent = 'Sudah punya akun? Masuk';
+            }
+        }
+
+        function togglePassword() {
+            const passField = document.getElementById('authPassword');
+            const icon = document.getElementById('eyeIcon');
+            if (passField.type === 'password') {
+                passField.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passField.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('infinity_wanzzy_user');
+            location.reload();
+        }
+
+        // 3. Navigation between 5 Pages
+        function switchPage(pageId) {
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(p => p.classList.add('hidden'));
+
+            const targetPage = document.getElementById('page-' + pageId);
+            if (targetPage) targetPage.classList.remove('hidden');
+
+            // Update bottom navigation active styles
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('text-ultronRed');
+                btn.classList.add('text-gray-400');
+            });
+
+            const activeNav = document.getElementById('nav-' + pageId);
+            if (activeNav) {
+                activeNav.classList.remove('text-gray-400');
+                activeNav.classList.add('text-ultronRed');
+            }
+
+            // Update Header Title
+            const titles = {
+                'home': 'Dashboard',
+                'tools': 'Tools',
+                'whatsapp': 'WhatsApp System',
+                'plugins': 'Plugin Manager',
+                'anime': 'Anime Station'
+            };
+            document.getElementById('headerTitle').textContent = titles[pageId] || 'Dashboard';
+        }
+
+        // 4. Sidebar Drawer Control
+        function toggleSidebar() {
+            const drawer = document.getElementById('sidebarDrawer');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (drawer.classList.contains('-translate-x-full')) {
+                drawer.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                drawer.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        // 5. Status Bar: Clock, Battery, Network
+        function initStatusClock() {
+            function updateClock() {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                document.getElementById('realTimeClock').textContent = `${hours}:${minutes}`;
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+
+        function initBatteryMonitor() {
+            if ('getBattery' in navigator) {
+                navigator.getBattery().then(battery => {
+                    updateBatteryStatus(battery);
+                    battery.addEventListener('levelchange', () => updateBatteryStatus(battery));
+                    battery.addEventListener('chargingchange', () => updateBatteryStatus(battery));
+                });
+            } else {
+                // Fallback simulation
+                document.getElementById('batteryText').textContent = '85%';
+            }
+        }
+
+        function updateBatteryStatus(battery) {
+            const level = Math.round(battery.level * 100);
+            document.getElementById('batteryText').textContent = level + '%';
+            const icon = document.getElementById('batteryIcon');
+            if (battery.charging) {
+                icon.className = 'fa-solid fa-bolt text-ultronRed text-[10px]';
+            } else if (level > 75) {
+                icon.className = 'fa-solid fa-battery-full text-ultronRed text-[10px]';
+            } else if (level > 40) {
+                icon.className = 'fa-solid fa-battery-half text-ultronRed text-[10px]';
+            } else {
+                icon.className = 'fa-solid fa-battery-quarter text-ultronRed text-[10px]';
+            }
+        }
+
+        function initNetworkMonitor() {
+            const indicator = document.getElementById('netStatusIndicator');
+            const netText = document.getElementById('netText');
+            const netIcon = document.getElementById('netIcon');
+
+            function updateNetworkStatus() {
+                if (navigator.onLine) {
+                    indicator.className = 'flex items-center space-x-1 px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/30';
+                    netText.textContent = 'Online';
+                    netIcon.className = 'fa-solid fa-wifi text-[10px]';
+                } else {
+                    indicator.className = 'flex items-center space-x-1 px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 border border-red-500/30';
+                    netText.textContent = 'Offline';
+                    netIcon.className = 'fa-solid fa-triangle-exclamation text-[10px]';
+                }
+            }
+
+            window.addEventListener('online', updateNetworkStatus);
+            window.addEventListener('offline', updateNetworkStatus);
+            updateNetworkStatus();
+        }
+
+        // 6. Modal Box Utility
+        function showModalBox(title, message) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalMessage').textContent = message;
+            document.getElementById('customModal').classList.remove('hidden');
+        }
+
+        function closeModalBox() {
+            document.getElementById('customModal').classList.add('hidden');
+        }
+
+        function openAccountModal() {
+            document.getElementById('accountModal').classList.remove('hidden');
+        }
+
+        function closeAccountModal() {
+            document.getElementById('accountModal').classList.add('hidden');
+        }
+
+        // 7. Tool Execution & Dynamic Plugin Installer
+        function runTool(toolName) {
+            showModalBox(toolName, `Menjalankan modul ${toolName} melalui sistem keamanan Infinity Wanzzy... Berhasil.`);
+        }
+
+        function executeBadakWA() {
+            const target = document.getElementById('targetNumber').value;
+            const method = document.getElementById('selectMethod').value;
+            if (!target || !method) {
+                showModalBox('Peringatan', 'Harap isi nomor target dan pilih metode Badak WhatsApp terlebih dahulu!');
+                return;
+            }
+            showModalBox('Badak WhatsApp', `Eksekusi berhasil dikirim ke target: ${target} menggunakan Metode ${method}.`);
+        }
+
+        // Plugin & Raw Code Installer tanpa mengubah core case
+        function installPlugin() {
+            const name = document.getElementById('pluginName').value.trim();
+            const rawCode = document.getElementById('pluginRawCode').value.trim();
+            const fileInput = document.getElementById('pluginFileJs');
+
+            if (!name) {
+                showModalBox('Error', 'Nama plugin atau tools wajib diisi!');
+                return;
+            }
+
+            let jsContent = rawCode;
+            if (fileInput.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    jsContent += '\n' + e.target.result;
+                    registerPluginToList(name, jsContent);
+                };
+                reader.readAsText(fileInput.files[0]);
+            } else {
+                registerPluginToList(name, jsContent);
+            }
+        }
+
+        function registerPluginToList(name, code) {
+            // Tambahkan ke UI Installed Plugins
+            const listContainer = document.getElementById('installedPluginsList');
+            const pluginId = 'plugin_' + Date.now();
+
+            const pluginCard = document.createElement('div');
+            pluginCard.className = 'ultron-card ultron-border rounded-xl p-3 ultron-gradient flex items-center justify-between text-xs';
+            pluginCard.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-puzzle-piece text-ultronRed"></i>
+                    <div>
+                        <span class="font-bold text-white block">${name}</span>
+                        <span class="text-[10px] text-gray-400 font-mono">Status: Active & Injected</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-[10px]">Active</span>
+                    <button onclick="removePlugin('${pluginId}')" class="text-red-400 hover:text-red-300 p-1"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `;
+            pluginCard.id = pluginId;
+            listContainer.appendChild(pluginCard);
+
+            // Tambahkan card ke halaman Tools secara dinamis
+            const toolsContainer = document.getElementById('dynamicToolsContainer');
+            const toolCard = document.createElement('div');
+            toolCard.className = 'ultron-card ultron-border rounded-xl p-4 ultron-gradient hover:border-ultronRed transition-all cursor-pointer group';
+            toolCard.id = 'tool_' + pluginId;
+            toolCard.onclick = () => {
+                try {
+                    // Eksekusi raw code secara fleksibel aman
+                    if (code) {
+                        const runScript = new Function(code);
+                        runScript();
+                    } else {
+                        showModalBox(name, 'Plugin berjalan dengan sukses tanpa mengubah core case.');
+                    }
+                } catch(err) {
+                    showModalBox('Plugin Error', 'Gagal mengeksekusi raw code: ' + err.message);
+                }
+            };
+            toolCard.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center group-hover:scale-110 transition-transform border border-ultronRed/30">
+                        <i class="fa-solid fa-bolt text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-sm">${name}</h3>
+                        <p class="text-[11px] text-ultronRed font-mono">Custom Injected Plugin</p>
+                    </div>
+                </div>
+            `;
+            toolsContainer.appendChild(toolCard);
+
+            // Reset Form
+            document.getElementById('pluginName').value = '';
+            document.getElementById('pluginRawCode').value = '';
+            document.getElementById('pluginFileJs').value = '';
+
+            showModalBox('Berhasil', `Plugin "${name}" berhasil diinstal dan di-render ke halaman Tools secara fleksibel!`);
+        }
+
+        function removePlugin(id) {
+            const pluginCard = document.getElementById(id);
+            const toolCard = document.getElementById('tool_' + id);
+            if (pluginCard) pluginCard.remove();
+            if (toolCard) toolCard.remove();
+            showModalBox('Dihapus', 'Plugin berhasil dihapus dari sistem.');
+        }
+    </script>
 </body>
 </html>
