@@ -2,14 +2,18 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Infinity Wanzzy Dashboard</title>
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -19,940 +23,941 @@
                         ultronDark: '#080204',
                         ultronCard: '#130509',
                         ultronBorder: '#ff1a4055',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
+
     <style>
         body {
-            font-family: 'Inter', sans-serif;
             background-color: #080204;
             color: #f3f4f6;
             overflow-x: hidden;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
-        /* Custom Glowing & Glassmorphism */
-        .ultron-glow {
-            box-shadow: 0 0 20px rgba(255, 26, 64, 0.4);
-        }
-        .ultron-border {
-            border: 1px solid rgba(255, 26, 64, 0.3);
-        }
-        .ultron-gradient {
-            background: linear-gradient(135deg, #130509 0%, #1f080d 50%, #080204 100%);
-        }
-        .ultron-red-gradient {
-            background: linear-gradient(135deg, #ff1a40 0%, #b91c1c 100%);
-        }
+        
+        /* Custom UI Elements */
+        .ultron-glow { box-shadow: 0 0 20px rgba(255, 26, 64, 0.4); }
+        .ultron-border { border: 1px solid rgba(255, 26, 64, 0.3); }
+        .ultron-gradient { background: linear-gradient(135deg, #130509 0%, #1f080d 50%, #080204 100%); }
+        .ultron-red-gradient { background: linear-gradient(135deg, #ff1a40 0%, #991026 100%); }
+        .glass-panel { background: rgba(19, 5, 9, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 26, 64, 0.2); }
+        
         /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #080204;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #ff1a40;
-            border-radius: 2px;
-        }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #080204; }
+        ::-webkit-scrollbar-thumb { background: #ff1a40; border-radius: 2px; }
+        
+        /* Animations */
         @keyframes pulseGlow {
-            0%, 100% { opacity: 0.8; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.02); filter: drop-shadow(0 0 15px #ff1a40); }
+            0%, 100% { opacity: 0.8; transform: scale(1); box-shadow: 0 0 15px rgba(255, 26, 64, 0.5); }
+            50% { opacity: 1; transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 26, 64, 0.9); }
         }
-        .animate-ultron {
-            animation: pulseGlow 3s infinite ease-in-out;
-        }
+        .animate-ultron-core { animation: pulseGlow 2.5s infinite ease-in-out; }
+        
+        /* Page Transition */
+        .page-content { display: none; animation: fadeIn 0.3s ease-out forwards; }
+        .page-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="min-h-screen flex flex-col relative">
+<body class="min-h-screen flex flex-col relative pb-24">
 
-    <!-- Loading Screen (Infinity Ultron Cosmic Theme) -->
-    <div id="loadingScreen" class="fixed inset-0 z-50 bg-[#040102] flex flex-col items-center justify-center transition-opacity duration-700">
+    <div id="loadingScreen" class="fixed inset-0 z-[100] bg-[#040102] flex flex-col items-center justify-center transition-opacity duration-700">
         <div class="relative flex flex-col items-center">
-            <!-- Cosmic glowing circle -->
-            <div class="w-32 h-32 rounded-full ultron-red-gradient animate-ultron flex items-center justify-center shadow-2xl relative mb-6">
-                <div class="absolute inset-2 bg-[#080204] rounded-full flex items-center justify-center">
-                    <i class="fa-solid fa-atom text-5xl text-ultronRed animate-spin" style="animation-duration: 8s;"></i>
+            <div class="w-36 h-36 rounded-full ultron-red-gradient animate-ultron-core flex items-center justify-center shadow-2xl relative mb-8">
+                <div class="absolute inset-2 bg-[#080204] rounded-full flex items-center justify-center overflow-hidden">
+                    <div class="w-full h-full border-4 border-ultronRed rounded-full border-t-transparent border-b-transparent animate-spin" style="animation-duration: 3s;"></div>
+                    <i class="fa-solid fa-infinity text-6xl text-ultronRed absolute drop-shadow-[0_0_10px_#ff1a40]"></i>
                 </div>
             </div>
-            <h1 class="text-2xl font-black tracking-widest text-white mb-2 uppercase drop-shadow-[0_0_10px_#ff1a40]">Infinity Wanzzy</h1>
-            <p class="text-xs text-ultronRed font-mono tracking-widest uppercase mb-6">Multiversal Core Loading...</p>
-            <!-- Progress Bar -->
-            <div class="w-64 h-1.5 bg-gray-900 rounded-full overflow-hidden border border-ultronRed/30">
-                <div id="loadProgress" class="h-full ultron-red-gradient w-0 transition-all duration-300"></div>
+            <h1 class="text-3xl font-black tracking-[0.2em] text-white mb-2 uppercase drop-shadow-[0_0_15px_#ff1a40]">INFINITY</h1>
+            <h2 class="text-xl font-bold tracking-[0.3em] text-ultronRed mb-8 uppercase">Wanzzy</h2>
+            <p class="text-xs text-gray-400 font-mono tracking-widest uppercase mb-3">Initializing Multiversal Core...</p>
+            
+            <div class="w-72 h-1.5 bg-gray-900 rounded-full overflow-hidden border border-ultronRed/30 relative">
+                <div id="loadProgress" class="absolute top-0 left-0 h-full ultron-red-gradient w-0 transition-all duration-300 ease-out"></div>
             </div>
-            <span id="loadPercent" class="text-xs text-gray-400 font-mono mt-2">0%</span>
+            <span id="loadPercent" class="text-xs text-ultronRed font-mono mt-3 font-bold">0%</span>
         </div>
     </div>
 
-    <!-- Authentication Modal -->
-    <div id="authModal" class="fixed inset-0 z-40 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="ultron-card ultron-border rounded-2xl p-6 w-full max-w-sm ultron-gradient relative">
-            <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 w-20 h-20 rounded-full ultron-red-gradient flex items-center justify-center shadow-lg border-2 border-ultronRed">
-                <i class="fa-solid fa-user-shield text-3xl text-white"></i>
-            </div>
-            <div class="mt-10 text-center mb-6">
-                <h2 id="authTitle" class="text-xl font-bold text-white tracking-wider">INFINITY WANZZY</h2>
-                <p id="authSubtitle" class="text-xs text-gray-400 mt-1">Masuk untuk mengakses sistem multiversal</p>
+    <div id="authModal" class="fixed inset-0 z-[90] bg-black/95 backdrop-blur-xl hidden flex items-center justify-center p-4">
+        <div class="ultron-card ultron-border rounded-2xl p-6 w-full max-w-sm ultron-gradient relative overflow-hidden shadow-[0_0_40px_rgba(255,26,64,0.2)]">
+            <div class="absolute -top-16 -right-16 w-32 h-32 bg-ultronRed/20 rounded-full blur-3xl"></div>
+            
+            <div class="flex flex-col items-center mb-6 pt-4">
+                <div class="w-16 h-16 rounded-full ultron-red-gradient flex items-center justify-center shadow-lg border border-ultronRed mb-4 animate-ultron-core">
+                    <i class="fa-solid fa-fingerprint text-2xl text-white"></i>
+                </div>
+                <h2 class="text-xl font-black text-white tracking-widest uppercase text-center">SYSTEM LOGIN</h2>
             </div>
 
-            <form id="authForm" onsubmit="handleAuth(event)" class="space-y-4">
+            <form id="authForm" class="space-y-4 relative z-10">
                 <div>
-                    <label class="block text-xs font-medium text-gray-300 mb-1">Username</label>
+                    <label class="block text-[10px] font-bold text-ultronRed mb-1 tracking-wider uppercase">Username</label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-ultronRed"><i class="fa-solid fa-user"></i></span>
-                        <input type="text" id="authUsername" required placeholder="Masukkan username" class="w-full pl-10 pr-4 py-2.5 bg-gray-900/80 border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed transition-colors">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500"><i class="fa-solid fa-user"></i></span>
+                        <input type="text" id="authUsername" required placeholder="Enter username" class="w-full pl-10 pr-4 py-3 bg-[#0d0306] border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed focus:ring-1 focus:ring-ultronRed transition-all shadow-inner">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-gray-300 mb-1">Password</label>
+                    <label class="block text-[10px] font-bold text-ultronRed mb-1 tracking-wider uppercase">Password</label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-ultronRed"><i class="fa-solid fa-lock"></i></span>
-                        <input type="password" id="authPassword" required placeholder="Masukkan password" class="w-full pl-10 pr-10 py-2.5 bg-gray-900/80 border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed transition-colors">
-                        <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" id="authPassword" required placeholder="Enter password" class="w-full pl-10 pr-10 py-3 bg-[#0d0306] border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed focus:ring-1 focus:ring-ultronRed transition-all shadow-inner">
+                        <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-ultronRed transition-colors">
                             <i id="eyeIcon" class="fa-solid fa-eye"></i>
                         </button>
                     </div>
                 </div>
-                <div class="pt-2">
-                    <button type="submit" class="w-full py-3 ultron-red-gradient text-white font-bold rounded-xl shadow-lg hover:opacity-90 active:scale-95 transition-all text-sm tracking-wide">
-                        MASUK SISTEM
+                <div class="pt-4">
+                    <button type="submit" class="w-full py-3 ultron-red-gradient text-white font-black rounded-xl shadow-[0_0_15px_rgba(255,26,64,0.4)] hover:shadow-[0_0_25px_rgba(255,26,64,0.6)] active:scale-95 transition-all text-sm tracking-widest uppercase border border-[#ff1a40]">
+                        INITIALIZE
                     </button>
-                </div>
-                <div class="flex items-center justify-between text-xs pt-2 text-gray-400">
-                    <button type="button" onclick="fillDevCredentials()" class="text-ultronRed hover:underline">Gunakan Akun Dev (`wanzzy`)</button>
-                    <span id="authToggleMode" class="cursor-pointer hover:text-white" onclick="switchAuthMode()">Daftar Akun</span>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Status Bar (Real-time Clock, Battery, Network Status) -->
-    <header class="w-full bg-[#080204]/90 backdrop-blur-md border-b border-ultronBorder px-4 py-2.5 flex items-center justify-between sticky top-0 z-30">
-        <div class="flex items-center space-x-3">
-            <button onclick="toggleSidebar()" class="text-white hover:text-ultronRed transition-colors p-1">
-                <i class="fa-solid fa-bars text-lg"></i>
-            </button>
-            <div class="flex items-center space-x-2">
-                <div class="w-2.5 h-2.5 rounded-full bg-ultronRed animate-pulse"></div>
-                <span class="font-bold text-sm tracking-wider text-white" id="headerTitle">Dashboard</span>
+    <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/80 z-[60] hidden backdrop-blur-sm transition-opacity"></div>
+    <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-[#080204] border-r border-ultronBorder z-[70] transform -translate-x-full transition-transform duration-300 flex flex-col shadow-[0_0_30px_rgba(255,26,64,0.1)]">
+        <div class="p-6 border-b border-gray-800 bg-gradient-to-b from-[#130509] to-[#080204] relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-ultronRed/10 blur-2xl rounded-full"></div>
+            <div class="flex items-center space-x-4 relative z-10">
+                <img src="https://placehold.co/150x150/130509/ff1a40?text=U" alt="Avatar" class="user-avatar w-14 h-14 rounded-full border-2 border-ultronRed shadow-[0_0_10px_rgba(255,26,64,0.3)] object-cover">
+                <div>
+                    <h3 class="font-bold text-white text-sm flex items-center">
+                        <span class="user-name">User</span>
+                        <span class="user-verified ml-1 hidden text-blue-500 text-[10px]"><i class="fa-solid fa-circle-check"></i></span>
+                    </h3>
+                    <p class="user-role text-[10px] font-mono text-ultronRed uppercase tracking-wider mt-1 border border-ultronRed/30 px-2 py-0.5 rounded inline-block bg-ultronRed/10">Member</p>
+                </div>
             </div>
         </div>
+        <div class="flex-1 overflow-y-auto p-4 space-y-2">
+            <button onclick="switchTab('home'); toggleSidebar()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-all text-sm font-medium">
+                <i class="fa-solid fa-house w-5 text-ultronRed text-center"></i> <span>Dashboard</span>
+            </button>
+            <button onclick="switchTab('profile'); toggleSidebar()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-all text-sm font-medium">
+                <i class="fa-solid fa-user-gear w-5 text-ultronRed text-center"></i> <span>My Account</span>
+            </button>
+            <button onclick="showMsg('Database Access', 'Total data terenkripsi: 13,042 records.'); toggleSidebar()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-all text-sm font-medium">
+                <i class="fa-solid fa-database w-5 text-ultronRed text-center"></i> <span>Database User</span>
+            </button>
+            
+            <div id="devSidebarMenu" class="hidden pt-4 mt-2 border-t border-gray-800">
+                <span class="px-4 text-[10px] font-mono text-ultronRed tracking-widest uppercase block mb-2">Dev Tools</span>
+                <button onclick="switchTab('plugins'); toggleSidebar()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl bg-ultronRed/10 border border-ultronRed/30 text-white hover:bg-ultronRed/20 transition-all text-sm font-medium">
+                    <i class="fa-solid fa-code w-5 text-ultronRed text-center"></i> <span>Plugin Manager</span>
+                </button>
+            </div>
+            
+            <div class="pt-4 mt-2 border-t border-gray-800">
+                <button onclick="logout()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-red-500/10 text-red-400 transition-all text-sm font-medium">
+                    <i class="fa-solid fa-right-from-bracket w-5 text-center"></i> <span>Logout System</span>
+                </button>
+            </div>
+        </div>
+    </aside>
 
-        <!-- Right Status Indicators -->
-        <div class="flex items-center space-x-3 text-xs text-gray-300 font-mono">
-            <!-- Network Status -->
-            <div id="netStatusIndicator" class="flex items-center space-x-1 px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/30">
-                <i id="netIcon" class="fa-solid fa-wifi text-[10px]"></i>
-                <span id="netText" class="text-[10px] font-semibold">Online</span>
+    <header class="w-full bg-[#080204]/90 backdrop-blur-lg border-b border-ultronBorder px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+        <div class="flex items-center space-x-3">
+            <button onclick="toggleSidebar()" class="text-white hover:text-ultronRed transition-colors p-1">
+                <i class="fa-solid fa-bars-staggered text-lg"></i>
+            </button>
+            <div>
+                <h1 class="font-bold text-sm tracking-widest text-white uppercase flex items-center space-x-1" id="headerTitle">
+                    <span>DASHBOARD</span>
+                </h1>
+                <p class="text-[9px] text-gray-400 font-mono tracking-wider">INFINITY WANZZY CORE</p>
             </div>
-            <!-- Battery Indicator -->
-            <div class="flex items-center space-x-1 px-2 py-0.5 rounded-full bg-gray-900 border border-gray-800">
-                <i id="batteryIcon" class="fa-solid fa-battery-three-quarters text-ultronRed text-[10px]"></i>
-                <span id="batteryText" class="text-[10px]">--%</span>
+        </div>
+        <div class="flex items-center space-x-2.5 text-[10px] font-mono">
+            <div id="netStatus" class="flex items-center space-x-1.5 px-2 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20 shadow-inner">
+                <i id="netIcon" class="fa-solid fa-wifi"></i>
+                <span id="netText" class="font-bold">ON</span>
             </div>
-            <!-- Clock -->
-            <div id="realTimeClock" class="font-bold text-white text-xs">
+            <div class="flex items-center space-x-1.5 px-2 py-1 rounded bg-[#130509] text-gray-300 border border-gray-800 shadow-inner">
+                <i id="batteryIcon" class="fa-solid fa-battery-three-quarters text-ultronRed"></i>
+                <span id="batteryText" class="font-bold">--%</span>
+            </div>
+            <div id="realTimeClock" class="font-bold text-white bg-ultronRed/20 px-2 py-1 rounded border border-ultronRed/30 shadow-[0_0_8px_rgba(255,26,64,0.3)]">
                 00:00
             </div>
         </div>
     </header>
 
-    <!-- Sidebar / Drawer -->
-    <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-40 hidden backdrop-blur-sm transition-opacity"></div>
-    <aside id="sidebarDrawer" class="fixed inset-y-0 left-0 w-72 bg-[#0d0306] border-r border-ultronBorder z-50 transform -translate-x-full transition-transform duration-300 flex flex-col">
-        <!-- Sidebar Header -->
-        <div class="p-5 border-b border-ultronBorder flex items-center space-x-3 bg-[#130509]">
-            <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-ultronRed shadow-md flex-shrink-0">
-                <img src="https://placehold.co/100x100/130509/ff1a40?text=W" alt="Avatar" class="w-full h-full object-cover">
-            </div>
-            <div class="overflow-hidden">
-                <h3 id="drawerUsername" class="font-bold text-white text-sm truncate">wanzzy</h3>
-                <p id="drawerRole" class="text-xs text-ultronRed font-mono">#Owner - Infinity</p>
-            </div>
-        </div>
-        <!-- Sidebar Menu Items -->
-        <div class="flex-1 overflow-y-auto p-4 space-y-1.5">
-            <a href="#" onclick="switchPage('home'); toggleSidebar();" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-colors text-sm">
-                <i class="fa-solid fa-circle-info w-5 text-ultronRed"></i>
-                <span>Tentang Apps</span>
-            </a>
-            <a href="#" onclick="openAccountModal(); toggleSidebar();" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-colors text-sm">
-                <i class="fa-solid fa-user-gear w-5 text-ultronRed"></i>
-                <span>My Account</span>
-            </a>
-            <a href="#" onclick="showModalBox('Database User', 'Menampilkan total 1 terdaftar aktif di database multiversal.'); toggleSidebar();" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-colors text-sm">
-                <i class="fa-solid fa-database w-5 text-ultronRed"></i>
-                <span>Database User</span>
-            </a>
-            <a href="#" onclick="showModalBox('Seller Page', 'Fitur Seller Center aktif. Hubungi Admin untuk upgrade akses reseller.'); toggleSidebar();" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-colors text-sm">
-                <i class="fa-solid fa-shop w-5 text-ultronRed"></i>
-                <span>Seller Page</span>
-            </a>
-            <a href="#" onclick="showModalBox('Admin Page', 'Akses Admin Panel diberikan penuh kepada akun Developer.'); toggleSidebar();" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-colors text-sm">
-                <i class="fa-solid fa-shield-halved w-5 text-ultronRed"></i>
-                <span>Admin Page</span>
-            </a>
-            <div id="devSidebarMenu" class="hidden pt-2 border-t border-gray-800">
-                <span class="px-3 text-[10px] font-mono text-ultronRed tracking-wider uppercase">Developer Area</span>
-                <a href="#" onclick="switchPage('plugins'); toggleSidebar();" class="mt-1 flex items-center space-x-3 px-3 py-2.5 rounded-xl bg-ultronRed/20 border border-ultronRed/40 text-white transition-colors text-sm">
-                    <i class="fa-solid fa-code-merge w-5 text-ultronRed"></i>
-                    <span>Plugin & Code Manager</span>
-                </a>
-            </div>
-            <div class="pt-2 border-t border-gray-800">
-                <a href="#" onclick="logout(); toggleSidebar();" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-red-500/10 text-red-400 transition-colors text-sm">
-                    <i class="fa-solid fa-right-from-bracket w-5"></i>
-                    <span>Logout System</span>
-                </a>
-            </div>
-        </div>
-        <!-- Credits Footer -->
-        <div class="p-4 border-t border-ultronBorder bg-[#080204] text-xs text-gray-400">
-            <p class="font-bold text-white mb-1"><i class="fa-solid fa-code text-ultronRed mr-1"></i> Credits Developer</p>
-            <p class="text-[11px]">#wanzzy [ Owner ]</p>
-            <a href="#" class="text-ultronRed hover:underline text-[11px] block mt-0.5">@InfinityWanzzy [ My Channels ]</a>
-        </div>
-    </aside>
+    <main class="flex-1 w-full max-w-md mx-auto p-4 pb-24">
 
-    <!-- Main App Container -->
-    <main class="flex-1 pb-24 overflow-y-auto">
-
-        <!-- PAGE 1: HOME / DASHBOARD -->
-        <div id="page-home" class="page-content p-4 space-y-4 max-w-lg mx-auto">
-            <!-- Welcome Card -->
-            <div class="ultron-card ultron-border rounded-2xl p-5 ultron-gradient relative overflow-hidden shadow-lg">
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 rounded-full bg-ultronRed/10 blur-2xl"></div>
-                <div class="flex items-center justify-between mb-3">
-                    <div class="flex items-center space-x-2 text-ultronRed font-mono text-xs">
-                        <i class="fa-solid fa-cubes"></i>
-                        <span>WELCOME BACK</span>
-                    </div>
-                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-ultronRed/20 text-ultronRed border border-ultronRed/30">v5.0 Ultimate</span>
+        <div id="page-home" class="page-content active space-y-4">
+            
+            <!-- VIDEO DISPLAY CONTAINER FIXED FOR MOBILE -->
+            <div class="ultron-card ultron-border rounded-2xl relative overflow-hidden shadow-[0_0_20px_rgba(255,26,64,0.2)] aspect-video bg-[#080204]">
+                <div class="absolute top-3 right-3 z-20 px-2 py-1 rounded bg-[#080204]/80 border border-ultronRed/40 text-ultronRed text-[9px] font-bold tracking-widest uppercase flex items-center space-x-1.5 backdrop-blur-md">
+                    <div class="w-2 h-2 rounded-full bg-ultronRed animate-pulse shadow-[0_0_5px_#ff1a40]"></div>
+                    <span>SYS_VISUAL</span>
                 </div>
-                <h2 class="text-xl font-black text-white tracking-wide mb-1">INFINITY WANZZY DASHBOARD</h2>
-                <p class="text-xs text-gray-400 leading-relaxed">Sistem multiversal terintegrasi real-time untuk manajemen bot, monitoring, dan plugin fleksibel.</p>
+                <!-- WAJIB: autoplay, loop, muted, playsinline agar jalan otomatis di HP, ditambah pointer-events-none agar tak kepencet -->
+                <video id="dashVideo" autoplay loop muted playsinline crossorigin="anonymous" class="absolute inset-0 w-full h-full object-cover z-10 pointer-events-none">
+                    <source src="https://files.catbox.moe/tnftr4.mp4" type="video/mp4">
+                    Browser Anda tidak mendukung tag video.
+                </video>
             </div>
 
-            <!-- Stats Grid -->
+            <div class="ultron-card ultron-border rounded-2xl p-5 ultron-gradient relative overflow-hidden shadow-[0_0_20px_rgba(255,26,64,0.1)]">
+                <div class="absolute -right-6 -bottom-6 opacity-10">
+                    <i class="fa-solid fa-atom text-9xl text-ultronRed animate-spin" style="animation-duration: 20s;"></i>
+                </div>
+                <div class="relative z-10">
+                    <span class="inline-block px-2 py-1 rounded bg-ultronRed/20 text-ultronRed text-[9px] font-bold tracking-widest uppercase border border-ultronRed/30 mb-2">SYSTEM ONLINE</span>
+                    <h2 class="text-xl font-black text-white tracking-wide mb-1 uppercase">Welcome Back</h2>
+                    <div class="flex items-center space-x-2 mb-3">
+                        <img src="https://placehold.co/150x150/130509/ff1a40?text=U" class="user-avatar w-6 h-6 rounded-full border border-ultronRed object-cover">
+                        <h3 class="text-lg font-bold text-ultronRed flex items-center">
+                            <span class="user-name">User</span>
+                            <span class="user-verified ml-1.5 hidden text-blue-500 text-sm drop-shadow-md"><i class="fa-solid fa-circle-check"></i></span>
+                        </h3>
+                    </div>
+                    <p class="text-[11px] text-gray-400 leading-relaxed font-mono">Multiversal control panel is ready. Access your tools and manage systems effectively.</p>
+                </div>
+            </div>
+
             <div class="grid grid-cols-2 gap-3">
-                <div class="ultron-card ultron-border rounded-xl p-4 ultron-gradient flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center flex-shrink-0 border border-ultronRed/30">
-                        <i class="fa-solid fa-users text-lg"></i>
-                    </div>
-                    <div>
-                        <p class="text-[10px] text-gray-400 font-mono uppercase">Online Users</p>
-                        <h4 id="onlineUsersCount" class="text-lg font-bold text-white">1</h4>
-                    </div>
+                <div class="ultron-card border border-gray-800 rounded-xl p-4 bg-[#0d0306] flex flex-col items-center justify-center text-center shadow-inner">
+                    <i class="fa-solid fa-users-rays text-2xl text-ultronRed mb-2 drop-shadow-[0_0_5px_#ff1a40]"></i>
+                    <h4 class="text-xl font-black text-white" id="onlineUserCount">1</h4>
+                    <p class="text-[9px] text-gray-400 font-mono uppercase tracking-wider mt-1">Online Users</p>
                 </div>
-                <div class="ultron-card ultron-border rounded-xl p-4 ultron-gradient flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center flex-shrink-0 border border-ultronRed/30">
-                        <i class="fa-solid fa-link text-lg"></i>
-                    </div>
-                    <div>
-                        <p class="text-[10px] text-gray-400 font-mono uppercase">Connections</p>
-                        <h4 class="text-lg font-bold text-white">1</h4>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Latest News Carousel / Card -->
-            <div class="space-y-2">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-gray-300 font-mono uppercase tracking-wider flex items-center space-x-1">
-                        <i class="fa-solid fa-bolt text-ultronRed"></i>
-                        <span>LATEST NEWS</span>
-                    </span>
-                    <span class="text-[10px] text-ultronRed">Update 5.0</span>
-                </div>
-                <div class="ultron-card ultron-border rounded-2xl overflow-hidden ultron-gradient shadow-lg">
-                    <div class="h-32 bg-gray-900 relative overflow-hidden">
-                        <img src="https://placehold.co/600x300/130509/ff1a40?text=Infinity+Ultron+Core" alt="News" class="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#080204] via-transparent to-transparent"></div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-white text-sm mb-1">Infinity Wanzzy Core Update</h3>
-                        <p class="text-xs text-gray-400">Pembaruan sistem keamanan multiversal dan injeksi plugin runtime tanpa mengubah core case.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Account Info Summary Card -->
-            <div class="ultron-card ultron-border rounded-2xl p-4 ultron-gradient space-y-3">
-                <div class="flex items-center space-x-2 text-ultronRed font-mono text-xs">
-                    <i class="fa-solid fa-id-card"></i>
-                    <span>ACCOUNT INFO</span>
-                </div>
-                <div class="grid grid-cols-2 gap-2 text-xs pt-1">
-                    <div class="bg-gray-900/60 p-2.5 rounded-xl border border-gray-800">
-                        <span class="text-gray-400 block text-[10px] font-mono">USERNAME</span>
-                        <span id="summaryUsername" class="font-bold text-white text-sm">wanzzy</span>
-                    </div>
-                    <div class="bg-gray-900/60 p-2.5 rounded-xl border border-gray-800">
-                        <span class="text-gray-400 block text-[10px] font-mono">ROLE</span>
-                        <span id="summaryRole" class="font-bold text-ultronRed text-sm">Owner</span>
-                    </div>
+                <div class="ultron-card border border-gray-800 rounded-xl p-4 bg-[#0d0306] flex flex-col items-center justify-center text-center shadow-inner">
+                    <i class="fa-solid fa-shield-halved text-2xl text-ultronRed mb-2 drop-shadow-[0_0_5px_#ff1a40]"></i>
+                    <h4 class="user-role text-sm font-black text-white uppercase">Member</h4>
+                    <p class="text-[9px] text-gray-400 font-mono uppercase tracking-wider mt-1">Access Level</p>
                 </div>
             </div>
         </div>
 
-        <!-- PAGE 2: TOOLS -->
-        <div id="page-tools" class="page-content p-4 space-y-4 max-w-lg mx-auto hidden">
-            <div class="flex items-center justify-between mb-2">
-                <div>
-                    <h2 class="text-lg font-black text-white uppercase tracking-wide">Misc Tools</h2>
-                    <p class="text-xs text-gray-400">Advanced Security & Utility Suite</p>
-                </div>
-                <span class="text-[10px] font-mono px-2 py-1 rounded bg-ultronRed/20 text-ultronRed border border-ultronRed/30">Owner Access</span>
-            </div>
-
-            <!-- Tool Cards Grid -->
-            <div class="grid grid-cols-2 gap-3">
-                <div onclick="runTool('Spam NGL')" class="ultron-card ultron-border rounded-xl p-4 ultron-gradient hover:border-ultronRed transition-all cursor-pointer group">
-                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center mb-3 group-hover:scale-110 transition-transform border border-ultronRed/30">
-                        <i class="fa-solid fa-paper-plane text-lg"></i>
-                    </div>
-                    <h3 class="font-bold text-white text-sm">Spam NGL</h3>
-                    <p class="text-[11px] text-gray-400 mt-0.5">Anonymous Message</p>
-                </div>
-
-                <div onclick="runTool('Fake DANA')" class="ultron-card ultron-border rounded-xl p-4 ultron-gradient hover:border-ultronRed transition-all cursor-pointer group">
-                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center mb-3 group-hover:scale-110 transition-transform border border-ultronRed/30">
-                        <i class="fa-solid fa-wallet text-lg"></i>
-                    </div>
-                    <h3 class="font-bold text-white text-sm">Fake DANA</h3>
-                    <p class="text-[11px] text-gray-400 mt-0.5">Generate Saldo</p>
-                </div>
-
-                <div onclick="runTool('Fix Merah')" class="ultron-card ultron-border rounded-xl p-4 ultron-gradient hover:border-ultronRed transition-all cursor-pointer group">
-                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center mb-3 group-hover:scale-110 transition-transform border border-ultronRed/30">
-                        <i class="fa-solid fa-screwdriver-wrench text-lg"></i>
-                    </div>
-                    <h3 class="font-bold text-white text-sm">Fix Merah</h3>
-                    <p class="text-[11px] text-gray-400 mt-0.5">Tutorial Fix Red</p>
-                </div>
-
-                <div onclick="runTool('Web Blast')" class="ultron-card ultron-border rounded-xl p-4 ultron-gradient hover:border-ultronRed transition-all cursor-pointer group">
-                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center mb-3 group-hover:scale-110 transition-transform border border-ultronRed/30">
-                        <i class="fa-solid fa-globe text-lg"></i>
-                    </div>
-                    <h3 class="font-bold text-white text-sm">Web Blast</h3>
-                    <p class="text-[11px] text-gray-400 mt-0.5">Kumpulan Link</p>
-                </div>
-
-                <div onclick="runTool('NIK Check')" class="ultron-card ultron-border rounded-xl p-4 ultron-gradient hover:border-ultronRed transition-all cursor-pointer group">
-                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center mb-3 group-hover:scale-110 transition-transform border border-ultronRed/30">
-                        <i class="fa-solid fa-id-card text-lg"></i>
-                    </div>
-                    <h3 class="font-bold text-white text-sm">NIK Check</h3>
-                    <p class="text-[11px] text-gray-400 mt-0.5">Cek Data KTP</p>
-                </div>
-
-                <div onclick="runTool('Phone Lookup')" class="ultron-card ultron-border rounded-xl p-4 ultron-gradient hover:border-ultronRed transition-all cursor-pointer group">
-                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center mb-3 group-hover:scale-110 transition-transform border border-ultronRed/30">
-                        <i class="fa-solid fa-phone text-lg"></i>
-                    </div>
-                    <h3 class="font-bold text-white text-sm">Phone Lookup</h3>
-                    <p class="text-[11px] text-gray-400 mt-0.5">Cek Nomor Telepon</p>
-                </div>
-            </div>
-
-            <!-- Dynamic Loaded Plugins Container -->
-            <div id="dynamicToolsContainer" class="space-y-3 pt-2">
-                <!-- Plugin injected tools will appear here -->
-            </div>
-        </div>
-
-        <!-- PAGE 3: WHATSAPP / FITUR UTAMA -->
-        <div id="page-whatsapp" class="page-content p-4 space-y-4 max-w-lg mx-auto hidden">
-            <!-- Profile Card -->
-            <div class="ultron-card ultron-border rounded-2xl p-5 ultron-gradient flex items-center space-x-4 shadow-lg">
-                <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-ultronRed flex-shrink-0">
-                    <img src="https://placehold.co/120x120/130509/ff1a40?text=W" alt="Wanzzy" class="w-full h-full object-cover">
-                </div>
-                <div class="flex-1">
-                    <h3 id="waProfileName" class="font-bold text-white text-base">wanzzy</h3>
-                    <div class="flex items-center space-x-2 mt-1">
-                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-ultronRed/20 text-ultronRed border border-ultronRed/30">ROLE : Owner</span>
-                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-gray-800 text-gray-300">EXPIRED : Lifetime</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Badak WhatsApp System -->
-            <div class="ultron-card ultron-border rounded-2xl p-5 ultron-gradient space-y-4 shadow-lg">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-green-500/20 text-green-400 flex items-center justify-center border border-green-500/30">
-                        <i class="fa-brands fa-whatsapp text-xl"></i>
+        <div id="page-whatsapp" class="page-content space-y-5">
+            <!-- Manajemen Sender -->
+            <div class="glass-panel rounded-2xl p-5 relative overflow-hidden group hover:border-ultronRed/50 transition-all shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+                <div class="flex items-center space-x-3 mb-5 border-b border-gray-800/50 pb-3">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-600/30 to-green-900/30 text-green-400 flex items-center justify-center border border-green-500/40 shadow-lg">
+                        <i class="fa-brands fa-whatsapp text-2xl"></i>
                     </div>
                     <div>
-                        <h4 class="font-bold text-white text-sm">BADAK WHATSAPP</h4>
-                        <p class="text-[11px] text-green-400 font-mono">Status: Active | Method: 4 Available</p>
+                        <h2 class="text-sm font-black text-white uppercase tracking-wider">Manajemen Sender</h2>
+                        <p class="text-[10px] text-green-400 font-mono">Baileys Connection</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-300 mb-2 uppercase tracking-wider">Input Nomor Sender (Tanpa +)</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-green-500"><i class="fa-solid fa-phone"></i></span>
+                            <input type="number" id="waSenderNumber" placeholder="628xxxxxxx" class="w-full pl-9 pr-4 py-3 bg-[#080204]/80 border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:border-green-500 font-mono">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 pt-1">
+                        <button onclick="showMsg('BAILEYS', 'Mendapatkan QR Code...', 'info')" class="py-2.5 bg-[#130509] border border-gray-700 hover:border-green-500 text-white rounded-xl text-xs font-bold transition-all flex flex-col items-center justify-center space-y-1">
+                            <i class="fa-solid fa-qrcode text-lg text-green-500"></i><span class="text-[9px] uppercase tracking-wider">QR Code</span>
+                        </button>
+                        <button onclick="showMsg('BAILEYS', 'Meminta Pairing Code...', 'info')" class="py-2.5 bg-[#130509] border border-gray-700 hover:border-green-500 text-white rounded-xl text-xs font-bold transition-all flex flex-col items-center justify-center space-y-1">
+                            <i class="fa-solid fa-link text-lg text-green-500"></i><span class="text-[9px] uppercase tracking-wider">Pairing Code</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu Attack Target -->
+            <div class="ultron-card ultron-border rounded-2xl p-5 relative overflow-visible ultron-gradient shadow-[0_0_20px_rgba(255,26,64,0.15)]">
+                <div class="flex items-center space-x-3 mb-5 border-b border-ultronRed/30 pb-3">
+                    <div class="w-12 h-12 rounded-xl ultron-red-gradient text-white flex items-center justify-center border border-ultronRed shadow-[0_0_15px_#ff1a40] animate-pulse">
+                        <i class="fa-solid fa-crosshairs text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black text-white uppercase tracking-wider drop-shadow-md">Menu Attack Target</h2>
+                        <p class="text-[10px] text-ultronRed font-mono font-bold tracking-widest">>> EXECUTION PANEL <<</p>
                     </div>
                 </div>
 
-                <div class="space-y-3 pt-2">
+                <div class="space-y-4 relative z-10">
                     <div>
-                        <label class="block text-xs font-medium text-gray-300 mb-1">TARGET NUMBER</label>
-                        <input type="text" id="targetNumber" placeholder="628xxxxxxxxxx" class="w-full px-4 py-2.5 bg-gray-900/80 border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed">
+                        <label class="block text-[10px] font-bold text-gray-300 mb-2 uppercase tracking-wider">Target Number</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-ultronRed"><i class="fa-solid fa-bullseye"></i></span>
+                            <input type="number" id="waTargetNumber" placeholder="628xxxxxxx" class="w-full pl-9 pr-4 py-3 bg-[#080204]/80 border border-ultronRed/40 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed focus:ring-1 focus:ring-ultronRed font-mono transition-all">
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-300 mb-1">SELECT METHOD</label>
-                        <select id="selectMethod" class="w-full px-4 py-2.5 bg-gray-900/80 border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed">
-                            <option value="">Select - Badak</option>
-                            <option value="1">Method 1 - Fast Blast</option>
-                            <option value="2">Method 2 - Ultra Spam</option>
-                            <option value="3">Method 3 - Silent Ping</option>
-                            <option value="4">Method 4 - Multiverse Bomb</option>
-                        </select>
+                    
+                    <!-- CUSTOM DROPDOWN -->
+                    <div class="relative">
+                        <label class="block text-[10px] font-bold text-gray-300 mb-2 uppercase tracking-wider">Select Method</label>
+                        <div class="relative" id="customSelectContainer">
+                            <div onclick="toggleCustomSelect()" class="w-full pl-4 pr-10 py-3 bg-[#080204]/90 border border-ultronRed/40 rounded-xl text-sm text-gray-300 flex justify-between items-center cursor-pointer hover:border-ultronRed transition-all">
+                                <span id="customSelectLabel">-- Pilih Metode Eksekusi --</span>
+                                <i class="fa-solid fa-chevron-down text-ultronRed transition-transform duration-300" id="customSelectIcon"></i>
+                            </div>
+                            <div id="customSelectOptions" class="hidden absolute top-full left-0 right-0 mt-2 bg-[#130509] border border-ultronRed/50 rounded-xl overflow-y-auto max-h-56 z-50 shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
+                                <div onclick="selectMethod('Method 1 - Auto Reply Bot')" class="px-4 py-3 hover:bg-ultronRed/20 text-sm text-gray-200 cursor-pointer border-b border-gray-800/50 flex items-center space-x-2 transition-colors">
+                                    <i class="fa-solid fa-robot text-ultronRed w-4"></i><span>Method 1 - Auto Reply Bot</span>
+                                </div>
+                                <div onclick="selectMethod('Method 2 - Message Stress Test')" class="px-4 py-3 hover:bg-ultronRed/20 text-sm text-gray-200 cursor-pointer border-b border-gray-800/50 flex items-center space-x-2 transition-colors">
+                                    <i class="fa-solid fa-fire text-ultronRed w-4"></i><span>Method 2 - Message Stress Test</span>
+                                </div>
+                                <div onclick="selectMethod('Method 3 - VCard Send')" class="px-4 py-3 hover:bg-ultronRed/20 text-sm text-gray-200 cursor-pointer border-b border-gray-800/50 flex items-center space-x-2 transition-colors">
+                                    <i class="fa-solid fa-address-card text-ultronRed w-4"></i><span>Method 3 - VCard Send</span>
+                                </div>
+                                <div onclick="selectMethod('Method 4 - Infinity Broadcast')" class="px-4 py-3 hover:bg-ultronRed/20 text-sm text-gray-200 cursor-pointer flex items-center space-x-2 transition-colors">
+                                    <i class="fa-solid fa-satellite-dish text-ultronRed w-4"></i><span>Method 4 - Infinity Broadcast</span>
+                                </div>
+                            </div>
+                            <input type="hidden" id="waMethodValue" value="">
+                        </div>
                     </div>
-                    <button onclick="executeBadakWA()" class="w-full py-3 ultron-red-gradient text-white font-bold rounded-xl shadow-lg hover:opacity-90 active:scale-95 transition-all text-sm flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-paper-plane"></i>
-                        <span>Let's Go</span>
+
+                    <button onclick="executeTargetAction()" class="w-full py-3.5 ultron-red-gradient text-white font-black rounded-xl shadow-[0_0_15px_rgba(255,26,64,0.4)] hover:shadow-[0_0_25px_rgba(255,26,64,0.8)] active:scale-95 transition-all text-sm tracking-widest uppercase flex items-center justify-center space-x-2 border border-[#ff1a40]">
+                        <i class="fa-solid fa-meteor text-lg"></i><span>SEND PAYLOAD</span>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- PAGE 4: PLUGIN & CODE MANAGER (KHUSUS DEV - Wanzzy) -->
-        <div id="page-plugins" class="page-content p-4 space-y-4 max-w-lg mx-auto hidden">
-            <div class="flex items-center justify-between mb-2">
-                <div>
-                    <h2 class="text-lg font-black text-white uppercase tracking-wide">Plugin & Code Manager</h2>
-                    <p class="text-xs text-ultronRed font-mono">Developer Restricted Area (wanzzy)</p>
-                </div>
-                <span class="text-[10px] font-mono px-2 py-1 rounded bg-ultronRed/20 text-ultronRed border border-ultronRed/30">Flexible Core</span>
+        <div id="page-chats" class="page-content space-y-4">
+            <h2 class="text-sm font-black text-white uppercase tracking-wider border-b border-gray-800 pb-2">Communication Hub</h2>
+            <div class="flex bg-[#0d0306] rounded-xl p-1 border border-gray-800 mb-4 shadow-inner">
+                <button onclick="switchChatTab('global')" id="tab-global" class="flex-1 py-2 text-xs font-bold rounded-lg bg-ultronRed/20 text-ultronRed border border-ultronRed/30 transition-all">Global Chat</button>
+                <button onclick="switchChatTab('private')" id="tab-private" class="flex-1 py-2 text-xs font-bold text-gray-500 rounded-lg hover:text-white transition-all">Private WA</button>
             </div>
 
-            <!-- Upload / Input Raw Code & JS File -->
-            <div class="ultron-card ultron-border rounded-2xl p-5 ultron-gradient space-y-4 shadow-lg">
-                <div class="flex items-center space-x-2 text-ultronRed font-mono text-xs">
-                    <i class="fa-solid fa-code-merge"></i>
-                    <span>TAMBAH PLUGIN / FUNGSI BARU (TANPA CASE)</span>
+            <!-- Global Chat Area -->
+            <div id="chat-global-area" class="ultron-card border border-gray-800 rounded-xl flex flex-col h-[55vh] bg-[#0d0306]">
+                <div id="globalChatMessages" class="flex-1 overflow-y-auto p-4 space-y-4">
+                    <div class="flex space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-[10px] text-gray-400 shrink-0 font-bold">SYS</div>
+                        <div>
+                            <div class="flex items-center space-x-1 mb-1"><span class="text-[10px] font-bold text-gray-300">System</span><span class="text-[8px] text-gray-500">12:00</span></div>
+                            <div class="bg-[#130509] border border-gray-800 rounded-xl rounded-tl-none p-2.5 text-xs text-gray-300">Selamat datang di Global Chat Infinity Wanzzy. Dilarang spam.</div>
+                        </div>
+                    </div>
                 </div>
+                <form id="globalChatForm" onsubmit="sendGlobalMessage(event)" class="p-3 border-t border-gray-800 bg-[#080204] flex space-x-2 rounded-b-xl">
+                    <input type="text" id="globalChatInput" placeholder="Ketik pesan..." autocomplete="off" class="flex-1 bg-[#130509] border border-gray-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-ultronRed">
+                    <button type="submit" class="w-10 h-10 bg-ultronRed text-white rounded-lg hover:bg-red-700 flex items-center justify-center transition-colors"><i class="fa-solid fa-paper-plane"></i></button>
+                </form>
+            </div>
 
+            <!-- Private Chat Area -->
+            <div id="chat-private-area" class="hidden ultron-card border border-gray-800 rounded-xl flex flex-col h-[55vh] bg-[#0d0306] items-center justify-center">
+                <i class="fa-solid fa-user-lock text-4xl text-gray-700 mb-3 drop-shadow-md"></i>
+                <p class="text-[10px] text-gray-500 text-center font-mono uppercase tracking-wider">Private WhatsApp<br>No Active Conversations</p>
+            </div>
+        </div>
+
+        <div id="page-tools" class="page-content space-y-4">
+            <h2 class="text-sm font-black text-white uppercase tracking-wider border-b border-gray-800 pb-2">Multi-Tools System</h2>
+            <div class="grid grid-cols-2 gap-3">
+                <div onclick="showMsg('Spam NGL', 'Running auto message script...', 'info')" class="ultron-card border border-gray-800 rounded-xl p-4 bg-[#0d0306] hover:bg-ultronRed/10 hover:border-ultronRed transition-all cursor-pointer flex flex-col items-center text-center shadow-inner">
+                    <i class="fa-solid fa-paper-plane text-2xl text-gray-400 mb-2"></i>
+                    <h3 class="font-bold text-white text-xs">Spam NGL</h3><p class="text-[9px] text-gray-500 mt-0.5">Auto Message</p>
+                </div>
+                <div onclick="showMsg('Fake DANA', 'Mockup generator...', 'info')" class="ultron-card border border-gray-800 rounded-xl p-4 bg-[#0d0306] hover:bg-ultronRed/10 hover:border-ultronRed transition-all cursor-pointer flex flex-col items-center text-center shadow-inner">
+                    <i class="fa-solid fa-wallet text-2xl text-gray-400 mb-2"></i>
+                    <h3 class="font-bold text-white text-xs">Fake DANA</h3><p class="text-[9px] text-gray-500 mt-0.5">Saldo Simulator</p>
+                </div>
+                <div onclick="showMsg('NIK Checker', 'Connecting to OSINT DB...', 'info')" class="ultron-card border border-gray-800 rounded-xl p-4 bg-[#0d0306] hover:bg-ultronRed/10 hover:border-ultronRed transition-all cursor-pointer flex flex-col items-center text-center shadow-inner">
+                    <i class="fa-solid fa-id-card text-2xl text-gray-400 mb-2"></i>
+                    <h3 class="font-bold text-white text-xs">NIK Checker</h3><p class="text-[9px] text-gray-500 mt-0.5">OSINT Data</p>
+                </div>
+                <div onclick="showMsg('Phone Lookup', 'Tracking number...', 'info')" class="ultron-card border border-gray-800 rounded-xl p-4 bg-[#0d0306] hover:bg-ultronRed/10 hover:border-ultronRed transition-all cursor-pointer flex flex-col items-center text-center shadow-inner">
+                    <i class="fa-solid fa-phone-flip text-2xl text-gray-400 mb-2"></i>
+                    <h3 class="font-bold text-white text-xs">Phone Lookup</h3><p class="text-[9px] text-gray-500 mt-0.5">Track Number</p>
+                </div>
+            </div>
+            <div class="pt-4 mt-2 border-t border-gray-800">
+                <h3 class="text-[10px] font-bold text-ultronRed font-mono uppercase tracking-widest mb-3 flex items-center space-x-2">
+                    <i class="fa-solid fa-puzzle-piece"></i><span>Installed Tools</span>
+                </h3>
+                <div id="dynamicToolsContainer" class="grid grid-cols-1 gap-3">
+                    <p id="noToolsPluginText" class="text-[10px] text-gray-600 font-mono text-center py-4 bg-[#0d0306] rounded-xl border border-gray-900 border-dashed">Belum ada plugin diinstal.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-plugins" class="page-content space-y-4">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-2">
+                <h2 class="text-sm font-black text-white uppercase tracking-wider">Plugin Manager</h2>
+                <span class="px-2 py-0.5 rounded bg-ultronRed/20 text-ultronRed text-[9px] font-mono border border-ultronRed/30">DEV ROOT</span>
+            </div>
+            <div class="ultron-card ultron-border rounded-2xl p-5 ultron-gradient space-y-4 shadow-[0_0_20px_rgba(255,26,64,0.1)]">
+                <p class="text-[9px] text-gray-400 leading-relaxed font-mono uppercase tracking-wide">Inject custom JS directly into the dashboard without modifying core files.</p>
                 <div class="space-y-3">
                     <div>
-                        <label class="block text-xs font-medium text-gray-300 mb-1">Nama Plugin / Tools</label>
-                        <input type="text" id="pluginName" placeholder="Contoh: Auto Bomber v2" class="w-full px-4 py-2.5 bg-gray-900/80 border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed">
+                        <label class="block text-[10px] font-bold text-gray-300 mb-1 uppercase tracking-wider">Nama Plugin</label>
+                        <input type="text" id="pluginName" placeholder="ex: VIP Sender Script" class="w-full px-3 py-3 bg-[#0d0306] border border-gray-800 rounded-xl text-xs text-white focus:outline-none focus:border-ultronRed shadow-inner">
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-gray-300 mb-1">Upload File .js (Opsional)</label>
-                        <input type="file" id="pluginFileJs" accept=".js" class="w-full px-3 py-2 bg-gray-900/80 border border-gray-800 rounded-xl text-xs text-gray-300 file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-ultronRed file:text-white hover:file:opacity-90">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-300 mb-1">Raw Code (JavaScript / HTML Logic)</label>
-                        <textarea id="pluginRawCode" rows="4" placeholder="// Tuliskan raw code js/html di sini...&#10;console.log('Plugin loaded successfully');" class="w-full px-4 py-2.5 bg-gray-900/80 border border-gray-800 rounded-xl text-xs font-mono text-gray-200 focus:outline-none focus:border-ultronRed"></textarea>
-                    </div>
-                    <button onclick="installPlugin()" class="w-full py-3 ultron-red-gradient text-white font-bold rounded-xl shadow-lg hover:opacity-90 active:scale-95 transition-all text-sm flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-plug-circle-plus"></i>
-                        <span>INSTALL PLUGIN & RENDER</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- List of Installed Plugins -->
-            <div class="space-y-2">
-                <h3 class="text-xs font-bold text-gray-300 font-mono uppercase tracking-wider flex items-center space-x-1">
-                    <i class="fa-solid fa-list-check text-ultronRed"></i>
-                    <span>INSTALLED PLUGINS & SCRIPTS</span>
-                </h3>
-                <div id="installedPluginsList" class="space-y-2">
-                    <!-- Dynamically populated list -->
-                    <div class="ultron-card ultron-border rounded-xl p-3 ultron-gradient flex items-center justify-between text-xs">
-                        <div class="flex items-center space-x-2">
-                            <i class="fa-solid fa-puzzle-piece text-ultronRed"></i>
-                            <div>
-                                <span class="font-bold text-white block">Default Core Plugin</span>
-                                <span class="text-[10px] text-gray-400 font-mono">Status: Active (Runtime OK)</span>
-                            </div>
+                        <label class="block text-[10px] font-bold text-ultronRed mb-1 uppercase tracking-wider">Target Penempatan</label>
+                        <div class="relative">
+                            <select id="pluginTarget" class="w-full pl-3 pr-10 py-3 bg-[#0d0306] border border-gray-800 rounded-xl text-xs text-white focus:outline-none focus:border-ultronRed appearance-none shadow-inner">
+                                <option value="tools">Menu Tools (Grid Base)</option>
+                                <option value="attack">Menu Attack (Dropdown Method)</option>
+                            </select>
+                            <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
                         </div>
-                        <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-[10px]">Loaded</span>
                     </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-300 mb-1 uppercase tracking-wider">Upload JS File (Opsional)</label>
+                        <input type="file" id="pluginFile" accept=".js" class="w-full text-[10px] text-gray-400 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:font-bold file:bg-ultronRed/20 file:text-ultronRed hover:file:bg-ultronRed/30 border border-gray-800 rounded-xl bg-[#0d0306] p-1.5 shadow-inner">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-300 mb-1 uppercase tracking-wider">Raw Code Execution (JS)</label>
+                        <textarea id="pluginCode" rows="4" placeholder="// Write logic here...&#10;showMsg('Success', 'Plugin executed!');" class="w-full px-3 py-3 bg-[#0d0306] border border-gray-800 rounded-xl text-xs font-mono text-green-400 focus:outline-none focus:border-ultronRed shadow-inner"></textarea>
+                    </div>
+                    <button onclick="installCustomPlugin()" class="w-full py-3.5 border border-ultronRed text-ultronRed font-bold rounded-xl hover:bg-ultronRed hover:text-white transition-all text-xs tracking-widest uppercase mt-4 flex items-center justify-center space-x-2 shadow-[0_0_10px_rgba(255,26,64,0.2)]">
+                        <i class="fa-solid fa-code-commit"></i><span>COMPILE & INSTALL</span>
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- PAGE 5: ANIME / LAINNYA -->
-        <div id="page-anime" class="page-content p-4 space-y-4 max-w-lg mx-auto hidden">
-            <div class="ultron-card ultron-border rounded-2xl p-4 ultron-gradient flex items-center justify-between shadow-lg">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center border border-ultronRed/30">
-                        <i class="fa-solid fa-play text-lg"></i>
+        <div id="page-anime" class="page-content space-y-4">
+            <h2 class="text-sm font-black text-white uppercase tracking-wider border-b border-gray-800 pb-2">Anime Station</h2>
+            <div class="relative">
+                <input type="text" placeholder="Cari anime..." class="w-full pl-4 pr-10 py-3 bg-[#0d0306] border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed shadow-inner">
+                <button class="absolute inset-y-0 right-0 px-4 text-gray-500 hover:text-ultronRed"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+            <div class="flex flex-col items-center justify-center py-20 space-y-4">
+                <i class="fa-solid fa-circle-notch text-4xl text-ultronRed animate-spin"></i>
+                <p class="text-[10px] text-gray-400 font-mono text-center uppercase tracking-wider">Connecting to API...<br><span class="text-[8px] text-gray-500">Loading Database</span></p>
+            </div>
+        </div>
+
+        <div id="page-profile" class="page-content space-y-4">
+            <h2 class="text-sm font-black text-white uppercase tracking-wider border-b border-gray-800 pb-2">Account Profile</h2>
+            <div class="ultron-card border border-gray-800 rounded-2xl p-5 bg-[#0d0306] space-y-5 shadow-inner">
+                <div class="flex flex-col items-center border-b border-gray-800/50 pb-5">
+                    <div class="relative mb-3">
+                        <img src="https://placehold.co/150x150/130509/ff1a40?text=U" class="user-avatar w-20 h-20 rounded-full border-2 border-ultronRed shadow-[0_0_15px_rgba(255,26,64,0.4)] object-cover">
+                    </div>
+                    <h3 class="text-lg font-bold text-white flex items-center">
+                        <span class="user-name">User</span>
+                        <span class="user-verified ml-1.5 hidden text-blue-500 text-sm"><i class="fa-solid fa-circle-check"></i></span>
+                    </h3>
+                    <p class="user-role text-[10px] font-mono text-ultronRed uppercase tracking-wider mt-0.5">Member</p>
+                </div>
+                
+                <form id="profileForm" onsubmit="updateProfile(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase tracking-wider">URL Foto Profil (Optional)</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-600"><i class="fa-solid fa-image"></i></span>
+                            <input type="url" id="profAvatar" placeholder="https://link-gambar.com/foto.jpg" class="w-full pl-9 pr-4 py-3 bg-[#080204] border border-gray-800 rounded-xl text-xs text-white focus:outline-none focus:border-ultronRed shadow-inner">
+                        </div>
                     </div>
                     <div>
-                        <h3 class="font-bold text-white text-sm">ANIME STATION</h3>
-                        <p class="text-[11px] text-gray-400">Streaming & Database System</p>
+                        <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase tracking-wider">Ubah Username</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-600"><i class="fa-solid fa-user-pen"></i></span>
+                            <input type="text" id="profUsername" placeholder="Username baru" class="w-full pl-9 pr-4 py-3 bg-[#080204] border border-gray-800 rounded-xl text-xs text-white focus:outline-none focus:border-ultronRed shadow-inner">
+                        </div>
                     </div>
-                </div>
-                <span class="text-[10px] font-mono px-2 py-1 rounded bg-ultronRed/20 text-ultronRed border border-ultronRed/30">Live DB</span>
-            </div>
-
-            <!-- Search Bar -->
-            <div class="relative">
-                <input type="text" placeholder="Cari anime (naruto, One Piece)..." class="w-full pl-4 pr-12 py-3 bg-gray-900/80 border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed">
-                <button class="absolute inset-y-0 right-0 px-4 text-ultronRed hover:text-white">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
-
-            <!-- Trending Section -->
-            <div class="space-y-3">
-                <h3 class="text-xs font-bold text-gray-300 font-mono uppercase tracking-wider flex items-center space-x-1">
-                    <i class="fa-solid fa-fire text-ultronRed"></i>
-                    <span>TRENDING NOW</span>
-                </h3>
-                <div class="text-center py-10 space-y-3 ultron-card ultron-border rounded-2xl ultron-gradient">
-                    <i class="fa-solid fa-circle-notch text-3xl text-ultronRed animate-spin"></i>
-                    <p class="text-xs text-gray-400">Sedang Memuat Anime...</p>
-                    <button onclick="showModalBox('Anime Station', 'Database anime berhasil disinkronkan dengan multiversal server.')" class="px-5 py-2 ultron-red-gradient text-white text-xs font-bold rounded-xl shadow-lg">
-                        MEMUAT...
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase tracking-wider">Ubah Password</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-600"><i class="fa-solid fa-key"></i></span>
+                            <input type="password" id="profPassword" placeholder="Biarkan kosong jika tidak diubah" class="w-full pl-9 pr-4 py-3 bg-[#080204] border border-gray-800 rounded-xl text-xs text-white focus:outline-none focus:border-ultronRed shadow-inner">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full py-3.5 bg-ultronRed hover:bg-red-700 text-white font-black rounded-xl transition-all text-xs tracking-widest uppercase mt-2 shadow-[0_0_10px_rgba(255,26,64,0.3)]">
+                        SIMPAN PERUBAHAN
                     </button>
-                </div>
+                </form>
             </div>
         </div>
 
     </main>
 
-    <!-- Bottom Navigation Bar (5 Pages) -->
-    <nav class="fixed inset-x-0 bottom-0 bg-[#080204]/95 backdrop-blur-md border-t border-ultronBorder py-2 px-4 z-30 max-w-lg mx-auto flex items-center justify-around">
-        <button onclick="switchPage('home')" id="nav-home" class="nav-btn flex flex-col items-center space-y-1 text-ultronRed transition-colors">
-            <i class="fa-solid fa-house text-lg"></i>
-            <span class="text-[10px] font-medium">Home</span>
-        </button>
-        <button onclick="switchPage('whatsapp')" id="nav-whatsapp" class="nav-btn flex flex-col items-center space-y-1 text-gray-400 hover:text-ultronRed transition-colors">
-            <i class="fa-brands fa-whatsapp text-lg"></i>
-            <span class="text-[10px] font-medium">WhatsApp</span>
-        </button>
-        <button onclick="switchPage('tools')" id="nav-tools" class="nav-btn flex flex-col items-center space-y-1 text-gray-400 hover:text-ultronRed transition-colors">
-            <i class="fa-solid fa-screwdriver-wrench text-lg"></i>
-            <span class="text-[10px] font-medium">Tools</span>
-        </button>
-        <button onclick="switchPage('plugins')" id="nav-plugins" class="nav-btn flex flex-col items-center space-y-1 text-gray-400 hover:text-ultronRed transition-colors hidden">
-            <i class="fa-solid fa-code-merge text-lg"></i>
-            <span class="text-[10px] font-medium">Plugins</span>
-        </button>
-        <button onclick="switchPage('anime')" id="nav-anime" class="nav-btn flex flex-col items-center space-y-1 text-gray-400 hover:text-ultronRed transition-colors">
-            <i class="fa-solid fa-film text-lg"></i>
-            <span class="text-[10px] font-medium">Anime</span>
-        </button>
+    <nav class="fixed bottom-0 inset-x-0 bg-[#080204]/95 backdrop-blur-xl border-t border-ultronBorder z-40 w-full shadow-[0_-5px_20px_rgba(255,26,64,0.1)]">
+        <div class="flex items-center justify-between py-2 px-2 max-w-md mx-auto">
+            <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center p-1.5 text-ultronRed flex-1 transition-colors">
+                <i class="fa-solid fa-house text-[18px] mb-1"></i><span class="text-[8px] font-bold uppercase tracking-wider">Home</span>
+            </button>
+            <button onclick="switchTab('whatsapp')" id="nav-whatsapp" class="flex flex-col items-center p-1.5 text-gray-600 hover:text-ultronRed flex-1 transition-colors">
+                <i class="fa-solid fa-meteor text-[18px] mb-1"></i><span class="text-[8px] font-bold uppercase tracking-wider">Attack</span>
+            </button>
+            <button onclick="switchTab('chats')" id="nav-chats" class="flex flex-col items-center p-1.5 text-gray-600 hover:text-ultronRed flex-1 transition-colors relative">
+                <i class="fa-solid fa-comments text-[18px] mb-1"></i>
+                <span class="absolute top-1 right-3 w-2 h-2 bg-ultronRed rounded-full shadow-[0_0_5px_#ff1a40]"></span>
+                <span class="text-[8px] font-bold uppercase tracking-wider">Chats</span>
+            </button>
+            <button onclick="switchTab('tools')" id="nav-tools" class="flex flex-col items-center p-1.5 text-gray-600 hover:text-ultronRed flex-1 transition-colors">
+                <i class="fa-solid fa-toolbox text-[18px] mb-1"></i><span class="text-[8px] font-bold uppercase tracking-wider">Tools</span>
+            </button>
+            <button onclick="switchTab('plugins')" id="nav-plugins" class="hidden flex-col items-center p-1.5 text-gray-600 hover:text-ultronRed flex-1 transition-colors">
+                <i class="fa-solid fa-code text-[18px] mb-1"></i><span class="text-[8px] font-bold uppercase tracking-wider">Plugins</span>
+            </button>
+            <button onclick="switchTab('anime')" id="nav-anime" class="flex flex-col items-center p-1.5 text-gray-600 hover:text-ultronRed flex-1 transition-colors">
+                <i class="fa-solid fa-film text-[18px] mb-1"></i><span class="text-[8px] font-bold uppercase tracking-wider">Anime</span>
+            </button>
+        </div>
     </nav>
 
-    <!-- Custom Modal Box (Instead of alert) -->
-    <div id="customModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="ultron-card ultron-border rounded-2xl p-6 w-full max-w-xs ultron-gradient text-center space-y-4 shadow-2xl">
-            <div class="w-12 h-12 rounded-full bg-ultronRed/20 text-ultronRed mx-auto flex items-center justify-center border border-ultronRed/30">
-                <i id="modalIcon" class="fa-solid fa-circle-exclamation text-xl"></i>
+    <div id="customModal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="ultron-card ultron-border rounded-2xl p-6 w-full max-w-xs ultron-gradient text-center shadow-[0_0_30px_rgba(255,26,64,0.2)]" id="modalContent">
+            <div class="w-14 h-14 rounded-full bg-ultronRed/20 text-ultronRed mx-auto flex items-center justify-center border border-ultronRed/40 mb-4">
+                <i id="modalIcon" class="fa-solid fa-bell text-2xl"></i>
             </div>
-            <div>
-                <h3 id="modalTitle" class="font-bold text-white text-base mb-1">Informasi</h3>
-                <p id="modalMessage" class="text-xs text-gray-300 leading-relaxed">Pesan sistem...</p>
-            </div>
-            <button onclick="closeModalBox()" class="w-full py-2.5 ultron-red-gradient text-white font-bold rounded-xl text-xs shadow-lg">
-                TUTUP
+            <h3 id="modalTitle" class="font-black text-white text-sm mb-2 uppercase tracking-wide">Info</h3>
+            <p id="modalMsg" class="text-[11px] text-gray-300 mb-6 leading-relaxed font-mono break-words">Pesan sistem...</p>
+            <button onclick="closeModal()" class="w-full py-3 bg-gray-900 hover:bg-ultronRed text-white font-bold rounded-xl text-xs transition-colors uppercase tracking-widest border border-gray-700 hover:border-ultronRed shadow-[0_0_10px_rgba(255,26,64,0.2)]">
+                ACKNOWLEDGE
             </button>
         </div>
     </div>
 
-    <!-- Account Details Modal -->
-    <div id="accountModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="ultron-card ultron-border rounded-2xl p-6 w-full max-w-sm ultron-gradient space-y-4 shadow-2xl relative">
-            <div class="flex items-center justify-between border-b border-gray-800 pb-3">
-                <div class="flex items-center space-x-2 text-ultronRed font-mono text-xs">
-                    <i class="fa-solid fa-user-shield"></i>
-                    <span>PROFILE CARD</span>
-                </div>
-                <button onclick="closeAccountModal()" class="text-gray-400 hover:text-white">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <div class="space-y-3 font-mono text-xs text-gray-300 bg-gray-900/60 p-4 rounded-xl border border-gray-800">
-                <p><span class="text-ultronRed">></span> <span class="text-gray-400">const</span> username : <span id="accModalUser" class="text-white">wanzzy</span>;</p>
-                <p><span class="text-ultronRed">></span> <span class="text-gray-400">const</span> password : <span class="text-white">******</span>;</p>
-                <p><span class="text-ultronRed">></span> <span class="text-gray-400">const</span> role     : <span id="accModalRole" class="text-ultronRed">Owner</span>;</p>
-                <p><span class="text-ultronRed">></span> <span class="text-gray-400">const</span> expired  : <span class="text-white">Lifetime</span>;</p>
-            </div>
-            <button onclick="closeAccountModal(); showModalBox('Security', 'Password akun dev terenkripsi aman.');" class="w-full py-2.5 ultron-red-gradient text-white font-bold rounded-xl text-xs shadow-lg flex items-center justify-center space-x-2">
-                <i class="fa-solid fa-key"></i>
-                <span>Change Password</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- JavaScript Application Logic -->
     <script>
-        // Global State & User Data
-        let currentUser = {
-            username: 'wanzzy',
-            role: 'Owner',
-            isDev: true
+        let currentUser = null;
+        window.attackPlugins = {}; 
+
+        let usersDB = JSON.parse(localStorage.getItem('inf_wanzzy_users_db')) || {
+            'wanzzy': { 
+                password: 'wanzzy41', 
+                role: 'Owner', 
+                isDev: true, 
+                avatar: 'https://placehold.co/150x150/130509/ff1a40?text=W'
+            }
         };
 
-        let isLoginMode = false;
+        window.onload = () => {
+            // FIX: Force video play for strict mobile browsers
+            setTimeout(() => {
+                const vid = document.getElementById('dashVideo');
+                if(vid) vid.play().catch(e => console.log('Autoplay dicegah oleh browser:', e));
+            }, 500);
 
-        // 1. Loading Screen Simulator
-        window.addEventListener('DOMContentLoaded', () => {
             let progress = 0;
-            const progressBar = document.getElementById('loadProgress');
-            const progressPercent = document.getElementById('loadPercent');
-            const loadingScreen = document.getElementById('loadingScreen');
-
-            const interval = setInterval(() => {
-                progress += Math.floor(Math.random() * 15) + 5;
+            const progressEl = document.getElementById('loadProgress');
+            const percentEl = document.getElementById('loadPercent');
+            
+            const loadingInt = setInterval(() => {
+                progress += Math.floor(Math.random() * 20) + 5;
                 if (progress >= 100) {
                     progress = 100;
-                    clearInterval(interval);
+                    clearInterval(loadingInt);
                     setTimeout(() => {
-                        loadingScreen.style.opacity = '0';
+                        document.getElementById('loadingScreen').style.opacity = '0';
                         setTimeout(() => {
-                            loadingScreen.style.display = 'none';
-                            checkAuthSession();
-                        }, 500);
-                    }, 400);
+                            document.getElementById('loadingScreen').style.display = 'none';
+                            checkAuth();
+                        }, 700);
+                    }, 600);
                 }
-                progressBar.style.width = progress + '%';
-                progressPercent.textContent = progress + '%';
+                progressEl.style.width = progress + '%';
+                percentEl.innerText = progress + '%';
             }, 120);
 
-            // Initialize Real-time Status & Clock
-            initStatusClock();
-            initBatteryMonitor();
-            initNetworkMonitor();
-        });
+            initStatusBar();
+            
+            document.addEventListener('click', (e) => {
+                const container = document.getElementById('customSelectContainer');
+                const options = document.getElementById('customSelectOptions');
+                const icon = document.getElementById('customSelectIcon');
+                if (container && !container.contains(e.target) && !options.classList.contains('hidden')) {
+                    options.classList.add('hidden');
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+        };
 
-        // 2. Auth Session Check
-        function checkAuthSession() {
-            const savedUser = localStorage.getItem('infinity_wanzzy_user');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                applyUserSession();
+        function showMsg(title, msg, type = 'info') {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalMsg').innerText = msg;
+            const icon = document.getElementById('modalIcon');
+            icon.className = 'text-2xl ' + (type === 'error' ? 'fa-solid fa-triangle-exclamation text-red-500' : 
+                                          type === 'success' ? 'fa-solid fa-check-circle text-green-500' : 
+                                          'fa-solid fa-bell text-ultronRed');
+            
+            const modal = document.getElementById('customModal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('customModal').classList.add('hidden');
+        }
+
+        function checkAuth() {
+            const saved = localStorage.getItem('inf_wanzzy_active_session');
+            if (saved) {
+                currentUser = JSON.parse(saved);
+                applySession();
             } else {
-                // Show Auth Modal for login/register
                 document.getElementById('authModal').classList.remove('hidden');
             }
         }
 
-        function handleAuth(event) {
-            event.preventDefault();
-            const usernameInput = document.getElementById('authUsername').value.trim();
-            const passwordInput = document.getElementById('authPassword').value;
+        document.getElementById('authForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = document.getElementById('authUsername').value.trim();
+            const pass = document.getElementById('authPassword').value;
 
-            if (!isLoginMode) {
-                // Register Mode
-                currentUser = {
-                    username: usernameInput,
-                    role: (usernameInput.toLowerCase() === 'wanzzy') ? 'Owner' : 'Member',
-                    isDev: (usernameInput.toLowerCase() === 'wanzzy')
-                };
-            } else {
-                // Login Mode
-                if (usernameInput === 'wanzzy' && passwordInput === 'wanzzy41') {
-                    currentUser = { username: 'wanzzy', role: 'Owner', isDev: true };
+            if (usersDB[user]) {
+                if (usersDB[user].password === pass) {
+                    currentUser = { username: user, ...usersDB[user] };
                 } else {
-                    currentUser = { username: usernameInput, role: 'User', isDev: (usernameInput.toLowerCase() === 'wanzzy') };
+                    showMsg('Access Denied', 'Invalid credentials.', 'error');
+                    return;
                 }
+            } else {
+                if(user.toLowerCase() === 'wanzzy') {
+                    showMsg('Access Denied', 'Reserved system name. Invalid credentials.', 'error');
+                    return;
+                }
+                currentUser = { 
+                    username: user, 
+                    password: pass, 
+                    role: 'Member', 
+                    isDev: false, 
+                    avatar: `https://placehold.co/150x150/130509/ff1a40?text=${user.charAt(0).toUpperCase()}` 
+                };
+                usersDB[user] = { password: pass, role: 'Member', isDev: false, avatar: currentUser.avatar };
+                localStorage.setItem('inf_wanzzy_users_db', JSON.stringify(usersDB));
             }
 
-            localStorage.setItem('infinity_wanzzy_user', JSON.stringify(currentUser));
+            saveSession();
             document.getElementById('authModal').classList.add('hidden');
-            applyUserSession();
-            showModalBox('Berhasil Masuk', `Selamat datang kembali, ${currentUser.username}! Sistem multiversal aktif.`);
-        }
+            applySession();
+            showMsg('System Initialized', `Welcome back, ${currentUser.username}.`, 'success');
+        });
 
-        function applyUserSession() {
-            document.getElementById('summaryUsername').textContent = currentUser.username;
-            document.getElementById('summaryRole').textContent = currentUser.role;
-            document.getElementById('drawerUsername').textContent = currentUser.username;
-            document.getElementById('drawerRole').textContent = '#' + currentUser.role + ' - Infinity';
-            document.getElementById('waProfileName').textContent = currentUser.username;
-            document.getElementById('accModalUser').textContent = currentUser.username;
-            document.getElementById('accModalRole').textContent = currentUser.role;
-
-            // Show or hide dev menu
-            if (currentUser.isDev) {
-                document.getElementById('devSidebarMenu').classList.remove('hidden');
-                document.getElementById('nav-plugins').classList.remove('hidden');
-            } else {
-                document.getElementById('devSidebarMenu').classList.add('hidden');
-                document.getElementById('nav-plugins').classList.add('hidden');
-            }
-        }
-
-        function fillDevCredentials() {
-            document.getElementById('authUsername').value = 'wanzzy';
-            document.getElementById('authPassword').value = 'wanzzy41';
-        }
-
-        function switchAuthMode() {
-            isLoginMode = !isLoginMode;
-            const title = document.getElementById('authTitle');
-            const subtitle = document.getElementById('authSubtitle');
-            const toggle = document.getElementById('authToggleMode');
-            if (isLoginMode) {
-                title.textContent = 'MASUK AKUN';
-                subtitle.textContent = 'Gunakan kredensial terdaftar (wanzzy / wanzzy41)';
-                toggle.textContent = 'Belum punya akun? Daftar';
-            } else {
-                title.textContent = 'INFINITY WANZZY';
-                subtitle.textContent = 'Daftar akun baru multiversal';
-                toggle.textContent = 'Sudah punya akun? Masuk';
-            }
+        function saveSession() {
+            localStorage.setItem('inf_wanzzy_active_session', JSON.stringify(currentUser));
         }
 
         function togglePassword() {
-            const passField = document.getElementById('authPassword');
+            const input = document.getElementById('authPassword');
             const icon = document.getElementById('eyeIcon');
-            if (passField.type === 'password') {
-                passField.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
+            if (input.type === 'password') {
+                input.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash');
             } else {
-                passField.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
+                input.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye');
             }
         }
 
         function logout() {
-            localStorage.removeItem('infinity_wanzzy_user');
+            localStorage.removeItem('inf_wanzzy_active_session');
             location.reload();
         }
 
-        // 3. Navigation between 5 Pages
-        function switchPage(pageId) {
-            const pages = document.querySelectorAll('.page-content');
-            pages.forEach(p => p.classList.add('hidden'));
-
-            const targetPage = document.getElementById('page-' + pageId);
-            if (targetPage) targetPage.classList.remove('hidden');
-
-            // Update bottom navigation active styles
-            const navButtons = document.querySelectorAll('.nav-btn');
-            navButtons.forEach(btn => {
-                btn.classList.remove('text-ultronRed');
-                btn.classList.add('text-gray-400');
+        function applySession() {
+            const isWanzzy = currentUser.username.toLowerCase() === 'wanzzy';
+            
+            document.querySelectorAll('.user-name').forEach(el => el.innerText = currentUser.username);
+            document.querySelectorAll('.user-role').forEach(el => el.innerText = currentUser.role);
+            
+            document.querySelectorAll('.user-avatar').forEach(el => {
+                if(currentUser.avatar) el.src = currentUser.avatar;
             });
-
-            const activeNav = document.getElementById('nav-' + pageId);
-            if (activeNav) {
-                activeNav.classList.remove('text-gray-400');
-                activeNav.classList.add('text-ultronRed');
+            
+            document.querySelectorAll('.user-verified').forEach(el => {
+                if(isWanzzy) el.classList.remove('hidden');
+                else el.classList.add('hidden');
+            });
+            
+            if (currentUser.isDev || isWanzzy) {
+                document.getElementById('nav-plugins').classList.remove('hidden');
+                document.getElementById('nav-plugins').classList.add('flex');
+                document.getElementById('devSidebarMenu').classList.remove('hidden');
+            } else {
+                document.getElementById('nav-plugins').classList.add('hidden');
+                document.getElementById('nav-plugins').classList.remove('flex');
+                document.getElementById('devSidebarMenu').classList.add('hidden');
             }
 
-            // Update Header Title
-            const titles = {
-                'home': 'Dashboard',
-                'tools': 'Tools',
-                'whatsapp': 'WhatsApp System',
-                'plugins': 'Plugin Manager',
-                'anime': 'Anime Station'
+            document.getElementById('profUsername').value = currentUser.username;
+        }
+
+        function updateProfile(e) {
+            e.preventDefault();
+            const newName = document.getElementById('profUsername').value.trim();
+            const newPass = document.getElementById('profPassword').value;
+            const newAvatar = document.getElementById('profAvatar').value.trim();
+
+            if(!newName) return showMsg('Error', 'Username tidak boleh kosong.', 'error');
+            
+            const oldName = currentUser.username;
+            delete usersDB[oldName];
+
+            currentUser.username = newName;
+            if(newPass) currentUser.password = newPass;
+            if(newAvatar) currentUser.avatar = newAvatar;
+
+            usersDB[newName] = { 
+                password: currentUser.password, 
+                role: currentUser.role, 
+                isDev: currentUser.isDev, 
+                avatar: currentUser.avatar 
             };
-            document.getElementById('headerTitle').textContent = titles[pageId] || 'Dashboard';
+            
+            localStorage.setItem('inf_wanzzy_users_db', JSON.stringify(usersDB));
+            saveSession();
+            applySession();
+            
+            document.getElementById('profPassword').value = '';
+            showMsg('Success', 'Profil berhasil diperbarui dan disinkronisasi.', 'success');
         }
 
-        // 4. Sidebar Drawer Control
         function toggleSidebar() {
-            const drawer = document.getElementById('sidebarDrawer');
-            const overlay = document.getElementById('sidebarOverlay');
-            if (drawer.classList.contains('-translate-x-full')) {
-                drawer.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
+            const sb = document.getElementById('sidebar');
+            const ov = document.getElementById('sidebarOverlay');
+            if (sb.classList.contains('-translate-x-full')) {
+                sb.classList.remove('-translate-x-full'); ov.classList.remove('hidden');
             } else {
-                drawer.classList.add('-translate-x-full');
-                overlay.classList.add('hidden');
+                sb.classList.add('-translate-x-full'); ov.classList.add('hidden');
             }
         }
 
-        // 5. Status Bar: Clock, Battery, Network
-        function initStatusClock() {
-            function updateClock() {
-                const now = new Date();
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                document.getElementById('realTimeClock').textContent = `${hours}:${minutes}`;
-            }
-            updateClock();
-            setInterval(updateClock, 1000);
+        function switchTab(tabId) {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + tabId).classList.add('active');
+            
+            const navIds = ['home', 'whatsapp', 'chats', 'tools', 'plugins', 'anime'];
+            navIds.forEach(id => {
+                const btn = document.getElementById('nav-' + id);
+                if(btn) { btn.classList.remove('text-ultronRed'); btn.classList.add('text-gray-600'); }
+            });
+            
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if(activeBtn) { activeBtn.classList.remove('text-gray-600'); activeBtn.classList.add('text-ultronRed'); }
+
+            const titles = {
+                'home': 'DASHBOARD', 'whatsapp': 'ATTACK SYSTEM', 'chats': 'CHAT SYSTEM', 
+                'tools': 'MULTI-TOOLS', 'plugins': 'DEV PLUGINS', 'anime': 'ANIME STATION',
+                'profile': 'MY ACCOUNT'
+            };
+            document.getElementById('headerTitle').innerText = titles[tabId];
         }
 
-        function initBatteryMonitor() {
-            if ('getBattery' in navigator) {
-                navigator.getBattery().then(battery => {
-                    updateBatteryStatus(battery);
-                    battery.addEventListener('levelchange', () => updateBatteryStatus(battery));
-                    battery.addEventListener('chargingchange', () => updateBatteryStatus(battery));
-                });
+        function switchChatTab(tab) {
+            const btnGlobal = document.getElementById('tab-global');
+            const btnPrivate = document.getElementById('tab-private');
+            if (tab === 'global') {
+                btnGlobal.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-ultronRed/20 text-ultronRed border border-ultronRed/30 transition-all";
+                btnPrivate.className = "flex-1 py-2 text-xs font-bold text-gray-500 rounded-lg hover:text-white transition-all";
+                document.getElementById('chat-global-area').classList.remove('hidden');
+                document.getElementById('chat-private-area').classList.add('hidden');
             } else {
-                // Fallback simulation
-                document.getElementById('batteryText').textContent = '85%';
+                btnPrivate.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-ultronRed/20 text-ultronRed border border-ultronRed/30 transition-all";
+                btnGlobal.className = "flex-1 py-2 text-xs font-bold text-gray-500 rounded-lg hover:text-white transition-all";
+                document.getElementById('chat-private-area').classList.remove('hidden');
+                document.getElementById('chat-global-area').classList.add('hidden');
             }
         }
 
-        function updateBatteryStatus(battery) {
-            const level = Math.round(battery.level * 100);
-            document.getElementById('batteryText').textContent = level + '%';
-            const icon = document.getElementById('batteryIcon');
-            if (battery.charging) {
-                icon.className = 'fa-solid fa-bolt text-ultronRed text-[10px]';
-            } else if (level > 75) {
-                icon.className = 'fa-solid fa-battery-full text-ultronRed text-[10px]';
-            } else if (level > 40) {
-                icon.className = 'fa-solid fa-battery-half text-ultronRed text-[10px]';
-            } else {
-                icon.className = 'fa-solid fa-battery-quarter text-ultronRed text-[10px]';
-            }
+        function sendGlobalMessage(e) {
+            e.preventDefault();
+            const inputEl = document.getElementById('globalChatInput');
+            const msgText = inputEl.value.trim();
+            if(!msgText) return;
+
+            const chatMessages = document.getElementById('globalChatMessages');
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex space-x-2 justify-end';
+            messageDiv.innerHTML = `
+                <div class="text-right">
+                    <div class="flex items-center justify-end space-x-1 mb-1"><span class="text-[8px] text-gray-500">${timeStr}</span><span class="text-[10px] font-bold text-ultronRed">${currentUser ? currentUser.username : 'You'}</span></div>
+                    <div class="bg-ultronRed/20 border border-ultronRed/40 rounded-xl rounded-tr-none p-2.5 text-xs text-white text-left break-words max-w-[260px]">${escapeHtml(msgText)}</div>
+                </div>
+                <img src="${currentUser && currentUser.avatar ? currentUser.avatar : 'https://placehold.co/100x100/130509/ff1a40?text=U'}" class="w-8 h-8 rounded-full border border-ultronRed object-cover shrink-0">
+            `;
+            chatMessages.appendChild(messageDiv);
+            inputEl.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        function initNetworkMonitor() {
-            const indicator = document.getElementById('netStatusIndicator');
-            const netText = document.getElementById('netText');
-            const netIcon = document.getElementById('netIcon');
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
 
-            function updateNetworkStatus() {
-                if (navigator.onLine) {
-                    indicator.className = 'flex items-center space-x-1 px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/30';
-                    netText.textContent = 'Online';
-                    netIcon.className = 'fa-solid fa-wifi text-[10px]';
+        function initStatusBar() {
+            setInterval(() => {
+                const d = new Date();
+                document.getElementById('realTimeClock').innerText = 
+                    String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+            }, 1000);
+
+            const updateNet = () => {
+                const isOnline = navigator.onLine;
+                const netEl = document.getElementById('netStatus');
+                const netText = document.getElementById('netText');
+                const netIcon = document.getElementById('netIcon');
+                if (isOnline) {
+                    netEl.className = 'flex items-center space-x-1.5 px-2 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20 shadow-inner';
+                    netText.innerText = 'ON'; netIcon.className = 'fa-solid fa-wifi';
                 } else {
-                    indicator.className = 'flex items-center space-x-1 px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 border border-red-500/30';
-                    netText.textContent = 'Offline';
-                    netIcon.className = 'fa-solid fa-triangle-exclamation text-[10px]';
+                    netEl.className = 'flex items-center space-x-1.5 px-2 py-1 rounded bg-red-500/10 text-red-400 border border-red-500/20 shadow-inner';
+                    netText.innerText = 'OFF'; netIcon.className = 'fa-solid fa-triangle-exclamation';
                 }
+            };
+            window.addEventListener('online', updateNet); window.addEventListener('offline', updateNet); updateNet();
+
+            if (navigator.getBattery) {
+                navigator.getBattery().then(bat => {
+                    const updateBat = () => {
+                        const level = Math.round(bat.level * 100);
+                        document.getElementById('batteryText').innerText = level + '%';
+                        const icon = document.getElementById('batteryIcon');
+                        if (bat.charging) icon.className = 'fa-solid fa-bolt text-green-400';
+                        else if (level > 20) icon.className = 'fa-solid fa-battery-three-quarters text-ultronRed';
+                        else icon.className = 'fa-solid fa-battery-empty text-red-500';
+                    };
+                    updateBat(); bat.addEventListener('levelchange', updateBat); bat.addEventListener('chargingchange', updateBat);
+                });
             }
-
-            window.addEventListener('online', updateNetworkStatus);
-            window.addEventListener('offline', updateNetworkStatus);
-            updateNetworkStatus();
         }
 
-        // 6. Modal Box Utility
-        function showModalBox(title, message) {
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalMessage').textContent = message;
-            document.getElementById('customModal').classList.remove('hidden');
-        }
-
-        function closeModalBox() {
-            document.getElementById('customModal').classList.add('hidden');
-        }
-
-        function openAccountModal() {
-            document.getElementById('accountModal').classList.remove('hidden');
-        }
-
-        function closeAccountModal() {
-            document.getElementById('accountModal').classList.add('hidden');
-        }
-
-        // 7. Tool Execution & Dynamic Plugin Installer
-        function runTool(toolName) {
-            showModalBox(toolName, `Menjalankan modul ${toolName} melalui sistem keamanan Infinity Wanzzy... Berhasil.`);
-        }
-
-        function executeBadakWA() {
-            const target = document.getElementById('targetNumber').value;
-            const method = document.getElementById('selectMethod').value;
-            if (!target || !method) {
-                showModalBox('Peringatan', 'Harap isi nomor target dan pilih metode Badak WhatsApp terlebih dahulu!');
-                return;
+        function toggleCustomSelect() {
+            const options = document.getElementById('customSelectOptions');
+            const icon = document.getElementById('customSelectIcon');
+            if (options.classList.contains('hidden')) {
+                options.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                options.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
             }
-            showModalBox('Badak WhatsApp', `Eksekusi berhasil dikirim ke target: ${target} menggunakan Metode ${method}.`);
         }
 
-        // Plugin & Raw Code Installer tanpa mengubah core case
-        function installPlugin() {
+        function selectMethod(methodName) {
+            document.getElementById('customSelectLabel').innerText = methodName;
+            document.getElementById('customSelectLabel').classList.replace('text-gray-300', 'text-white');
+            document.getElementById('waMethodValue').value = methodName;
+            
+            document.getElementById('customSelectOptions').classList.add('hidden');
+            document.getElementById('customSelectIcon').style.transform = 'rotate(0deg)';
+        }
+
+        function executeTargetAction() {
+            const target = document.getElementById('waTargetNumber').value;
+            const method = document.getElementById('waMethodValue').value;
+            
+            if(!target || !method) {
+                return showMsg('Validation Failed', 'Mohon lengkapi Target Number dan Pilih Metode Eksekusi.', 'error');
+            }
+            
+            if (window.attackPlugins && window.attackPlugins[method]) {
+                try {
+                    const mockRequire = function(moduleName) { return {}; };
+                    const safeRunner = new Function('showMsg', 'require', 'targetNumber', window.attackPlugins[method]);
+                    safeRunner(showMsg, mockRequire, target);
+                } catch(err) {
+                    showMsg('RUNTIME ERROR', err.message, 'error');
+                }
+            } else {
+                showMsg('Payload Initiated', `Target: ${target}\nMethod: ${method}\nStatus: Execution Payload sent.`, 'success');
+            }
+        }
+
+        function installCustomPlugin() {
             const name = document.getElementById('pluginName').value.trim();
-            const rawCode = document.getElementById('pluginRawCode').value.trim();
-            const fileInput = document.getElementById('pluginFileJs');
+            const code = document.getElementById('pluginCode').value.trim();
+            const target = document.getElementById('pluginTarget').value;
+            const fileInput = document.getElementById('pluginFile');
 
-            if (!name) {
-                showModalBox('Error', 'Nama plugin atau tools wajib diisi!');
-                return;
-            }
+            if (!name) return showMsg('Dev Error', 'Nama plugin wajib diisi.', 'error');
 
-            let jsContent = rawCode;
+            let finalCode = code;
             if (fileInput.files.length > 0) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    jsContent += '\n' + e.target.result;
-                    registerPluginToList(name, jsContent);
+                    finalCode = e.target.result + "\n" + finalCode;
+                    injectPluginToUI(name, finalCode, target);
                 };
                 reader.readAsText(fileInput.files[0]);
             } else {
-                registerPluginToList(name, jsContent);
+                injectPluginToUI(name, finalCode, target);
             }
         }
 
-        function registerPluginToList(name, code) {
-            // Tambahkan ke UI Installed Plugins
-            const listContainer = document.getElementById('installedPluginsList');
-            const pluginId = 'plugin_' + Date.now();
-
-            const pluginCard = document.createElement('div');
-            pluginCard.className = 'ultron-card ultron-border rounded-xl p-3 ultron-gradient flex items-center justify-between text-xs';
-            pluginCard.innerHTML = `
-                <div class="flex items-center space-x-2">
-                    <i class="fa-solid fa-puzzle-piece text-ultronRed"></i>
-                    <div>
-                        <span class="font-bold text-white block">${name}</span>
-                        <span class="text-[10px] text-gray-400 font-mono">Status: Active & Injected</span>
+        function injectPluginToUI(name, logicCode, target) {
+            if (target === 'attack') {
+                const optionsContainer = document.getElementById('customSelectOptions');
+                const newOptionId = 'opt_' + Date.now();
+                
+                const optionDiv = document.createElement('div');
+                optionDiv.id = newOptionId;
+                optionDiv.className = "px-4 py-3 hover:bg-ultronRed/20 text-sm text-gray-200 cursor-pointer border-t border-gray-800/50 flex items-center justify-between transition-colors";
+                optionDiv.innerHTML = `
+                    <div class="flex items-center space-x-2 flex-1" onclick="selectMethod('${name}')">
+                        <i class="fa-solid fa-biohazard text-ultronRed w-4 drop-shadow-[0_0_2px_#ff1a40]"></i>
+                        <span class="font-bold">${name}</span>
                     </div>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-[10px]">Active</span>
-                    <button onclick="removePlugin('${pluginId}')" class="text-red-400 hover:text-red-300 p-1"><i class="fa-solid fa-trash"></i></button>
-                </div>
-            `;
-            pluginCard.id = pluginId;
-            listContainer.appendChild(pluginCard);
+                    <button class="delete-btn text-gray-500 hover:text-red-500 px-2 relative z-20" onclick="removeAttackPlugin('${newOptionId}', '${name}')"><i class="fa-solid fa-trash"></i></button>
+                `;
+                
+                optionsContainer.appendChild(optionDiv);
+                window.attackPlugins[name] = logicCode || `showMsg('Custom Plugin', 'Plugin ${name} dieksekusi dengan sukses ke target.', 'success');`;
+                
+                showMsg('Plugin Terpasang', `Plugin "${name}" berhasil diinjeksi ke dalam Dropdown Menu Attack.`, 'success');
 
-            // Tambahkan card ke halaman Tools secara dinamis
-            const toolsContainer = document.getElementById('dynamicToolsContainer');
-            const toolCard = document.createElement('div');
-            toolCard.className = 'ultron-card ultron-border rounded-xl p-4 ultron-gradient hover:border-ultronRed transition-all cursor-pointer group';
-            toolCard.id = 'tool_' + pluginId;
-            toolCard.onclick = () => {
-                try {
-                    // Eksekusi raw code secara fleksibel aman
-                    if (code) {
-                        const runScript = new Function(code);
-                        runScript();
-                    } else {
-                        showModalBox(name, 'Plugin berjalan dengan sukses tanpa mengubah core case.');
-                    }
-                } catch(err) {
-                    showModalBox('Plugin Error', 'Gagal mengeksekusi raw code: ' + err.message);
-                }
-            };
-            toolCard.innerHTML = `
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-ultronRed/20 text-ultronRed flex items-center justify-center group-hover:scale-110 transition-transform border border-ultronRed/30">
-                        <i class="fa-solid fa-bolt text-lg"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-white text-sm">${name}</h3>
-                        <p class="text-[11px] text-ultronRed font-mono">Custom Injected Plugin</p>
-                    </div>
-                </div>
-            `;
-            toolsContainer.appendChild(toolCard);
+            } else {
+                const container = document.getElementById('dynamicToolsContainer');
+                document.getElementById('noToolsPluginText').style.display = 'none';
 
-            // Reset Form
+                const pluginId = 'plug_' + Date.now();
+                const btnHTML = document.createElement('div');
+                btnHTML.className = "ultron-card border border-gray-800 rounded-xl p-4 bg-[#0d0306] hover:bg-ultronRed/10 hover:border-ultronRed/50 cursor-pointer flex items-center justify-between transition-all shadow-inner";
+                btnHTML.innerHTML = `
+                    <div class="flex items-center space-x-3 pointer-events-none">
+                        <div class="w-8 h-8 rounded bg-ultronRed/10 border border-ultronRed/30 text-ultronRed flex items-center justify-center"><i class="fa-solid fa-code-merge"></i></div>
+                        <div><h3 class="font-bold text-white text-xs">${name}</h3><p class="text-[9px] text-green-400 font-mono">Custom Tool</p></div>
+                    </div>
+                    <button class="delete-btn text-gray-600 hover:text-red-500 p-2 relative z-20"><i class="fa-solid fa-trash"></i></button>
+                `;
+                btnHTML.id = pluginId;
+                
+                btnHTML.addEventListener('click', (e) => {
+                    if(e.target.closest('.delete-btn')) return;
+                    try {
+                        const mockRequire = function(mod) { return {}; };
+                        const sandboxFunc = new Function('showMsg', 'require', logicCode || `showMsg('${name}', 'Tool dieksekusi dengan aman.', 'success');`);
+                        sandboxFunc(showMsg, mockRequire);
+                    } catch (err) { showMsg('RUNTIME ERROR', err.message, 'error'); }
+                });
+
+                btnHTML.querySelector('.delete-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    container.removeChild(btnHTML);
+                    if(container.children.length === 1) document.getElementById('noToolsPluginText').style.display = 'block';
+                });
+
+                container.appendChild(btnHTML);
+                showMsg('Plugin Terpasang', `Tool "${name}" berhasil ditambahkan ke halaman Tools.`, 'success');
+            }
+
             document.getElementById('pluginName').value = '';
-            document.getElementById('pluginRawCode').value = '';
-            document.getElementById('pluginFileJs').value = '';
-
-            showModalBox('Berhasil', `Plugin "${name}" berhasil diinstal dan di-render ke halaman Tools secara fleksibel!`);
+            document.getElementById('pluginCode').value = '';
+            document.getElementById('pluginFile').value = '';
         }
 
-        function removePlugin(id) {
-            const pluginCard = document.getElementById(id);
-            const toolCard = document.getElementById('tool_' + id);
-            if (pluginCard) pluginCard.remove();
-            if (toolCard) toolCard.remove();
-            showModalBox('Dihapus', 'Plugin berhasil dihapus dari sistem.');
+        function removeAttackPlugin(domId, name) {
+            event.stopPropagation();
+            const el = document.getElementById(domId);
+            if(el) el.remove();
+            
+            delete window.attackPlugins[name];
+            
+            if(document.getElementById('waMethodValue').value === name) {
+                document.getElementById('customSelectLabel').innerText = '-- Pilih Metode Eksekusi --';
+                document.getElementById('customSelectLabel').classList.replace('text-white', 'text-gray-300');
+                document.getElementById('waMethodValue').value = '';
+            }
         }
     </script>
 </body>
