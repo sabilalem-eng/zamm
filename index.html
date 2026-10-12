@@ -2,962 +2,859 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Infinity Wanzzy Dashboard</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- FontAwesome Icons -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>iPhone Quote · Indictive</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        ultronRed: '#ff1a40',
-                        ultronDark: '#080204',
-                        ultronCard: '#130509',
-                        ultronBorder: '#ff1a4055',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
 
     <style>
+        @font-face {
+            font-family: 'MADE Evolve Sans EVO';
+            src: url('../fonts/MADEEvolveSansEVO.ttf') format('truetype');
+            font-weight: 400 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --primary: #60a5fa;
+            --primary-rgb: 96, 165, 250;
+            --primary-border: rgba(96, 165, 250, 0.22);
+            --bg-dark: #050810;
+            --text-white: #F0F4FA;
+            --text-white70: rgba(240, 244, 250, 0.65);
+            --text-white54: rgba(240, 244, 250, 0.4);
+            --radius: 14px;
+            --radius-lg: 20px;
+            --font-display: 'MADE Evolve Sans EVO', 'Share Tech Mono', monospace;
+            --font-mono: 'Share Tech Mono', monospace;
+        }
+
         body {
-            background-color: #080204;
-            color: #f3f4f6;
+            font-family: var(--font-mono);
+            background: linear-gradient(160deg, #070c18 0%, #050810 50%, #060a14 100%);
+            color: var(--text-white);
+            min-height: 100vh;
+            overscroll-behavior: none;
             overflow-x: hidden;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
         }
-        
-        /* Custom UI Elements */
-        .ultron-glow { box-shadow: 0 0 20px rgba(255, 26, 64, 0.4); }
-        .ultron-border { border: 1px solid rgba(255, 26, 64, 0.3); }
-        .ultron-gradient { background: linear-gradient(135deg, #130509 0%, #1f080d 50%, #080204 100%); }
-        .ultron-red-gradient { background: linear-gradient(135deg, #ff1a40 0%, #991026 100%); }
-        .glass-panel { background: rgba(19, 5, 9, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 26, 64, 0.2); }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: #080204; }
-        ::-webkit-scrollbar-thumb { background: #ff1a40; border-radius: 2px; }
-        
-        /* Animations */
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 0.8; transform: scale(1); box-shadow: 0 0 15px rgba(255, 26, 64, 0.5); }
-            50% { opacity: 1; transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 26, 64, 0.9); }
+
+        /* ===== APP BAR ===== */
+        .app-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px;
+            background: rgba(5, 8, 16, 0.92);
+            border-bottom: 1px solid var(--primary-border);
+            backdrop-filter: blur(12px);
         }
-        .animate-ultron-core { animation: pulseGlow 2.5s infinite ease-in-out; }
-        
-        /* Page Transition */
-        .page-content { display: none; animation: fadeIn 0.3s ease-out forwards; }
-        .page-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .menu-btn, .account-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 22px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: opacity 0.2s;
+        }
+        .menu-btn:active, .account-btn:active { opacity: 0.6; }
+
+        .app-bar-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .app-bar-title i { font-size: 18px; color: var(--primary); }
+        .app-bar-title span {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-white);
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        /* ===== DRAWER ===== */
+        .drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s, visibility 0.25s;
+        }
+        .drawer-overlay.active { opacity: 1; visibility: visible; }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100%;
+            z-index: 2000;
+            transition: left 0.28s ease;
+            overflow-y: auto;
+            background: rgba(7, 10, 20, 0.97);
+            border-right: 1px solid var(--primary-border);
+        }
+        .drawer.active { left: 0; }
+
+        .drawer-header {
+            height: 200px;
+            padding: 20px 16px;
+            background: linear-gradient(to bottom, rgba(var(--primary-rgb), 0.07), transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .drawer-logo { margin-bottom: 16px; }
+        .drawer-logo img { height: 130px; object-fit: contain; display: block; margin-left: 40px; }
+
+        .info-card {
+            padding: 12px 16px;
+            margin-bottom: 5px;
+            background: rgba(var(--primary-rgb), 0.06);
+            border-radius: 14px;
+            border: 1px solid var(--primary-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .info-card i { color: var(--primary); font-size: 18px; width: 20px; text-align: center; }
+        .info-card-label { color: var(--text-white70); font-weight: bold; font-size: 13px; font-family: var(--font-display); }
+        .info-card-value { color: var(--text-white); font-family: var(--font-mono); margin-left: auto; font-size: 13px; }
+
+        .drawer-menu { list-style: none; padding: 12px 0; }
+        .drawer-menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .drawer-menu-item:active { background: rgba(var(--primary-rgb), 0.08); }
+        .drawer-menu-item i { color: var(--primary); font-size: 19px; margin-right: 16px; width: 24px; text-align: center; }
+        .drawer-menu-item span { color: var(--text-white70); font-size: 15px; font-family: var(--font-mono); }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            padding-top: 62px;
+            padding-bottom: 40px;
+            min-height: 100vh;
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .page-container { max-width: 480px; margin: 0 auto; padding: 0 16px; }
+
+        /* ===== HERO BANNER ===== */
+        .hero-banner {
+            position: relative;
+            overflow: hidden;
+            padding: 24px 20px;
+            margin-bottom: 20px;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(var(--primary-rgb), 0.28);
+            min-height: 130px;
+        }
+        .hero-banner-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://files.catbox.moe/9i9tp1.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: inherit;
+            z-index: 0;
+        }
+        .hero-banner-overlay {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(5,8,16,0.9) 0%, rgba(6,10,20,0.8) 100%);
+            z-index: 1;
+        }
+        .hero-icon-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            position: relative;
+            z-index: 3;
+            margin-bottom: 10px;
+        }
+        .hero-icon-wrap {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            background: rgba(var(--primary-rgb), 0.22);
+            border: 1px solid rgba(var(--primary-rgb), 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .hero-icon-wrap i { font-size: 22px; color: var(--primary); }
+        .hero-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 20px;
+            color: var(--text-white);
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+        .hero-sub {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-white54);
+            margin-top: 2px;
+            line-height: 1.4;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 3;
+            margin-top: 14px;
+        }
+        .hero-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 10px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(var(--primary-rgb), 0.2);
+        }
+        .hero-stat i { color: var(--primary); font-size: 12px; }
+        .hero-stat-val { font-family: var(--font-display); font-weight: 700; font-size: 13px; color: var(--text-white); }
+        .hero-stat-lbl { font-family: var(--font-mono); font-size: 9px; color: var(--text-white54); text-transform: uppercase; letter-spacing: 0.3px; }
+
+        /* ===== SECTION HEADER ===== */
+        .sec-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .sec-title { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--text-white); display: flex; align-items: center; gap: 8px; }
+        .sec-title i { color: var(--primary); font-size: 16px; }
+        .sec-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            font-family: var(--font-display);
+            letter-spacing: 0.5px;
+            background: rgba(var(--primary-rgb), 0.11);
+            color: var(--primary);
+            border: 1px solid var(--primary-border);
+        }
+
+        /* ===== INPUT CARD ===== */
+        .input-card {
+            background: rgba(var(--primary-rgb), 0.04);
+            border: 1px solid var(--primary-border);
+            border-radius: var(--radius-lg);
+            padding: 24px 20px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .input-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(var(--primary-rgb), 0.4), transparent);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        @media (max-width: 400px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+
+        .input-wrapper { position: relative; margin-bottom: 14px; }
+
+        .input-label {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-white54);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .input-label i { color: var(--primary); margin-right: 6px; font-size: 12px; }
+
+        .input-field {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(var(--primary-rgb), 0.15);
+            padding: 14px 15px;
+            border-radius: 12px;
+            color: var(--text-white);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .input-field::placeholder { color: rgba(var(--primary-rgb), 0.3); }
+        .input-field:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.1);
+        }
+
+        textarea.input-field {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-generate {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            background: var(--primary);
+            border: none;
+            color: #050810;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-transform: uppercase;
+        }
+        .btn-generate:hover {
+            background: #93c5fd;
+            box-shadow: 0 0 25px rgba(var(--primary-rgb), 0.3);
+        }
+        .btn-generate:active { transform: scale(0.98); }
+        .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* ===== LOADER ===== */
+        .loader-wrapper {
+            display: none;
+            text-align: center;
+            margin: 24px 0;
+        }
+        .spinner {
+            width: 42px;
+            height: 42px;
+            border: 3px solid rgba(var(--primary-rgb), 0.15);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 12px;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .loader-text {
+            font-family: var(--font-display);
+            font-size: 12px;
+            color: var(--primary);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ===== RESULT CARD ===== */
+        .result-card {
+            display: none;
+            background: rgba(var(--primary-rgb), 0.04);
+            border: 1px solid var(--primary-border);
+            border-radius: var(--radius-lg);
+            padding: 24px 20px;
+            animation: fadeSlideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-img {
+            max-width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(var(--primary-rgb), 0.15);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+            min-height: 120px;
+            object-fit: contain;
+        }
+
+        /* ===== ACTION BUTTONS ===== */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 14px;
+        }
+
+        .btn-download {
+            background: var(--primary);
+            color: #050810;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+            text-align: center;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-download:hover { background: #93c5fd; box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.3); }
+        .btn-download i { font-size: 16px; }
+
+        .btn-reset {
+            background: transparent;
+            border: 1px solid rgba(var(--primary-rgb), 0.2);
+            color: var(--primary);
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 12px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-reset:hover { background: rgba(var(--primary-rgb), 0.1); border-color: var(--primary); }
+
+        /* ===== ERROR TOAST ===== */
+        .error-toast {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            color: #fca5a5;
+            padding: 14px;
+            border-radius: 12px;
+            margin-top: 14px;
+            text-align: center;
+            font-size: 13px;
+            display: none;
+            font-family: var(--font-mono);
+        }
+
+        /* ===== NOTIFICATION ===== */
+        .notification {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 14, 26, 0.95);
+            color: var(--primary);
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            letter-spacing: 1px;
+            z-index: 9999;
+            border: 1px solid var(--primary-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: notifIn 0.3s ease-out;
+            backdrop-filter: blur(12px);
+            text-align: center;
+            font-size: 12px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            max-width: 90vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        @keyframes notifIn {
+            from { transform: translateX(-50%) translateY(-15px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        @keyframes notifOut {
+            from { transform: translateX(-50%) translateY(0); opacity: 1; }
+            to { transform: translateX(-50%) translateY(-15px); opacity: 0; }
+        }
+
+        /* ===== INFO BANNER ===== */
+        .info-banner {
+            padding: 14px 16px;
+            border-radius: var(--radius);
+            background: rgba(var(--primary-rgb), 0.06);
+            border: 1px solid rgba(var(--primary-rgb), 0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .info-banner i { color: var(--primary); font-size: 18px; flex-shrink: 0; }
+        .info-banner-text { font-size: 11px; color: var(--text-white54); line-height: 1.5; font-family: var(--font-mono); }
+        .info-banner-text strong { color: var(--primary); font-family: var(--font-display); }
+
+        /* ===== FAB ===== */
+        .fab-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
+        .fab-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: var(--primary);
+            border: none;
+            color: #050810;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(var(--primary-rgb), 0.25);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .fab-btn:hover { transform: scale(1.1); box-shadow: 0 0 25px rgba(var(--primary-rgb), 0.4); }
+
+        .g24 { height: 24px; }
+
+        /* ===== RESPONSIVE DESKTOP ===== */
+        @media (min-width: 900px) {
+            .drawer { left: 0 !important; width: 260px; }
+            .drawer-overlay { display: none !important; }
+            .app-bar { left: 260px; }
+            .menu-btn { display: none; }
+            .main-content { margin-left: 260px; padding-top: 70px; }
+            .page-container { max-width: 620px; padding: 0 28px; }
+        }
+        @media (min-width: 1280px) {
+            .drawer { width: 290px; }
+            .app-bar { left: 290px; }
+            .main-content { margin-left: 290px; }
+            .page-container { max-width: 720px; }
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col relative pb-24">
+<body>
 
-    <div id="loadingScreen" class="fixed inset-0 z-[100] bg-[#040102] flex flex-col items-center justify-center transition-opacity duration-700">
-        <div class="relative flex flex-col items-center">
-            <div class="w-36 h-36 rounded-full ultron-red-gradient animate-ultron-core flex items-center justify-center shadow-2xl relative mb-8">
-                <div class="absolute inset-2 bg-[#080204] rounded-full flex items-center justify-center overflow-hidden">
-                    <div class="w-full h-full border-4 border-ultronRed rounded-full border-t-transparent border-b-transparent animate-spin" style="animation-duration: 3s;"></div>
-                    <i class="fa-solid fa-infinity text-6xl text-ultronRed absolute drop-shadow-[0_0_10px_#ff1a40]"></i>
-                </div>
-            </div>
-            <h1 class="text-3xl font-black tracking-[0.2em] text-white mb-2 uppercase drop-shadow-[0_0_15px_#ff1a40]">INFINITY</h1>
-            <h2 class="text-xl font-bold tracking-[0.3em] text-ultronRed mb-8 uppercase">Wanzzy</h2>
-            <p class="text-xs text-gray-400 font-mono tracking-widest uppercase mb-3">Initializing Multiversal Core...</p>
-            
-            <div class="w-72 h-1.5 bg-gray-900 rounded-full overflow-hidden border border-ultronRed/30 relative">
-                <div id="loadProgress" class="absolute top-0 left-0 h-full ultron-red-gradient w-0 transition-all duration-300 ease-out"></div>
-            </div>
-            <span id="loadPercent" class="text-xs text-ultronRed font-mono mt-3 font-bold">0%</span>
+    <!-- ===== APP BAR ===== -->
+    <header class="app-bar">
+        <button class="menu-btn" onclick="toggleDrawer()"><i class="fas fa-bars"></i></button>
+        <div class="app-bar-title">
+            <i class="fas fa-mobile-screen-button"></i>
+            <span>iPhone Quote</span>
         </div>
-    </div>
-
-    <div id="authModal" class="fixed inset-0 z-[90] bg-black/95 backdrop-blur-xl hidden flex items-center justify-center p-4">
-        <div class="ultron-card ultron-border rounded-2xl p-6 w-full max-w-sm ultron-gradient relative overflow-hidden shadow-[0_0_40px_rgba(255,26,64,0.2)]">
-            <div class="absolute -top-16 -right-16 w-32 h-32 bg-ultronRed/20 rounded-full blur-3xl"></div>
-            
-            <div class="flex flex-col items-center mb-6 pt-4">
-                <div class="w-16 h-16 rounded-full ultron-red-gradient flex items-center justify-center shadow-lg border border-ultronRed mb-4 animate-ultron-core">
-                    <i class="fa-solid fa-fingerprint text-2xl text-white"></i>
-                </div>
-                <h2 class="text-xl font-black text-white tracking-widest uppercase text-center">SYSTEM LOGIN</h2>
-            </div>
-
-            <form id="authForm" class="space-y-4 relative z-10">
-                <div>
-                    <label class="block text-[10px] font-bold text-ultronRed mb-1 tracking-wider uppercase">Username</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500"><i class="fa-solid fa-user"></i></span>
-                        <input type="text" id="authUsername" required placeholder="Enter username" class="w-full pl-10 pr-4 py-3 bg-[#0d0306] border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed focus:ring-1 focus:ring-ultronRed transition-all shadow-inner">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-ultronRed mb-1 tracking-wider uppercase">Password</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500"><i class="fa-solid fa-lock"></i></span>
-                        <input type="password" id="authPassword" required placeholder="Enter password" class="w-full pl-10 pr-10 py-3 bg-[#0d0306] border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed focus:ring-1 focus:ring-ultronRed transition-all shadow-inner">
-                        <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-ultronRed transition-colors">
-                            <i id="eyeIcon" class="fa-solid fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="pt-4">
-                    <button type="submit" class="w-full py-3 ultron-red-gradient text-white font-black rounded-xl shadow-[0_0_15px_rgba(255,26,64,0.4)] hover:shadow-[0_0_25px_rgba(255,26,64,0.6)] active:scale-95 transition-all text-sm tracking-widest uppercase border border-[#ff1a40]">
-                        INITIALIZE
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/80 z-[60] hidden backdrop-blur-sm transition-opacity"></div>
-    <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-[#080204] border-r border-ultronBorder z-[70] transform -translate-x-full transition-transform duration-300 flex flex-col shadow-[0_0_30px_rgba(255,26,64,0.1)]">
-        <div class="p-6 border-b border-gray-800 bg-gradient-to-b from-[#130509] to-[#080204] relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-24 h-24 bg-ultronRed/10 blur-2xl rounded-full"></div>
-            <div class="flex items-center space-x-4 relative z-10">
-                <img src="https://placehold.co/150x150/130509/ff1a40?text=U" alt="Avatar" class="user-avatar w-14 h-14 rounded-full border-2 border-ultronRed shadow-[0_0_10px_rgba(255,26,64,0.3)] object-cover">
-                <div>
-                    <h3 class="font-bold text-white text-sm flex items-center">
-                        <span class="user-name">User</span>
-                        <span class="user-verified ml-1 hidden text-blue-500 text-[10px]"><i class="fa-solid fa-circle-check"></i></span>
-                    </h3>
-                    <p class="user-role text-[10px] font-mono text-ultronRed uppercase tracking-wider mt-1 border border-ultronRed/30 px-2 py-0.5 rounded inline-block bg-ultronRed/10">Member</p>
-                </div>
-            </div>
-        </div>
-        <div class="flex-1 overflow-y-auto p-4 space-y-2">
-            <button onclick="switchTab('home'); toggleSidebar()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-all text-sm font-medium">
-                <i class="fa-solid fa-house w-5 text-ultronRed text-center"></i> <span>Dashboard</span>
-            </button>
-            <button onclick="switchTab('profile'); toggleSidebar()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-all text-sm font-medium">
-                <i class="fa-solid fa-user-gear w-5 text-ultronRed text-center"></i> <span>My Account</span>
-            </button>
-            <button onclick="showMsg('Database Access', 'Total data terenkripsi: 13,042 records.'); toggleSidebar()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-ultronRed/10 text-gray-300 hover:text-white transition-all text-sm font-medium">
-                <i class="fa-solid fa-database w-5 text-ultronRed text-center"></i> <span>Database User</span>
-            </button>
-            
-            <div id="devSidebarMenu" class="hidden pt-4 mt-2 border-t border-gray-800">
-                <span class="px-4 text-[10px] font-mono text-ultronRed tracking-widest uppercase block mb-2">Dev Tools</span>
-                <button onclick="switchTab('plugins'); toggleSidebar()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl bg-ultronRed/10 border border-ultronRed/30 text-white hover:bg-ultronRed/20 transition-all text-sm font-medium">
-                    <i class="fa-solid fa-code w-5 text-ultronRed text-center"></i> <span>Plugin Manager</span>
-                </button>
-            </div>
-            
-            <div class="pt-4 mt-2 border-t border-gray-800">
-                <button onclick="logout()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-red-500/10 text-red-400 transition-all text-sm font-medium">
-                    <i class="fa-solid fa-right-from-bracket w-5 text-center"></i> <span>Logout System</span>
-                </button>
-            </div>
-        </div>
-    </aside>
-
-    <header class="w-full bg-[#080204]/90 backdrop-blur-lg border-b border-ultronBorder px-4 py-3 flex items-center justify-between sticky top-0 z-40">
-        <div class="flex items-center space-x-3">
-            <button onclick="toggleSidebar()" class="text-white hover:text-ultronRed transition-colors p-1">
-                <i class="fa-solid fa-bars-staggered text-lg"></i>
-            </button>
-            <div>
-                <h1 class="font-bold text-sm tracking-widest text-white uppercase flex items-center space-x-1" id="headerTitle">
-                    <span>DASHBOARD</span>
-                </h1>
-                <p class="text-[9px] text-gray-400 font-mono tracking-wider">INFINITY WANZZY CORE</p>
-            </div>
-        </div>
-        <div class="flex items-center space-x-2.5 text-[10px] font-mono">
-            <div id="netStatus" class="flex items-center space-x-1.5 px-2 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20 shadow-inner">
-                <i id="netIcon" class="fa-solid fa-wifi"></i>
-                <span id="netText" class="font-bold">ON</span>
-            </div>
-            <div class="flex items-center space-x-1.5 px-2 py-1 rounded bg-[#130509] text-gray-300 border border-gray-800 shadow-inner">
-                <i id="batteryIcon" class="fa-solid fa-battery-three-quarters text-ultronRed"></i>
-                <span id="batteryText" class="font-bold">--%</span>
-            </div>
-            <div id="realTimeClock" class="font-bold text-white bg-ultronRed/20 px-2 py-1 rounded border border-ultronRed/30 shadow-[0_0_8px_rgba(255,26,64,0.3)]">
-                00:00
-            </div>
-        </div>
+        <button class="account-btn" onclick="window.location.href='/logout'"><i class="fas fa-sign-out-alt"></i></button>
     </header>
 
-    <main class="flex-1 w-full max-w-md mx-auto p-4 pb-24">
+    <!-- ===== DRAWER OVERLAY ===== -->
+    <div class="drawer-overlay" onclick="toggleDrawer()"></div>
 
-        <div id="page-home" class="page-content active space-y-4">
-            
-            <!-- VIDEO DISPLAY CONTAINER FIXED FOR MOBILE -->
-            <div class="ultron-card ultron-border rounded-2xl relative overflow-hidden shadow-[0_0_20px_rgba(255,26,64,0.2)] aspect-video bg-[#080204]">
-                <div class="absolute top-3 right-3 z-20 px-2 py-1 rounded bg-[#080204]/80 border border-ultronRed/40 text-ultronRed text-[9px] font-bold tracking-widest uppercase flex items-center space-x-1.5 backdrop-blur-md">
-                    <div class="w-2 h-2 rounded-full bg-ultronRed animate-pulse shadow-[0_0_5px_#ff1a40]"></div>
-                    <span>SYS_VISUAL</span>
-                </div>
-                <!-- WAJIB: autoplay, loop, muted, playsinline agar jalan otomatis di HP, ditambah pointer-events-none agar tak kepencet -->
-                <video id="dashVideo" autoplay loop muted playsinline crossorigin="anonymous" class="absolute inset-0 w-full h-full object-cover z-10 pointer-events-none">
-                    <source src="https://files.catbox.moe/tnftr4.mp4" type="video/mp4">
-                    Browser Anda tidak mendukung tag video.
-                </video>
-            </div>
-
-            <div class="ultron-card ultron-border rounded-2xl p-5 ultron-gradient relative overflow-hidden shadow-[0_0_20px_rgba(255,26,64,0.1)]">
-                <div class="absolute -right-6 -bottom-6 opacity-10">
-                    <i class="fa-solid fa-atom text-9xl text-ultronRed animate-spin" style="animation-duration: 20s;"></i>
-                </div>
-                <div class="relative z-10">
-                    <span class="inline-block px-2 py-1 rounded bg-ultronRed/20 text-ultronRed text-[9px] font-bold tracking-widest uppercase border border-ultronRed/30 mb-2">SYSTEM ONLINE</span>
-                    <h2 class="text-xl font-black text-white tracking-wide mb-1 uppercase">Welcome Back</h2>
-                    <div class="flex items-center space-x-2 mb-3">
-                        <img src="https://placehold.co/150x150/130509/ff1a40?text=U" class="user-avatar w-6 h-6 rounded-full border border-ultronRed object-cover">
-                        <h3 class="text-lg font-bold text-ultronRed flex items-center">
-                            <span class="user-name">User</span>
-                            <span class="user-verified ml-1.5 hidden text-blue-500 text-sm drop-shadow-md"><i class="fa-solid fa-circle-check"></i></span>
-                        </h3>
-                    </div>
-                    <p class="text-[11px] text-gray-400 leading-relaxed font-mono">Multiversal control panel is ready. Access your tools and manage systems effectively.</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
-                <div class="ultron-card border border-gray-800 rounded-xl p-4 bg-[#0d0306] flex flex-col items-center justify-center text-center shadow-inner">
-                    <i class="fa-solid fa-users-rays text-2xl text-ultronRed mb-2 drop-shadow-[0_0_5px_#ff1a40]"></i>
-                    <h4 class="text-xl font-black text-white" id="onlineUserCount">1</h4>
-                    <p class="text-[9px] text-gray-400 font-mono uppercase tracking-wider mt-1">Online Users</p>
-                </div>
-                <div class="ultron-card border border-gray-800 rounded-xl p-4 bg-[#0d0306] flex flex-col items-center justify-center text-center shadow-inner">
-                    <i class="fa-solid fa-shield-halved text-2xl text-ultronRed mb-2 drop-shadow-[0_0_5px_#ff1a40]"></i>
-                    <h4 class="user-role text-sm font-black text-white uppercase">Member</h4>
-                    <p class="text-[9px] text-gray-400 font-mono uppercase tracking-wider mt-1">Access Level</p>
-                </div>
-            </div>
+    <!-- ===== DRAWER SIDEBAR ===== -->
+    <aside class="drawer" id="sidebarDrawer">
+        <div class="drawer-header">
+            <div class="drawer-logo"><img src="https://files.catbox.moe/xl24wa.png" alt="Logo"></div>
+            <div class="info-card"><i class="fas fa-user"></i><span class="info-card-label">USER</span><span class="info-card-value" id="drawerUser">-</span></div>
+            <div class="info-card"><i class="fas fa-clock"></i><span class="info-card-label">EXPIRED</span><span class="info-card-value" id="drawerExp">-</span></div>
         </div>
+        <ul class="drawer-menu">
+            <li class="drawer-menu-item" onclick="window.location.href='/dashboard'"><i class="fas fa-house"></i><span>Dashboard</span></li>
+            <li class="drawer-menu-item" onclick="window.location.href='/tools'">
+                <i class="fas fa-wrench" style="color:#fff;"></i>
+                <span style="color:var(--text-white);font-family:var(--font-display);font-weight:bold;">Tools</span>
+            </li>
+            <li class="drawer-menu-item" onclick="window.location.href='/execution'"><i class="fas fa-bug"></i><span>Bug Attack</span></li>
+            <li class="drawer-menu-item" onclick="window.location.href='/spamcall'"><i class="fas fa-phone-volume"></i><span>Spam Call</span></li>
+            <li class="drawer-menu-item" onclick="window.location.href='/sender'"><i class="fas fa-mobile-screen"></i><span>My Sender</span></li>
+        </ul>
+    </aside>
 
-        <div id="page-whatsapp" class="page-content space-y-5">
-            <!-- Manajemen Sender -->
-            <div class="glass-panel rounded-2xl p-5 relative overflow-hidden group hover:border-ultronRed/50 transition-all shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                <div class="flex items-center space-x-3 mb-5 border-b border-gray-800/50 pb-3">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-600/30 to-green-900/30 text-green-400 flex items-center justify-center border border-green-500/40 shadow-lg">
-                        <i class="fa-brands fa-whatsapp text-2xl"></i>
-                    </div>
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content">
+        <div class="page-container">
+
+            <!-- Hero Banner -->
+            <div class="hero-banner">
+                <div class="hero-banner-bg"></div>
+                <div class="hero-banner-overlay"></div>
+                <div class="hero-icon-row">
+                    <div class="hero-icon-wrap"><i class="fas fa-mobile-screen-button"></i></div>
                     <div>
-                        <h2 class="text-sm font-black text-white uppercase tracking-wider">Manajemen Sender</h2>
-                        <p class="text-[10px] text-green-400 font-mono">Baileys Connection</p>
+                        <div class="hero-title">IPHONE QUOTE GENERATOR</div>
+                        <div class="hero-sub">Create fake iPhone screenshot quotes easily</div>
                     </div>
                 </div>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-300 mb-2 uppercase tracking-wider">Input Nomor Sender (Tanpa +)</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-green-500"><i class="fa-solid fa-phone"></i></span>
-                            <input type="number" id="waSenderNumber" placeholder="628xxxxxxx" class="w-full pl-9 pr-4 py-3 bg-[#080204]/80 border border-gray-700 rounded-xl text-sm text-white focus:outline-none focus:border-green-500 font-mono">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3 pt-1">
-                        <button onclick="showMsg('BAILEYS', 'Mendapatkan QR Code...', 'info')" class="py-2.5 bg-[#130509] border border-gray-700 hover:border-green-500 text-white rounded-xl text-xs font-bold transition-all flex flex-col items-center justify-center space-y-1">
-                            <i class="fa-solid fa-qrcode text-lg text-green-500"></i><span class="text-[9px] uppercase tracking-wider">QR Code</span>
-                        </button>
-                        <button onclick="showMsg('BAILEYS', 'Meminta Pairing Code...', 'info')" class="py-2.5 bg-[#130509] border border-gray-700 hover:border-green-500 text-white rounded-xl text-xs font-bold transition-all flex flex-col items-center justify-center space-y-1">
-                            <i class="fa-solid fa-link text-lg text-green-500"></i><span class="text-[9px] uppercase tracking-wider">Pairing Code</span>
-                        </button>
-                    </div>
+                <div class="hero-stats">
+                    <div class="hero-stat"><i class="fas fa-bolt"></i><div><div class="hero-stat-val">Fast</div><div class="hero-stat-lbl">Generate</div></div></div>
+                    <div class="hero-stat"><i class="fas fa-circle-check"></i><div><div class="hero-stat-val">Free</div><div class="hero-stat-lbl">No Limit</div></div></div>
+                    <div class="hero-stat"><i class="fas fa-image"></i><div><div class="hero-stat-val">HD</div><div class="hero-stat-lbl">Quality</div></div></div>
                 </div>
             </div>
 
-            <!-- Menu Attack Target -->
-            <div class="ultron-card ultron-border rounded-2xl p-5 relative overflow-visible ultron-gradient shadow-[0_0_20px_rgba(255,26,64,0.15)]">
-                <div class="flex items-center space-x-3 mb-5 border-b border-ultronRed/30 pb-3">
-                    <div class="w-12 h-12 rounded-xl ultron-red-gradient text-white flex items-center justify-center border border-ultronRed shadow-[0_0_15px_#ff1a40] animate-pulse">
-                        <i class="fa-solid fa-crosshairs text-2xl"></i>
+            <!-- Section: Create Quote -->
+            <div class="sec-header">
+                <div class="sec-title"><i class="fas fa-pen-fancy"></i> Create Quote</div>
+                <span class="sec-badge">IQC</span>
+            </div>
+
+            <!-- Input Form Card -->
+            <div class="input-card">
+                <div class="form-grid">
+                    <div class="input-wrapper">
+                        <label class="input-label"><i class="far fa-clock"></i> Time (HH:MM)</label>
+                        <input type="text" id="timeInput" class="input-field" placeholder="12:00">
                     </div>
-                    <div>
-                        <h2 class="text-sm font-black text-white uppercase tracking-wider drop-shadow-md">Menu Attack Target</h2>
-                        <p class="text-[10px] text-ultronRed font-mono font-bold tracking-widest">>> EXECUTION PANEL <<</p>
+                    <div class="input-wrapper">
+                        <label class="input-label"><i class="fas fa-battery-half"></i> Battery (%)</label>
+                        <input type="number" id="batteryInput" class="input-field" placeholder="100" min="1" max="100">
                     </div>
                 </div>
 
-                <div class="space-y-4 relative z-10">
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-300 mb-2 uppercase tracking-wider">Target Number</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-ultronRed"><i class="fa-solid fa-bullseye"></i></span>
-                            <input type="number" id="waTargetNumber" placeholder="628xxxxxxx" class="w-full pl-9 pr-4 py-3 bg-[#080204]/80 border border-ultronRed/40 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed focus:ring-1 focus:ring-ultronRed font-mono transition-all">
-                        </div>
-                    </div>
-                    
-                    <!-- CUSTOM DROPDOWN -->
-                    <div class="relative">
-                        <label class="block text-[10px] font-bold text-gray-300 mb-2 uppercase tracking-wider">Select Method</label>
-                        <div class="relative" id="customSelectContainer">
-                            <div onclick="toggleCustomSelect()" class="w-full pl-4 pr-10 py-3 bg-[#080204]/90 border border-ultronRed/40 rounded-xl text-sm text-gray-300 flex justify-between items-center cursor-pointer hover:border-ultronRed transition-all">
-                                <span id="customSelectLabel">-- Pilih Metode Eksekusi --</span>
-                                <i class="fa-solid fa-chevron-down text-ultronRed transition-transform duration-300" id="customSelectIcon"></i>
-                            </div>
-                            <div id="customSelectOptions" class="hidden absolute top-full left-0 right-0 mt-2 bg-[#130509] border border-ultronRed/50 rounded-xl overflow-y-auto max-h-56 z-50 shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
-                                <div onclick="selectMethod('Method 1 - Auto Reply Bot')" class="px-4 py-3 hover:bg-ultronRed/20 text-sm text-gray-200 cursor-pointer border-b border-gray-800/50 flex items-center space-x-2 transition-colors">
-                                    <i class="fa-solid fa-robot text-ultronRed w-4"></i><span>Method 1 - Auto Reply Bot</span>
-                                </div>
-                                <div onclick="selectMethod('Method 2 - Message Stress Test')" class="px-4 py-3 hover:bg-ultronRed/20 text-sm text-gray-200 cursor-pointer border-b border-gray-800/50 flex items-center space-x-2 transition-colors">
-                                    <i class="fa-solid fa-fire text-ultronRed w-4"></i><span>Method 2 - Message Stress Test</span>
-                                </div>
-                                <div onclick="selectMethod('Method 3 - VCard Send')" class="px-4 py-3 hover:bg-ultronRed/20 text-sm text-gray-200 cursor-pointer border-b border-gray-800/50 flex items-center space-x-2 transition-colors">
-                                    <i class="fa-solid fa-address-card text-ultronRed w-4"></i><span>Method 3 - VCard Send</span>
-                                </div>
-                                <div onclick="selectMethod('Method 4 - Infinity Broadcast')" class="px-4 py-3 hover:bg-ultronRed/20 text-sm text-gray-200 cursor-pointer flex items-center space-x-2 transition-colors">
-                                    <i class="fa-solid fa-satellite-dish text-ultronRed w-4"></i><span>Method 4 - Infinity Broadcast</span>
-                                </div>
-                            </div>
-                            <input type="hidden" id="waMethodValue" value="">
-                        </div>
-                    </div>
+                <div class="input-wrapper">
+                    <label class="input-label"><i class="fas fa-signal"></i> Carrier</label>
+                    <input type="text" id="carrierInput" class="input-field" placeholder="Telkomsel">
+                </div>
 
-                    <button onclick="executeTargetAction()" class="w-full py-3.5 ultron-red-gradient text-white font-black rounded-xl shadow-[0_0_15px_rgba(255,26,64,0.4)] hover:shadow-[0_0_25px_rgba(255,26,64,0.8)] active:scale-95 transition-all text-sm tracking-widest uppercase flex items-center justify-center space-x-2 border border-[#ff1a40]">
-                        <i class="fa-solid fa-meteor text-lg"></i><span>SEND PAYLOAD</span>
+                <div class="input-wrapper">
+                    <label class="input-label"><i class="far fa-comment-alt"></i> Message</label>
+                    <textarea id="messageInput" class="input-field" placeholder="Type your quote message here..."></textarea>
+                </div>
+
+                <button id="generateBtn" class="btn-generate">
+                    <i class="fas fa-bolt"></i> Generate Quote
+                </button>
+
+                <div id="errorToast" class="error-toast"></div>
+            </div>
+
+            <!-- Loader -->
+            <div id="loader" class="loader-wrapper">
+                <div class="spinner"></div>
+                <div class="loader-text">Generating Quote...</div>
+            </div>
+
+            <!-- Result Card -->
+            <div id="resultCard" class="result-card">
+                <img id="resultImg" class="result-img" alt="Generated iPhone Quote">
+
+                <div class="action-buttons">
+                    <button id="downloadBtn" class="btn-download">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                    <button id="resetBtn" class="btn-reset">
+                        <i class="fas fa-trash"></i> Reset
                     </button>
                 </div>
             </div>
+
+            <!-- Info Banner -->
+            <div class="info-banner">
+                <i class="fas fa-circle-info"></i>
+                <div class="info-banner-text">
+                    <strong>iPhone Quote Generator</strong> — Buat screenshot quote iPhone palsu dengan waktu, baterai, dan carrier kustom. Hasil gambar HD siap download.
+                </div>
+            </div>
+
+            <div class="g24"></div>
         </div>
-
-        <div id="page-chats" class="page-content space-y-4">
-            <h2 class="text-sm font-black text-white uppercase tracking-wider border-b border-gray-800 pb-2">Communication Hub</h2>
-            <div class="flex bg-[#0d0306] rounded-xl p-1 border border-gray-800 mb-4 shadow-inner">
-                <button onclick="switchChatTab('global')" id="tab-global" class="flex-1 py-2 text-xs font-bold rounded-lg bg-ultronRed/20 text-ultronRed border border-ultronRed/30 transition-all">Global Chat</button>
-                <button onclick="switchChatTab('private')" id="tab-private" class="flex-1 py-2 text-xs font-bold text-gray-500 rounded-lg hover:text-white transition-all">Private WA</button>
-            </div>
-
-            <!-- Global Chat Area -->
-            <div id="chat-global-area" class="ultron-card border border-gray-800 rounded-xl flex flex-col h-[55vh] bg-[#0d0306]">
-                <div id="globalChatMessages" class="flex-1 overflow-y-auto p-4 space-y-4">
-                    <div class="flex space-x-2">
-                        <div class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-[10px] text-gray-400 shrink-0 font-bold">SYS</div>
-                        <div>
-                            <div class="flex items-center space-x-1 mb-1"><span class="text-[10px] font-bold text-gray-300">System</span><span class="text-[8px] text-gray-500">12:00</span></div>
-                            <div class="bg-[#130509] border border-gray-800 rounded-xl rounded-tl-none p-2.5 text-xs text-gray-300">Selamat datang di Global Chat Infinity Wanzzy. Dilarang spam.</div>
-                        </div>
-                    </div>
-                </div>
-                <form id="globalChatForm" onsubmit="sendGlobalMessage(event)" class="p-3 border-t border-gray-800 bg-[#080204] flex space-x-2 rounded-b-xl">
-                    <input type="text" id="globalChatInput" placeholder="Ketik pesan..." autocomplete="off" class="flex-1 bg-[#130509] border border-gray-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-ultronRed">
-                    <button type="submit" class="w-10 h-10 bg-ultronRed text-white rounded-lg hover:bg-red-700 flex items-center justify-center transition-colors"><i class="fa-solid fa-paper-plane"></i></button>
-                </form>
-            </div>
-
-            <!-- Private Chat Area -->
-            <div id="chat-private-area" class="hidden ultron-card border border-gray-800 rounded-xl flex flex-col h-[55vh] bg-[#0d0306] items-center justify-center">
-                <i class="fa-solid fa-user-lock text-4xl text-gray-700 mb-3 drop-shadow-md"></i>
-                <p class="text-[10px] text-gray-500 text-center font-mono uppercase tracking-wider">Private WhatsApp<br>No Active Conversations</p>
-            </div>
-        </div>
-
-        <div id="page-tools" class="page-content space-y-4">
-            <h2 class="text-sm font-black text-white uppercase tracking-wider border-b border-gray-800 pb-2">Multi-Tools System</h2>
-            <div class="grid grid-cols-2 gap-3">
-                <div onclick="showMsg('Spam NGL', 'Running auto message script...', 'info')" class="ultron-card border border-gray-800 rounded-xl p-4 bg-[#0d0306] hover:bg-ultronRed/10 hover:border-ultronRed transition-all cursor-pointer flex flex-col items-center text-center shadow-inner">
-                    <i class="fa-solid fa-paper-plane text-2xl text-gray-400 mb-2"></i>
-                    <h3 class="font-bold text-white text-xs">Spam NGL</h3><p class="text-[9px] text-gray-500 mt-0.5">Auto Message</p>
-                </div>
-                <div onclick="showMsg('Fake DANA', 'Mockup generator...', 'info')" class="ultron-card border border-gray-800 rounded-xl p-4 bg-[#0d0306] hover:bg-ultronRed/10 hover:border-ultronRed transition-all cursor-pointer flex flex-col items-center text-center shadow-inner">
-                    <i class="fa-solid fa-wallet text-2xl text-gray-400 mb-2"></i>
-                    <h3 class="font-bold text-white text-xs">Fake DANA</h3><p class="text-[9px] text-gray-500 mt-0.5">Saldo Simulator</p>
-                </div>
-                <div onclick="showMsg('NIK Checker', 'Connecting to OSINT DB...', 'info')" class="ultron-card border border-gray-800 rounded-xl p-4 bg-[#0d0306] hover:bg-ultronRed/10 hover:border-ultronRed transition-all cursor-pointer flex flex-col items-center text-center shadow-inner">
-                    <i class="fa-solid fa-id-card text-2xl text-gray-400 mb-2"></i>
-                    <h3 class="font-bold text-white text-xs">NIK Checker</h3><p class="text-[9px] text-gray-500 mt-0.5">OSINT Data</p>
-                </div>
-                <div onclick="showMsg('Phone Lookup', 'Tracking number...', 'info')" class="ultron-card border border-gray-800 rounded-xl p-4 bg-[#0d0306] hover:bg-ultronRed/10 hover:border-ultronRed transition-all cursor-pointer flex flex-col items-center text-center shadow-inner">
-                    <i class="fa-solid fa-phone-flip text-2xl text-gray-400 mb-2"></i>
-                    <h3 class="font-bold text-white text-xs">Phone Lookup</h3><p class="text-[9px] text-gray-500 mt-0.5">Track Number</p>
-                </div>
-            </div>
-            <div class="pt-4 mt-2 border-t border-gray-800">
-                <h3 class="text-[10px] font-bold text-ultronRed font-mono uppercase tracking-widest mb-3 flex items-center space-x-2">
-                    <i class="fa-solid fa-puzzle-piece"></i><span>Installed Tools</span>
-                </h3>
-                <div id="dynamicToolsContainer" class="grid grid-cols-1 gap-3">
-                    <p id="noToolsPluginText" class="text-[10px] text-gray-600 font-mono text-center py-4 bg-[#0d0306] rounded-xl border border-gray-900 border-dashed">Belum ada plugin diinstal.</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="page-plugins" class="page-content space-y-4">
-            <div class="flex items-center justify-between border-b border-gray-800 pb-2">
-                <h2 class="text-sm font-black text-white uppercase tracking-wider">Plugin Manager</h2>
-                <span class="px-2 py-0.5 rounded bg-ultronRed/20 text-ultronRed text-[9px] font-mono border border-ultronRed/30">DEV ROOT</span>
-            </div>
-            <div class="ultron-card ultron-border rounded-2xl p-5 ultron-gradient space-y-4 shadow-[0_0_20px_rgba(255,26,64,0.1)]">
-                <p class="text-[9px] text-gray-400 leading-relaxed font-mono uppercase tracking-wide">Inject custom JS directly into the dashboard without modifying core files.</p>
-                <div class="space-y-3">
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-300 mb-1 uppercase tracking-wider">Nama Plugin</label>
-                        <input type="text" id="pluginName" placeholder="ex: VIP Sender Script" class="w-full px-3 py-3 bg-[#0d0306] border border-gray-800 rounded-xl text-xs text-white focus:outline-none focus:border-ultronRed shadow-inner">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-ultronRed mb-1 uppercase tracking-wider">Target Penempatan</label>
-                        <div class="relative">
-                            <select id="pluginTarget" class="w-full pl-3 pr-10 py-3 bg-[#0d0306] border border-gray-800 rounded-xl text-xs text-white focus:outline-none focus:border-ultronRed appearance-none shadow-inner">
-                                <option value="tools">Menu Tools (Grid Base)</option>
-                                <option value="attack">Menu Attack (Dropdown Method)</option>
-                            </select>
-                            <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 pointer-events-none"><i class="fa-solid fa-chevron-down"></i></span>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-300 mb-1 uppercase tracking-wider">Upload JS File (Opsional)</label>
-                        <input type="file" id="pluginFile" accept=".js" class="w-full text-[10px] text-gray-400 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:font-bold file:bg-ultronRed/20 file:text-ultronRed hover:file:bg-ultronRed/30 border border-gray-800 rounded-xl bg-[#0d0306] p-1.5 shadow-inner">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-300 mb-1 uppercase tracking-wider">Raw Code Execution (JS)</label>
-                        <textarea id="pluginCode" rows="4" placeholder="// Write logic here...&#10;showMsg('Success', 'Plugin executed!');" class="w-full px-3 py-3 bg-[#0d0306] border border-gray-800 rounded-xl text-xs font-mono text-green-400 focus:outline-none focus:border-ultronRed shadow-inner"></textarea>
-                    </div>
-                    <button onclick="installCustomPlugin()" class="w-full py-3.5 border border-ultronRed text-ultronRed font-bold rounded-xl hover:bg-ultronRed hover:text-white transition-all text-xs tracking-widest uppercase mt-4 flex items-center justify-center space-x-2 shadow-[0_0_10px_rgba(255,26,64,0.2)]">
-                        <i class="fa-solid fa-code-commit"></i><span>COMPILE & INSTALL</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div id="page-anime" class="page-content space-y-4">
-            <h2 class="text-sm font-black text-white uppercase tracking-wider border-b border-gray-800 pb-2">Anime Station</h2>
-            <div class="relative">
-                <input type="text" placeholder="Cari anime..." class="w-full pl-4 pr-10 py-3 bg-[#0d0306] border border-gray-800 rounded-xl text-sm text-white focus:outline-none focus:border-ultronRed shadow-inner">
-                <button class="absolute inset-y-0 right-0 px-4 text-gray-500 hover:text-ultronRed"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </div>
-            <div class="flex flex-col items-center justify-center py-20 space-y-4">
-                <i class="fa-solid fa-circle-notch text-4xl text-ultronRed animate-spin"></i>
-                <p class="text-[10px] text-gray-400 font-mono text-center uppercase tracking-wider">Connecting to API...<br><span class="text-[8px] text-gray-500">Loading Database</span></p>
-            </div>
-        </div>
-
-        <div id="page-profile" class="page-content space-y-4">
-            <h2 class="text-sm font-black text-white uppercase tracking-wider border-b border-gray-800 pb-2">Account Profile</h2>
-            <div class="ultron-card border border-gray-800 rounded-2xl p-5 bg-[#0d0306] space-y-5 shadow-inner">
-                <div class="flex flex-col items-center border-b border-gray-800/50 pb-5">
-                    <div class="relative mb-3">
-                        <img src="https://placehold.co/150x150/130509/ff1a40?text=U" class="user-avatar w-20 h-20 rounded-full border-2 border-ultronRed shadow-[0_0_15px_rgba(255,26,64,0.4)] object-cover">
-                    </div>
-                    <h3 class="text-lg font-bold text-white flex items-center">
-                        <span class="user-name">User</span>
-                        <span class="user-verified ml-1.5 hidden text-blue-500 text-sm"><i class="fa-solid fa-circle-check"></i></span>
-                    </h3>
-                    <p class="user-role text-[10px] font-mono text-ultronRed uppercase tracking-wider mt-0.5">Member</p>
-                </div>
-                
-                <form id="profileForm" onsubmit="updateProfile(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase tracking-wider">URL Foto Profil (Optional)</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-600"><i class="fa-solid fa-image"></i></span>
-                            <input type="url" id="profAvatar" placeholder="https://link-gambar.com/foto.jpg" class="w-full pl-9 pr-4 py-3 bg-[#080204] border border-gray-800 rounded-xl text-xs text-white focus:outline-none focus:border-ultronRed shadow-inner">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase tracking-wider">Ubah Username</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-600"><i class="fa-solid fa-user-pen"></i></span>
-                            <input type="text" id="profUsername" placeholder="Username baru" class="w-full pl-9 pr-4 py-3 bg-[#080204] border border-gray-800 rounded-xl text-xs text-white focus:outline-none focus:border-ultronRed shadow-inner">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase tracking-wider">Ubah Password</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-600"><i class="fa-solid fa-key"></i></span>
-                            <input type="password" id="profPassword" placeholder="Biarkan kosong jika tidak diubah" class="w-full pl-9 pr-4 py-3 bg-[#080204] border border-gray-800 rounded-xl text-xs text-white focus:outline-none focus:border-ultronRed shadow-inner">
-                        </div>
-                    </div>
-                    <button type="submit" class="w-full py-3.5 bg-ultronRed hover:bg-red-700 text-white font-black rounded-xl transition-all text-xs tracking-widest uppercase mt-2 shadow-[0_0_10px_rgba(255,26,64,0.3)]">
-                        SIMPAN PERUBAHAN
-                    </button>
-                </form>
-            </div>
-        </div>
-
     </main>
 
-    <nav class="fixed bottom-0 inset-x-0 bg-[#080204]/95 backdrop-blur-xl border-t border-ultronBorder z-40 w-full shadow-[0_-5px_20px_rgba(255,26,64,0.1)]">
-        <div class="flex items-center justify-between py-2 px-2 max-w-md mx-auto">
-            <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center p-1.5 text-ultronRed flex-1 transition-colors">
-                <i class="fa-solid fa-house text-[18px] mb-1"></i><span class="text-[8px] font-bold uppercase tracking-wider">Home</span>
-            </button>
-            <button onclick="switchTab('whatsapp')" id="nav-whatsapp" class="flex flex-col items-center p-1.5 text-gray-600 hover:text-ultronRed flex-1 transition-colors">
-                <i class="fa-solid fa-meteor text-[18px] mb-1"></i><span class="text-[8px] font-bold uppercase tracking-wider">Attack</span>
-            </button>
-            <button onclick="switchTab('chats')" id="nav-chats" class="flex flex-col items-center p-1.5 text-gray-600 hover:text-ultronRed flex-1 transition-colors relative">
-                <i class="fa-solid fa-comments text-[18px] mb-1"></i>
-                <span class="absolute top-1 right-3 w-2 h-2 bg-ultronRed rounded-full shadow-[0_0_5px_#ff1a40]"></span>
-                <span class="text-[8px] font-bold uppercase tracking-wider">Chats</span>
-            </button>
-            <button onclick="switchTab('tools')" id="nav-tools" class="flex flex-col items-center p-1.5 text-gray-600 hover:text-ultronRed flex-1 transition-colors">
-                <i class="fa-solid fa-toolbox text-[18px] mb-1"></i><span class="text-[8px] font-bold uppercase tracking-wider">Tools</span>
-            </button>
-            <button onclick="switchTab('plugins')" id="nav-plugins" class="hidden flex-col items-center p-1.5 text-gray-600 hover:text-ultronRed flex-1 transition-colors">
-                <i class="fa-solid fa-code text-[18px] mb-1"></i><span class="text-[8px] font-bold uppercase tracking-wider">Plugins</span>
-            </button>
-            <button onclick="switchTab('anime')" id="nav-anime" class="flex flex-col items-center p-1.5 text-gray-600 hover:text-ultronRed flex-1 transition-colors">
-                <i class="fa-solid fa-film text-[18px] mb-1"></i><span class="text-[8px] font-bold uppercase tracking-wider">Anime</span>
-            </button>
-        </div>
-    </nav>
-
-    <div id="customModal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="ultron-card ultron-border rounded-2xl p-6 w-full max-w-xs ultron-gradient text-center shadow-[0_0_30px_rgba(255,26,64,0.2)]" id="modalContent">
-            <div class="w-14 h-14 rounded-full bg-ultronRed/20 text-ultronRed mx-auto flex items-center justify-center border border-ultronRed/40 mb-4">
-                <i id="modalIcon" class="fa-solid fa-bell text-2xl"></i>
-            </div>
-            <h3 id="modalTitle" class="font-black text-white text-sm mb-2 uppercase tracking-wide">Info</h3>
-            <p id="modalMsg" class="text-[11px] text-gray-300 mb-6 leading-relaxed font-mono break-words">Pesan sistem...</p>
-            <button onclick="closeModal()" class="w-full py-3 bg-gray-900 hover:bg-ultronRed text-white font-bold rounded-xl text-xs transition-colors uppercase tracking-widest border border-gray-700 hover:border-ultronRed shadow-[0_0_10px_rgba(255,26,64,0.2)]">
-                ACKNOWLEDGE
-            </button>
-        </div>
+    <!-- Floating Action Button -->
+    <div class="fab-wrapper">
+        <button class="fab-btn" onclick="scrollToTop()">
+            <i class="fas fa-arrow-up"></i>
+        </button>
     </div>
 
     <script>
-        let currentUser = null;
-        window.attackPlugins = {}; 
+        document.addEventListener('DOMContentLoaded', async () => {
 
-        let usersDB = JSON.parse(localStorage.getItem('inf_wanzzy_users_db')) || {
-            'wanzzy': { 
-                password: 'wanzzy41', 
-                role: 'Owner', 
-                isDev: true, 
-                avatar: 'https://placehold.co/150x150/130509/ff1a40?text=W'
-            }
-        };
+            /* ===== FETCH USER DATA ===== */
+            try {
+                const r = await fetch('/api/user-data', { cache: 'no-store' });
+                const j = await r.json();
+                document.getElementById('drawerUser').textContent = j.username || '-';
+                document.getElementById('drawerExp').textContent = j.expired
+                    ? new Date(j.expired).toLocaleDateString('id-ID', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Jakarta' })
+                    : '-';
+            } catch (e) {}
 
-        window.onload = () => {
-            // FIX: Force video play for strict mobile browsers
-            setTimeout(() => {
-                const vid = document.getElementById('dashVideo');
-                if(vid) vid.play().catch(e => console.log('Autoplay dicegah oleh browser:', e));
-            }, 500);
+            /* ===== AUTO-FILL TIME ON LOAD ===== */
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('timeInput').value = `${h}:${m}`;
+            document.getElementById('batteryInput').value = '100';
+            document.getElementById('carrierInput').value = 'Telkomsel';
 
-            let progress = 0;
-            const progressEl = document.getElementById('loadProgress');
-            const percentEl = document.getElementById('loadPercent');
-            
-            const loadingInt = setInterval(() => {
-                progress += Math.floor(Math.random() * 20) + 5;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(loadingInt);
+            /* ===== ELEMENTS ===== */
+            const generateBtn = document.getElementById('generateBtn');
+            const loader = document.getElementById('loader');
+            const resultCard = document.getElementById('resultCard');
+            const resultImg = document.getElementById('resultImg');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const errorToast = document.getElementById('errorToast');
+
+            let currentApiUrl = '';
+
+            /* ===== NOTIFICATION ===== */
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.innerHTML = `<span style="color:var(--primary)"><i class="fas fa-mobile-screen-button"></i></span> ${message}`;
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.style.animation = 'notifOut 0.3s ease-out';
                     setTimeout(() => {
-                        document.getElementById('loadingScreen').style.opacity = '0';
-                        setTimeout(() => {
-                            document.getElementById('loadingScreen').style.display = 'none';
-                            checkAuth();
-                        }, 700);
-                    }, 600);
-                }
-                progressEl.style.width = progress + '%';
-                percentEl.innerText = progress + '%';
-            }, 120);
+                        if (notification.parentNode) {
+                            document.body.removeChild(notification);
+                        }
+                    }, 300);
+                }, 2000);
+            }
 
-            initStatusBar();
-            
-            document.addEventListener('click', (e) => {
-                const container = document.getElementById('customSelectContainer');
-                const options = document.getElementById('customSelectOptions');
-                const icon = document.getElementById('customSelectIcon');
-                if (container && !container.contains(e.target) && !options.classList.contains('hidden')) {
-                    options.classList.add('hidden');
-                    icon.style.transform = 'rotate(0deg)';
+            /* ===== ERROR ===== */
+            function showError(message) {
+                errorToast.textContent = message;
+                errorToast.style.display = 'block';
+                setTimeout(() => {
+                    errorToast.style.display = 'none';
+                }, 3000);
+            }
+
+            /* ===== GENERATE ===== */
+            generateBtn.addEventListener('click', () => {
+                const time = document.getElementById('timeInput').value.trim();
+                const battery = document.getElementById('batteryInput').value.trim();
+                const carrier = document.getElementById('carrierInput').value.trim();
+                const message = document.getElementById('messageInput').value.trim();
+
+                if (!time || !battery || !carrier || !message) {
+                    showError("All fields must be filled!");
+                    return;
+                }
+
+                // Validate time format (HH:MM)
+                const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+                if (!timeRegex.test(time)) {
+                    showError("Invalid time format! Use HH:MM (e.g., 14:30)");
+                    return;
+                }
+
+                // Validate battery (1-100)
+                const batteryNum = parseInt(battery);
+                if (isNaN(batteryNum) || batteryNum < 1 || batteryNum > 100) {
+                    showError("Battery must be between 1 and 100!");
+                    return;
+                }
+
+                // UI State: Processing
+                errorToast.style.display = 'none';
+                resultCard.style.display = 'none';
+                loader.style.display = 'block';
+                generateBtn.disabled = true;
+                generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+
+                // Construct API URL
+                currentApiUrl = `https://brat.siputzx.my.id/iphone-quoted?time=${encodeURIComponent(time)}&batteryPercentage=${battery}&carrierName=${encodeURIComponent(carrier)}&messageText=${encodeURIComponent(message)}&emojiStyle=apple`;
+
+                // Set image source
+                resultImg.src = currentApiUrl;
+
+                // Handle Image Load Success
+                resultImg.onload = () => {
+                    loader.style.display = 'none';
+                    resultCard.style.display = 'block';
+                    generateBtn.disabled = false;
+                    generateBtn.innerHTML = '<i class="fas fa-bolt"></i> Generate Quote';
+
+                    // Scroll to result
+                    resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                    showNotification("Quote generated successfully!");
+                };
+
+                // Handle Error
+                resultImg.onerror = () => {
+                    loader.style.display = 'none';
+                    generateBtn.disabled = false;
+                    generateBtn.innerHTML = '<i class="fas fa-bolt"></i> Generate Quote';
+                    showError("Failed to generate image. Server may be busy.");
+                };
+            });
+
+            /* ===== DOWNLOAD ===== */
+            downloadBtn.addEventListener('click', () => {
+                if (!currentApiUrl) return;
+                showNotification("Downloading quote image...");
+                const link = document.createElement('a');
+                link.href = currentApiUrl;
+                link.download = `iphone_quote_${Date.now()}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showNotification("Download complete!");
+            });
+
+            /* ===== RESET ===== */
+            resetBtn.addEventListener('click', () => {
+                document.getElementById('messageInput').value = '';
+                resultCard.style.display = 'none';
+                resultImg.src = '';
+                currentApiUrl = '';
+                document.getElementById('messageInput').focus();
+                showNotification("Reset successfully!");
+            });
+
+            /* ===== ENTER KEY SUPPORT (Ctrl+Enter in textarea) ===== */
+            document.getElementById('messageInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && e.ctrlKey) {
+                    e.preventDefault();
+                    generateBtn.click();
                 }
             });
-        };
 
-        function showMsg(title, msg, type = 'info') {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalMsg').innerText = msg;
-            const icon = document.getElementById('modalIcon');
-            icon.className = 'text-2xl ' + (type === 'error' ? 'fa-solid fa-triangle-exclamation text-red-500' : 
-                                          type === 'success' ? 'fa-solid fa-check-circle text-green-500' : 
-                                          'fa-solid fa-bell text-ultronRed');
-            
-            const modal = document.getElementById('customModal');
-            modal.classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('customModal').classList.add('hidden');
-        }
-
-        function checkAuth() {
-            const saved = localStorage.getItem('inf_wanzzy_active_session');
-            if (saved) {
-                currentUser = JSON.parse(saved);
-                applySession();
-            } else {
-                document.getElementById('authModal').classList.remove('hidden');
-            }
-        }
-
-        document.getElementById('authForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const user = document.getElementById('authUsername').value.trim();
-            const pass = document.getElementById('authPassword').value;
-
-            if (usersDB[user]) {
-                if (usersDB[user].password === pass) {
-                    currentUser = { username: user, ...usersDB[user] };
-                } else {
-                    showMsg('Access Denied', 'Invalid credentials.', 'error');
-                    return;
-                }
-            } else {
-                if(user.toLowerCase() === 'wanzzy') {
-                    showMsg('Access Denied', 'Reserved system name. Invalid credentials.', 'error');
-                    return;
-                }
-                currentUser = { 
-                    username: user, 
-                    password: pass, 
-                    role: 'Member', 
-                    isDev: false, 
-                    avatar: `https://placehold.co/150x150/130509/ff1a40?text=${user.charAt(0).toUpperCase()}` 
-                };
-                usersDB[user] = { password: pass, role: 'Member', isDev: false, avatar: currentUser.avatar };
-                localStorage.setItem('inf_wanzzy_users_db', JSON.stringify(usersDB));
-            }
-
-            saveSession();
-            document.getElementById('authModal').classList.add('hidden');
-            applySession();
-            showMsg('System Initialized', `Welcome back, ${currentUser.username}.`, 'success');
+            /* ===== AUTO-FOCUS MESSAGE FIELD ===== */
+            document.getElementById('messageInput').focus();
         });
 
-        function saveSession() {
-            localStorage.setItem('inf_wanzzy_active_session', JSON.stringify(currentUser));
+        /* ===== DRAWER TOGGLE ===== */
+        function toggleDrawer() {
+            document.getElementById('sidebarDrawer').classList.toggle('active');
+            document.querySelector('.drawer-overlay').classList.toggle('active');
         }
 
-        function togglePassword() {
-            const input = document.getElementById('authPassword');
-            const icon = document.getElementById('eyeIcon');
-            if (input.type === 'password') {
-                input.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                input.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
-        }
-
-        function logout() {
-            localStorage.removeItem('inf_wanzzy_active_session');
-            location.reload();
-        }
-
-        function applySession() {
-            const isWanzzy = currentUser.username.toLowerCase() === 'wanzzy';
-            
-            document.querySelectorAll('.user-name').forEach(el => el.innerText = currentUser.username);
-            document.querySelectorAll('.user-role').forEach(el => el.innerText = currentUser.role);
-            
-            document.querySelectorAll('.user-avatar').forEach(el => {
-                if(currentUser.avatar) el.src = currentUser.avatar;
-            });
-            
-            document.querySelectorAll('.user-verified').forEach(el => {
-                if(isWanzzy) el.classList.remove('hidden');
-                else el.classList.add('hidden');
-            });
-            
-            if (currentUser.isDev || isWanzzy) {
-                document.getElementById('nav-plugins').classList.remove('hidden');
-                document.getElementById('nav-plugins').classList.add('flex');
-                document.getElementById('devSidebarMenu').classList.remove('hidden');
-            } else {
-                document.getElementById('nav-plugins').classList.add('hidden');
-                document.getElementById('nav-plugins').classList.remove('flex');
-                document.getElementById('devSidebarMenu').classList.add('hidden');
-            }
-
-            document.getElementById('profUsername').value = currentUser.username;
-        }
-
-        function updateProfile(e) {
-            e.preventDefault();
-            const newName = document.getElementById('profUsername').value.trim();
-            const newPass = document.getElementById('profPassword').value;
-            const newAvatar = document.getElementById('profAvatar').value.trim();
-
-            if(!newName) return showMsg('Error', 'Username tidak boleh kosong.', 'error');
-            
-            const oldName = currentUser.username;
-            delete usersDB[oldName];
-
-            currentUser.username = newName;
-            if(newPass) currentUser.password = newPass;
-            if(newAvatar) currentUser.avatar = newAvatar;
-
-            usersDB[newName] = { 
-                password: currentUser.password, 
-                role: currentUser.role, 
-                isDev: currentUser.isDev, 
-                avatar: currentUser.avatar 
-            };
-            
-            localStorage.setItem('inf_wanzzy_users_db', JSON.stringify(usersDB));
-            saveSession();
-            applySession();
-            
-            document.getElementById('profPassword').value = '';
-            showMsg('Success', 'Profil berhasil diperbarui dan disinkronisasi.', 'success');
-        }
-
-        function toggleSidebar() {
-            const sb = document.getElementById('sidebar');
-            const ov = document.getElementById('sidebarOverlay');
-            if (sb.classList.contains('-translate-x-full')) {
-                sb.classList.remove('-translate-x-full'); ov.classList.remove('hidden');
-            } else {
-                sb.classList.add('-translate-x-full'); ov.classList.add('hidden');
-            }
-        }
-
-        function switchTab(tabId) {
-            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-            document.getElementById('page-' + tabId).classList.add('active');
-            
-            const navIds = ['home', 'whatsapp', 'chats', 'tools', 'plugins', 'anime'];
-            navIds.forEach(id => {
-                const btn = document.getElementById('nav-' + id);
-                if(btn) { btn.classList.remove('text-ultronRed'); btn.classList.add('text-gray-600'); }
-            });
-            
-            const activeBtn = document.getElementById('nav-' + tabId);
-            if(activeBtn) { activeBtn.classList.remove('text-gray-600'); activeBtn.classList.add('text-ultronRed'); }
-
-            const titles = {
-                'home': 'DASHBOARD', 'whatsapp': 'ATTACK SYSTEM', 'chats': 'CHAT SYSTEM', 
-                'tools': 'MULTI-TOOLS', 'plugins': 'DEV PLUGINS', 'anime': 'ANIME STATION',
-                'profile': 'MY ACCOUNT'
-            };
-            document.getElementById('headerTitle').innerText = titles[tabId];
-        }
-
-        function switchChatTab(tab) {
-            const btnGlobal = document.getElementById('tab-global');
-            const btnPrivate = document.getElementById('tab-private');
-            if (tab === 'global') {
-                btnGlobal.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-ultronRed/20 text-ultronRed border border-ultronRed/30 transition-all";
-                btnPrivate.className = "flex-1 py-2 text-xs font-bold text-gray-500 rounded-lg hover:text-white transition-all";
-                document.getElementById('chat-global-area').classList.remove('hidden');
-                document.getElementById('chat-private-area').classList.add('hidden');
-            } else {
-                btnPrivate.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-ultronRed/20 text-ultronRed border border-ultronRed/30 transition-all";
-                btnGlobal.className = "flex-1 py-2 text-xs font-bold text-gray-500 rounded-lg hover:text-white transition-all";
-                document.getElementById('chat-private-area').classList.remove('hidden');
-                document.getElementById('chat-global-area').classList.add('hidden');
-            }
-        }
-
-        function sendGlobalMessage(e) {
-            e.preventDefault();
-            const inputEl = document.getElementById('globalChatInput');
-            const msgText = inputEl.value.trim();
-            if(!msgText) return;
-
-            const chatMessages = document.getElementById('globalChatMessages');
-            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'flex space-x-2 justify-end';
-            messageDiv.innerHTML = `
-                <div class="text-right">
-                    <div class="flex items-center justify-end space-x-1 mb-1"><span class="text-[8px] text-gray-500">${timeStr}</span><span class="text-[10px] font-bold text-ultronRed">${currentUser ? currentUser.username : 'You'}</span></div>
-                    <div class="bg-ultronRed/20 border border-ultronRed/40 rounded-xl rounded-tr-none p-2.5 text-xs text-white text-left break-words max-w-[260px]">${escapeHtml(msgText)}</div>
-                </div>
-                <img src="${currentUser && currentUser.avatar ? currentUser.avatar : 'https://placehold.co/100x100/130509/ff1a40?text=U'}" class="w-8 h-8 rounded-full border border-ultronRed object-cover shrink-0">
-            `;
-            chatMessages.appendChild(messageDiv);
-            inputEl.value = '';
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function escapeHtml(text) {
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
-
-        function initStatusBar() {
-            setInterval(() => {
-                const d = new Date();
-                document.getElementById('realTimeClock').innerText = 
-                    String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
-            }, 1000);
-
-            const updateNet = () => {
-                const isOnline = navigator.onLine;
-                const netEl = document.getElementById('netStatus');
-                const netText = document.getElementById('netText');
-                const netIcon = document.getElementById('netIcon');
-                if (isOnline) {
-                    netEl.className = 'flex items-center space-x-1.5 px-2 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20 shadow-inner';
-                    netText.innerText = 'ON'; netIcon.className = 'fa-solid fa-wifi';
-                } else {
-                    netEl.className = 'flex items-center space-x-1.5 px-2 py-1 rounded bg-red-500/10 text-red-400 border border-red-500/20 shadow-inner';
-                    netText.innerText = 'OFF'; netIcon.className = 'fa-solid fa-triangle-exclamation';
-                }
-            };
-            window.addEventListener('online', updateNet); window.addEventListener('offline', updateNet); updateNet();
-
-            if (navigator.getBattery) {
-                navigator.getBattery().then(bat => {
-                    const updateBat = () => {
-                        const level = Math.round(bat.level * 100);
-                        document.getElementById('batteryText').innerText = level + '%';
-                        const icon = document.getElementById('batteryIcon');
-                        if (bat.charging) icon.className = 'fa-solid fa-bolt text-green-400';
-                        else if (level > 20) icon.className = 'fa-solid fa-battery-three-quarters text-ultronRed';
-                        else icon.className = 'fa-solid fa-battery-empty text-red-500';
-                    };
-                    updateBat(); bat.addEventListener('levelchange', updateBat); bat.addEventListener('chargingchange', updateBat);
-                });
-            }
-        }
-
-        function toggleCustomSelect() {
-            const options = document.getElementById('customSelectOptions');
-            const icon = document.getElementById('customSelectIcon');
-            if (options.classList.contains('hidden')) {
-                options.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
-            } else {
-                options.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
-            }
-        }
-
-        function selectMethod(methodName) {
-            document.getElementById('customSelectLabel').innerText = methodName;
-            document.getElementById('customSelectLabel').classList.replace('text-gray-300', 'text-white');
-            document.getElementById('waMethodValue').value = methodName;
-            
-            document.getElementById('customSelectOptions').classList.add('hidden');
-            document.getElementById('customSelectIcon').style.transform = 'rotate(0deg)';
-        }
-
-        function executeTargetAction() {
-            const target = document.getElementById('waTargetNumber').value;
-            const method = document.getElementById('waMethodValue').value;
-            
-            if(!target || !method) {
-                return showMsg('Validation Failed', 'Mohon lengkapi Target Number dan Pilih Metode Eksekusi.', 'error');
-            }
-            
-            if (window.attackPlugins && window.attackPlugins[method]) {
-                try {
-                    const mockRequire = function(moduleName) { return {}; };
-                    const safeRunner = new Function('showMsg', 'require', 'targetNumber', window.attackPlugins[method]);
-                    safeRunner(showMsg, mockRequire, target);
-                } catch(err) {
-                    showMsg('RUNTIME ERROR', err.message, 'error');
-                }
-            } else {
-                showMsg('Payload Initiated', `Target: ${target}\nMethod: ${method}\nStatus: Execution Payload sent.`, 'success');
-            }
-        }
-
-        function installCustomPlugin() {
-            const name = document.getElementById('pluginName').value.trim();
-            const code = document.getElementById('pluginCode').value.trim();
-            const target = document.getElementById('pluginTarget').value;
-            const fileInput = document.getElementById('pluginFile');
-
-            if (!name) return showMsg('Dev Error', 'Nama plugin wajib diisi.', 'error');
-
-            let finalCode = code;
-            if (fileInput.files.length > 0) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    finalCode = e.target.result + "\n" + finalCode;
-                    injectPluginToUI(name, finalCode, target);
-                };
-                reader.readAsText(fileInput.files[0]);
-            } else {
-                injectPluginToUI(name, finalCode, target);
-            }
-        }
-
-        function injectPluginToUI(name, logicCode, target) {
-            if (target === 'attack') {
-                const optionsContainer = document.getElementById('customSelectOptions');
-                const newOptionId = 'opt_' + Date.now();
-                
-                const optionDiv = document.createElement('div');
-                optionDiv.id = newOptionId;
-                optionDiv.className = "px-4 py-3 hover:bg-ultronRed/20 text-sm text-gray-200 cursor-pointer border-t border-gray-800/50 flex items-center justify-between transition-colors";
-                optionDiv.innerHTML = `
-                    <div class="flex items-center space-x-2 flex-1" onclick="selectMethod('${name}')">
-                        <i class="fa-solid fa-biohazard text-ultronRed w-4 drop-shadow-[0_0_2px_#ff1a40]"></i>
-                        <span class="font-bold">${name}</span>
-                    </div>
-                    <button class="delete-btn text-gray-500 hover:text-red-500 px-2 relative z-20" onclick="removeAttackPlugin('${newOptionId}', '${name}')"><i class="fa-solid fa-trash"></i></button>
-                `;
-                
-                optionsContainer.appendChild(optionDiv);
-                window.attackPlugins[name] = logicCode || `showMsg('Custom Plugin', 'Plugin ${name} dieksekusi dengan sukses ke target.', 'success');`;
-                
-                showMsg('Plugin Terpasang', `Plugin "${name}" berhasil diinjeksi ke dalam Dropdown Menu Attack.`, 'success');
-
-            } else {
-                const container = document.getElementById('dynamicToolsContainer');
-                document.getElementById('noToolsPluginText').style.display = 'none';
-
-                const pluginId = 'plug_' + Date.now();
-                const btnHTML = document.createElement('div');
-                btnHTML.className = "ultron-card border border-gray-800 rounded-xl p-4 bg-[#0d0306] hover:bg-ultronRed/10 hover:border-ultronRed/50 cursor-pointer flex items-center justify-between transition-all shadow-inner";
-                btnHTML.innerHTML = `
-                    <div class="flex items-center space-x-3 pointer-events-none">
-                        <div class="w-8 h-8 rounded bg-ultronRed/10 border border-ultronRed/30 text-ultronRed flex items-center justify-center"><i class="fa-solid fa-code-merge"></i></div>
-                        <div><h3 class="font-bold text-white text-xs">${name}</h3><p class="text-[9px] text-green-400 font-mono">Custom Tool</p></div>
-                    </div>
-                    <button class="delete-btn text-gray-600 hover:text-red-500 p-2 relative z-20"><i class="fa-solid fa-trash"></i></button>
-                `;
-                btnHTML.id = pluginId;
-                
-                btnHTML.addEventListener('click', (e) => {
-                    if(e.target.closest('.delete-btn')) return;
-                    try {
-                        const mockRequire = function(mod) { return {}; };
-                        const sandboxFunc = new Function('showMsg', 'require', logicCode || `showMsg('${name}', 'Tool dieksekusi dengan aman.', 'success');`);
-                        sandboxFunc(showMsg, mockRequire);
-                    } catch (err) { showMsg('RUNTIME ERROR', err.message, 'error'); }
-                });
-
-                btnHTML.querySelector('.delete-btn').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    container.removeChild(btnHTML);
-                    if(container.children.length === 1) document.getElementById('noToolsPluginText').style.display = 'block';
-                });
-
-                container.appendChild(btnHTML);
-                showMsg('Plugin Terpasang', `Tool "${name}" berhasil ditambahkan ke halaman Tools.`, 'success');
-            }
-
-            document.getElementById('pluginName').value = '';
-            document.getElementById('pluginCode').value = '';
-            document.getElementById('pluginFile').value = '';
-        }
-
-        function removeAttackPlugin(domId, name) {
-            event.stopPropagation();
-            const el = document.getElementById(domId);
-            if(el) el.remove();
-            
-            delete window.attackPlugins[name];
-            
-            if(document.getElementById('waMethodValue').value === name) {
-                document.getElementById('customSelectLabel').innerText = '-- Pilih Metode Eksekusi --';
-                document.getElementById('customSelectLabel').classList.replace('text-white', 'text-gray-300');
-                document.getElementById('waMethodValue').value = '';
-            }
+        /* ===== SCROLL TO TOP ===== */
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
