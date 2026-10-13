@@ -1,861 +1,181 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>iPhone Quote · Indictive</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZEUS189 - Situs Terpopuler 2026</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    body {
+      background-color: #000000;
+      /* Pola titik-titik transparan biru gelap berulang untuk tekstur */
+      background-image: radial-gradient(circle, rgba(0, 90, 255, 0.35) 1px, transparent 1px);
+      background-size: 18px 18px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
 
-    <style>
-        @font-face {
-            font-family: 'MADE Evolve Sans EVO';
-            src: url('../fonts/MADEEvolveSansEVO.ttf') format('truetype');
-            font-weight: 400 700;
-            font-style: normal;
-            font-display: swap;
-        }
+    #app-container {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px;
+      background-color: rgba(0, 0, 0, 0.4);
+      border-left: 1px solid rgba(0, 180, 255, 0.15);
+      border-right: 1px solid rgba(0, 180, 255, 0.15);
+      min-height: 100vh;
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    /* ---------- HEADER / LOGO ---------- */
+    header {
+      text-align: center;
+      padding: 24px 8px 12px;
+    }
 
-        :root {
-            --primary: #60a5fa;
-            --primary-rgb: 96, 165, 250;
-            --primary-border: rgba(96, 165, 250, 0.22);
-            --bg-dark: #050810;
-            --text-white: #F0F4FA;
-            --text-white70: rgba(240, 244, 250, 0.65);
-            --text-white54: rgba(240, 244, 250, 0.4);
-            --radius: 14px;
-            --radius-lg: 20px;
-            --font-display: 'MADE Evolve Sans EVO', 'Share Tech Mono', monospace;
-            --font-mono: 'Share Tech Mono', monospace;
-        }
+    .logo {
+      font-family: 'Impact', 'Arial Black', sans-serif;
+      font-size: 3.2rem;
+      letter-spacing: 3px;
+      line-height: 1;
+      /* Gradasi biru terang -> biru tua + efek 3D shadow */
+      background: linear-gradient(to bottom, #00E5FF, #0047FF);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow:
+        0 1px 0 #003366,
+        0 2px 0 #002a55,
+        0 3px 0 #001f40,
+        0 5px 8px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(0, 180, 255, 0.5);
+    }
 
-        body {
-            font-family: var(--font-mono);
-            background: linear-gradient(160deg, #070c18 0%, #050810 50%, #060a14 100%);
-            color: var(--text-white);
-            min-height: 100vh;
-            overscroll-behavior: none;
-            overflow-x: hidden;
-        }
+    .subtitle {
+      margin-top: 10px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      color: #cfe9ff;
+      text-transform: uppercase;
+    }
 
-        /* ===== APP BAR ===== */
-        .app-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 56px;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 8px;
-            background: rgba(5, 8, 16, 0.92);
-            border-bottom: 1px solid var(--primary-border);
-            backdrop-filter: blur(12px);
-        }
+    /* ---------- HERO IMAGE ---------- */
+    .hero-section {
+      margin: 18px 0;
+      border: 2px solid rgba(0, 180, 255, 0.35);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 18px rgba(0, 150, 255, 0.25);
+    }
 
-        .menu-btn, .account-btn {
-            background: none;
-            border: none;
-            color: var(--primary);
-            font-size: 22px;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 50%;
-            transition: opacity 0.2s;
-        }
-        .menu-btn:active, .account-btn:active { opacity: 0.6; }
+    .hero-section img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
 
-        .app-bar-title {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .app-bar-title i { font-size: 18px; color: var(--primary); }
-        .app-bar-title span {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--text-white);
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-        }
+    /* ---------- CTA BUTTONS ---------- */
+    .cta-section {
+      margin: 8px 0 24px;
+    }
 
-        /* ===== DRAWER ===== */
-        .drawer-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 1999;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.25s, visibility 0.25s;
-        }
-        .drawer-overlay.active { opacity: 1; visibility: visible; }
+    .btn {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 15px;
+      border-radius: 10px;
+      background-color: #00c3ff; /* Biru neon terang mencolok */
+      color: #000000;
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 195, 255, 0.45);
+      transition: filter 0.2s ease, transform 0.1s ease;
+    }
 
-        .drawer {
-            position: fixed;
-            top: 0;
-            left: -300px;
-            width: 280px;
-            height: 100%;
-            z-index: 2000;
-            transition: left 0.28s ease;
-            overflow-y: auto;
-            background: rgba(7, 10, 20, 0.97);
-            border-right: 1px solid var(--primary-border);
-        }
-        .drawer.active { left: 0; }
+    .btn:hover {
+      filter: brightness(0.9);
+    }
 
-        .drawer-header {
-            height: 200px;
-            padding: 20px 16px;
-            background: linear-gradient(to bottom, rgba(var(--primary-rgb), 0.07), transparent);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .drawer-logo { margin-bottom: 16px; }
-        .drawer-logo img { height: 130px; object-fit: contain; display: block; margin-left: 40px; }
+    .btn:active {
+      filter: brightness(0.85);
+      transform: scale(0.98);
+    }
 
-        .info-card {
-            padding: 12px 16px;
-            margin-bottom: 5px;
-            background: rgba(var(--primary-rgb), 0.06);
-            border-radius: 14px;
-            border: 1px solid var(--primary-border);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .info-card i { color: var(--primary); font-size: 18px; width: 20px; text-align: center; }
-        .info-card-label { color: var(--text-white70); font-weight: bold; font-size: 13px; font-family: var(--font-display); }
-        .info-card-value { color: var(--text-white); font-family: var(--font-mono); margin-left: auto; font-size: 13px; }
+    /* ---------- FOOTER ---------- */
+    footer {
+      text-align: center;
+      padding: 20px 8px 30px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.85rem;
+      color: #aecbe0;
+    }
 
-        .drawer-menu { list-style: none; padding: 12px 0; }
-        .drawer-menu-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .drawer-menu-item:active { background: rgba(var(--primary-rgb), 0.08); }
-        .drawer-menu-item i { color: var(--primary); font-size: 19px; margin-right: 16px; width: 24px; text-align: center; }
-        .drawer-menu-item span { color: var(--text-white70); font-size: 15px; font-family: var(--font-mono); }
+    footer a {
+      color: #00c3ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
-        /* ===== MAIN CONTENT ===== */
-        .main-content {
-            padding-top: 62px;
-            padding-bottom: 40px;
-            min-height: 100vh;
-            animation: fadeIn 0.3s ease-out;
-        }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .page-container { max-width: 480px; margin: 0 auto; padding: 0 16px; }
-
-        /* ===== HERO BANNER ===== */
-        .hero-banner {
-            position: relative;
-            overflow: hidden;
-            padding: 24px 20px;
-            margin-bottom: 20px;
-            border-radius: var(--radius-lg);
-            border: 1px solid rgba(var(--primary-rgb), 0.28);
-            min-height: 130px;
-        }
-        .hero-banner-bg {
-            position: absolute;
-            inset: 0;
-            background-image: url('https://files.catbox.moe/9i9tp1.jpg');
-            background-size: cover;
-            background-position: center;
-            border-radius: inherit;
-            z-index: 0;
-        }
-        .hero-banner-overlay {
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background: linear-gradient(135deg, rgba(5,8,16,0.9) 0%, rgba(6,10,20,0.8) 100%);
-            z-index: 1;
-        }
-        .hero-icon-row {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            position: relative;
-            z-index: 3;
-            margin-bottom: 10px;
-        }
-        .hero-icon-wrap {
-            width: 52px;
-            height: 52px;
-            border-radius: 16px;
-            background: rgba(var(--primary-rgb), 0.22);
-            border: 1px solid rgba(var(--primary-rgb), 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        .hero-icon-wrap i { font-size: 22px; color: var(--primary); }
-        .hero-title {
-            font-family: var(--font-display);
-            font-weight: 900;
-            font-size: 20px;
-            color: var(--text-white);
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-        }
-        .hero-sub {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: var(--text-white54);
-            margin-top: 2px;
-            line-height: 1.4;
-        }
-        .hero-stats {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 3;
-            margin-top: 14px;
-        }
-        .hero-stat {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 10px;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(var(--primary-rgb), 0.2);
-        }
-        .hero-stat i { color: var(--primary); font-size: 12px; }
-        .hero-stat-val { font-family: var(--font-display); font-weight: 700; font-size: 13px; color: var(--text-white); }
-        .hero-stat-lbl { font-family: var(--font-mono); font-size: 9px; color: var(--text-white54); text-transform: uppercase; letter-spacing: 0.3px; }
-
-        /* ===== SECTION HEADER ===== */
-        .sec-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-        .sec-title { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--text-white); display: flex; align-items: center; gap: 8px; }
-        .sec-title i { color: var(--primary); font-size: 16px; }
-        .sec-badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: bold;
-            font-family: var(--font-display);
-            letter-spacing: 0.5px;
-            background: rgba(var(--primary-rgb), 0.11);
-            color: var(--primary);
-            border: 1px solid var(--primary-border);
-        }
-
-        /* ===== INPUT CARD ===== */
-        .input-card {
-            background: rgba(var(--primary-rgb), 0.04);
-            border: 1px solid var(--primary-border);
-            border-radius: var(--radius-lg);
-            padding: 24px 20px;
-            margin-bottom: 24px;
-            position: relative;
-            overflow: hidden;
-        }
-        .input-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(var(--primary-rgb), 0.4), transparent);
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 14px;
-        }
-
-        @media (max-width: 400px) {
-            .form-grid { grid-template-columns: 1fr; }
-        }
-
-        .input-wrapper { position: relative; margin-bottom: 14px; }
-
-        .input-label {
-            display: block;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: var(--text-white54);
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        .input-label i { color: var(--primary); margin-right: 6px; font-size: 12px; }
-
-        .input-field {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(var(--primary-rgb), 0.15);
-            padding: 14px 15px;
-            border-radius: 12px;
-            color: var(--text-white);
-            font-family: var(--font-mono);
-            font-size: 14px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-        .input-field::placeholder { color: rgba(var(--primary-rgb), 0.3); }
-        .input-field:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.1);
-        }
-
-        textarea.input-field {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        /* ===== BUTTONS ===== */
-        .btn-generate {
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            background: var(--primary);
-            border: none;
-            color: #050810;
-            font-family: var(--font-display);
-            font-weight: 800;
-            font-size: 14px;
-            letter-spacing: 2px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-            margin-top: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-transform: uppercase;
-        }
-        .btn-generate:hover {
-            background: #93c5fd;
-            box-shadow: 0 0 25px rgba(var(--primary-rgb), 0.3);
-        }
-        .btn-generate:active { transform: scale(0.98); }
-        .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        /* ===== LOADER ===== */
-        .loader-wrapper {
-            display: none;
-            text-align: center;
-            margin: 24px 0;
-        }
-        .spinner {
-            width: 42px;
-            height: 42px;
-            border: 3px solid rgba(var(--primary-rgb), 0.15);
-            border-top: 3px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 12px;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        .loader-text {
-            font-family: var(--font-display);
-            font-size: 12px;
-            color: var(--primary);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        /* ===== RESULT CARD ===== */
-        .result-card {
-            display: none;
-            background: rgba(var(--primary-rgb), 0.04);
-            border: 1px solid var(--primary-border);
-            border-radius: var(--radius-lg);
-            padding: 24px 20px;
-            animation: fadeSlideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            margin-bottom: 24px;
-            text-align: center;
-        }
-        @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .result-img {
-            max-width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 24px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(var(--primary-rgb), 0.15);
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
-            min-height: 120px;
-            object-fit: contain;
-        }
-
-        /* ===== ACTION BUTTONS ===== */
-        .action-buttons {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 14px;
-        }
-
-        .btn-download {
-            background: var(--primary);
-            color: #050810;
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
-            font-family: var(--font-display);
-            font-size: 12px;
-            font-weight: 800;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.3s;
-            text-align: center;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .btn-download:hover { background: #93c5fd; box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.3); }
-        .btn-download i { font-size: 16px; }
-
-        .btn-reset {
-            background: transparent;
-            border: 1px solid rgba(var(--primary-rgb), 0.2);
-            color: var(--primary);
-            border-radius: 12px;
-            cursor: pointer;
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 12px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .btn-reset:hover { background: rgba(var(--primary-rgb), 0.1); border-color: var(--primary); }
-
-        /* ===== ERROR TOAST ===== */
-        .error-toast {
-            background: rgba(239, 68, 68, 0.08);
-            border: 1px solid rgba(239, 68, 68, 0.25);
-            color: #fca5a5;
-            padding: 14px;
-            border-radius: 12px;
-            margin-top: 14px;
-            text-align: center;
-            font-size: 13px;
-            display: none;
-            font-family: var(--font-mono);
-        }
-
-        /* ===== NOTIFICATION ===== */
-        .notification {
-            position: fixed;
-            top: 70px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(10, 14, 26, 0.95);
-            color: var(--primary);
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-family: var(--font-display);
-            font-weight: 700;
-            letter-spacing: 1px;
-            z-index: 9999;
-            border: 1px solid var(--primary-border);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            animation: notifIn 0.3s ease-out;
-            backdrop-filter: blur(12px);
-            text-align: center;
-            font-size: 12px;
-            text-transform: uppercase;
-            white-space: nowrap;
-            max-width: 90vw;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        @keyframes notifIn {
-            from { transform: translateX(-50%) translateY(-15px); opacity: 0; }
-            to { transform: translateX(-50%) translateY(0); opacity: 1; }
-        }
-        @keyframes notifOut {
-            from { transform: translateX(-50%) translateY(0); opacity: 1; }
-            to { transform: translateX(-50%) translateY(-15px); opacity: 0; }
-        }
-
-        /* ===== INFO BANNER ===== */
-        .info-banner {
-            padding: 14px 16px;
-            border-radius: var(--radius);
-            background: rgba(var(--primary-rgb), 0.06);
-            border: 1px solid rgba(var(--primary-rgb), 0.15);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .info-banner i { color: var(--primary); font-size: 18px; flex-shrink: 0; }
-        .info-banner-text { font-size: 11px; color: var(--text-white54); line-height: 1.5; font-family: var(--font-mono); }
-        .info-banner-text strong { color: var(--primary); font-family: var(--font-display); }
-
-        /* ===== FAB ===== */
-        .fab-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
-        .fab-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
-            background: var(--primary);
-            border: none;
-            color: #050810;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 20px rgba(var(--primary-rgb), 0.25);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .fab-btn:hover { transform: scale(1.1); box-shadow: 0 0 25px rgba(var(--primary-rgb), 0.4); }
-
-        .g24 { height: 24px; }
-
-        /* ===== RESPONSIVE DESKTOP ===== */
-        @media (min-width: 900px) {
-            .drawer { left: 0 !important; width: 260px; }
-            .drawer-overlay { display: none !important; }
-            .app-bar { left: 260px; }
-            .menu-btn { display: none; }
-            .main-content { margin-left: 260px; padding-top: 70px; }
-            .page-container { max-width: 620px; padding: 0 28px; }
-        }
-        @media (min-width: 1280px) {
-            .drawer { width: 290px; }
-            .app-bar { left: 290px; }
-            .main-content { margin-left: 290px; }
-            .page-container { max-width: 720px; }
-        }
-    </style>
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
+  <div id="app-container">
 
-    <!-- ===== APP BAR ===== -->
-    <header class="app-bar">
-        <button class="menu-btn" onclick="toggleDrawer()"><i class="fas fa-bars"></i></button>
-        <div class="app-bar-title">
-            <i class="fas fa-mobile-screen-button"></i>
-            <span>iPhone Quote</span>
-        </div>
-        <button class="account-btn" onclick="window.location.href='/logout'"><i class="fas fa-sign-out-alt"></i></button>
+    <header>
+      <h1 class="logo">ZEUS189</h1>
+      <p class="subtitle">ZEUS189 SITUS TERPOPULER 2026</p>
     </header>
 
-    <!-- ===== DRAWER OVERLAY ===== -->
-    <div class="drawer-overlay" onclick="toggleDrawer()"></div>
+    <main>
+      <!-- Hero Image Section -->
+      <section class="hero-section">
+        <img src="https://files.catbox.moe/65zt1n.jpg" alt="Banner Utama ZEUS189">
+      </section>
 
-    <!-- ===== DRAWER SIDEBAR ===== -->
-    <aside class="drawer" id="sidebarDrawer">
-        <div class="drawer-header">
-            <div class="drawer-logo"><img src="https://files.catbox.moe/xl24wa.png" alt="Logo"></div>
-            <div class="info-card"><i class="fas fa-user"></i><span class="info-card-label">USER</span><span class="info-card-value" id="drawerUser">-</span></div>
-            <div class="info-card"><i class="fas fa-clock"></i><span class="info-card-label">EXPIRED</span><span class="info-card-value" id="drawerExp">-</span></div>
-        </div>
-        <ul class="drawer-menu">
-            <li class="drawer-menu-item" onclick="window.location.href='/dashboard'"><i class="fas fa-house"></i><span>Dashboard</span></li>
-            <li class="drawer-menu-item" onclick="window.location.href='/tools'">
-                <i class="fas fa-wrench" style="color:#fff;"></i>
-                <span style="color:var(--text-white);font-family:var(--font-display);font-weight:bold;">Tools</span>
-            </li>
-            <li class="drawer-menu-item" onclick="window.location.href='/execution'"><i class="fas fa-bug"></i><span>Bug Attack</span></li>
-            <li class="drawer-menu-item" onclick="window.location.href='/spamcall'"><i class="fas fa-phone-volume"></i><span>Spam Call</span></li>
-            <li class="drawer-menu-item" onclick="window.location.href='/sender'"><i class="fas fa-mobile-screen"></i><span>My Sender</span></li>
-        </ul>
-    </aside>
-
-    <!-- ===== MAIN CONTENT ===== -->
-    <main class="main-content">
-        <div class="page-container">
-
-            <!-- Hero Banner -->
-            <div class="hero-banner">
-                <div class="hero-banner-bg"></div>
-                <div class="hero-banner-overlay"></div>
-                <div class="hero-icon-row">
-                    <div class="hero-icon-wrap"><i class="fas fa-mobile-screen-button"></i></div>
-                    <div>
-                        <div class="hero-title">IPHONE QUOTE GENERATOR</div>
-                        <div class="hero-sub">Create fake iPhone screenshot quotes easily</div>
-                    </div>
-                </div>
-                <div class="hero-stats">
-                    <div class="hero-stat"><i class="fas fa-bolt"></i><div><div class="hero-stat-val">Fast</div><div class="hero-stat-lbl">Generate</div></div></div>
-                    <div class="hero-stat"><i class="fas fa-circle-check"></i><div><div class="hero-stat-val">Free</div><div class="hero-stat-lbl">No Limit</div></div></div>
-                    <div class="hero-stat"><i class="fas fa-image"></i><div><div class="hero-stat-val">HD</div><div class="hero-stat-lbl">Quality</div></div></div>
-                </div>
-            </div>
-
-            <!-- Section: Create Quote -->
-            <div class="sec-header">
-                <div class="sec-title"><i class="fas fa-pen-fancy"></i> Create Quote</div>
-                <span class="sec-badge">IQC</span>
-            </div>
-
-            <!-- Input Form Card -->
-            <div class="input-card">
-                <div class="form-grid">
-                    <div class="input-wrapper">
-                        <label class="input-label"><i class="far fa-clock"></i> Time (HH:MM)</label>
-                        <input type="text" id="timeInput" class="input-field" placeholder="12:00">
-                    </div>
-                    <div class="input-wrapper">
-                        <label class="input-label"><i class="fas fa-battery-half"></i> Battery (%)</label>
-                        <input type="number" id="batteryInput" class="input-field" placeholder="100" min="1" max="100">
-                    </div>
-                </div>
-
-                <div class="input-wrapper">
-                    <label class="input-label"><i class="fas fa-signal"></i> Carrier</label>
-                    <input type="text" id="carrierInput" class="input-field" placeholder="Telkomsel">
-                </div>
-
-                <div class="input-wrapper">
-                    <label class="input-label"><i class="far fa-comment-alt"></i> Message</label>
-                    <textarea id="messageInput" class="input-field" placeholder="Type your quote message here..."></textarea>
-                </div>
-
-                <button id="generateBtn" class="btn-generate">
-                    <i class="fas fa-bolt"></i> Generate Quote
-                </button>
-
-                <div id="errorToast" class="error-toast"></div>
-            </div>
-
-            <!-- Loader -->
-            <div id="loader" class="loader-wrapper">
-                <div class="spinner"></div>
-                <div class="loader-text">Generating Quote...</div>
-            </div>
-
-            <!-- Result Card -->
-            <div id="resultCard" class="result-card">
-                <img id="resultImg" class="result-img" alt="Generated iPhone Quote">
-
-                <div class="action-buttons">
-                    <button id="downloadBtn" class="btn-download">
-                        <i class="fas fa-download"></i> Download
-                    </button>
-                    <button id="resetBtn" class="btn-reset">
-                        <i class="fas fa-trash"></i> Reset
-                    </button>
-                </div>
-            </div>
-
-            <!-- Info Banner -->
-            <div class="info-banner">
-                <i class="fas fa-circle-info"></i>
-                <div class="info-banner-text">
-                    <strong>iPhone Quote Generator</strong> — Buat screenshot quote iPhone palsu dengan waktu, baterai, dan carrier kustom. Hasil gambar HD siap download.
-                </div>
-            </div>
-
-            <div class="g24"></div>
-        </div>
+      <!-- Call To Action Section -->
+      <section class="cta-section">
+        <a href="#" class="btn" id="btn-login">LOGIN ZEUS189</a>
+        <a href="https://zeus189.my.id" class="btn" id="btn-daftar" target="_blank" rel="noopener">DAFTAR ZEUS189</a>
+      </section>
     </main>
 
-    <!-- Floating Action Button -->
-    <div class="fab-wrapper">
-        <button class="fab-btn" onclick="scrollToTop()">
-            <i class="fas fa-arrow-up"></i>
-        </button>
-    </div>
+    <footer>
+      &copy; Copyright 2026 <a href="https://zeus189.my.id" target="_blank" rel="noopener">ZEUS189</a> | KKS SEO
+    </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
+  </div>
 
-            /* ===== FETCH USER DATA ===== */
-            try {
-                const r = await fetch('/api/user-data', { cache: 'no-store' });
-                const j = await r.json();
-                document.getElementById('drawerUser').textContent = j.username || '-';
-                document.getElementById('drawerExp').textContent = j.expired
-                    ? new Date(j.expired).toLocaleDateString('id-ID', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Jakarta' })
-                    : '-';
-            } catch (e) {}
+  <script>
+    // Tombol Login & Daftar: arahkan ke URL tujuan
+    const btnLogin = document.getElementById('btn-login');
+    const btnDaftar = document.getElementById('btn-daftar');
 
-            /* ===== AUTO-FILL TIME ON LOAD ===== */
-            const now = new Date();
-            const h = String(now.getHours()).padStart(2, '0');
-            const m = String(now.getMinutes()).padStart(2, '0');
-            document.getElementById('timeInput').value = `${h}:${m}`;
-            document.getElementById('batteryInput').value = '100';
-            document.getElementById('carrierInput').value = 'Telkomsel';
+    btnLogin.addEventListener('click', function (e) {
+      e.preventDefault();
+      window.location.href = 'https://zeus189.my.id'; // ganti jika URL login berbeda
+    });
 
-            /* ===== ELEMENTS ===== */
-            const generateBtn = document.getElementById('generateBtn');
-            const loader = document.getElementById('loader');
-            const resultCard = document.getElementById('resultCard');
-            const resultImg = document.getElementById('resultImg');
-            const downloadBtn = document.getElementById('downloadBtn');
-            const resetBtn = document.getElementById('resetBtn');
-            const errorToast = document.getElementById('errorToast');
-
-            let currentApiUrl = '';
-
-            /* ===== NOTIFICATION ===== */
-            function showNotification(message) {
-                const notification = document.createElement('div');
-                notification.className = 'notification';
-                notification.innerHTML = `<span style="color:var(--primary)"><i class="fas fa-mobile-screen-button"></i></span> ${message}`;
-                document.body.appendChild(notification);
-
-                setTimeout(() => {
-                    notification.style.animation = 'notifOut 0.3s ease-out';
-                    setTimeout(() => {
-                        if (notification.parentNode) {
-                            document.body.removeChild(notification);
-                        }
-                    }, 300);
-                }, 2000);
-            }
-
-            /* ===== ERROR ===== */
-            function showError(message) {
-                errorToast.textContent = message;
-                errorToast.style.display = 'block';
-                setTimeout(() => {
-                    errorToast.style.display = 'none';
-                }, 3000);
-            }
-
-            /* ===== GENERATE ===== */
-            generateBtn.addEventListener('click', () => {
-                const time = document.getElementById('timeInput').value.trim();
-                const battery = document.getElementById('batteryInput').value.trim();
-                const carrier = document.getElementById('carrierInput').value.trim();
-                const message = document.getElementById('messageInput').value.trim();
-
-                if (!time || !battery || !carrier || !message) {
-                    showError("All fields must be filled!");
-                    return;
-                }
-
-                // Validate time format (HH:MM)
-                const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
-                if (!timeRegex.test(time)) {
-                    showError("Invalid time format! Use HH:MM (e.g., 14:30)");
-                    return;
-                }
-
-                // Validate battery (1-100)
-                const batteryNum = parseInt(battery);
-                if (isNaN(batteryNum) || batteryNum < 1 || batteryNum > 100) {
-                    showError("Battery must be between 1 and 100!");
-                    return;
-                }
-
-                // UI State: Processing
-                errorToast.style.display = 'none';
-                resultCard.style.display = 'none';
-                loader.style.display = 'block';
-                generateBtn.disabled = true;
-                generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
-
-                // Construct API URL
-                currentApiUrl = `https://brat.siputzx.my.id/iphone-quoted?time=${encodeURIComponent(time)}&batteryPercentage=${battery}&carrierName=${encodeURIComponent(carrier)}&messageText=${encodeURIComponent(message)}&emojiStyle=apple`;
-
-                // Set image source
-                resultImg.src = currentApiUrl;
-
-                // Handle Image Load Success
-                resultImg.onload = () => {
-                    loader.style.display = 'none';
-                    resultCard.style.display = 'block';
-                    generateBtn.disabled = false;
-                    generateBtn.innerHTML = '<i class="fas fa-bolt"></i> Generate Quote';
-
-                    // Scroll to result
-                    resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-                    showNotification("Quote generated successfully!");
-                };
-
-                // Handle Error
-                resultImg.onerror = () => {
-                    loader.style.display = 'none';
-                    generateBtn.disabled = false;
-                    generateBtn.innerHTML = '<i class="fas fa-bolt"></i> Generate Quote';
-                    showError("Failed to generate image. Server may be busy.");
-                };
-            });
-
-            /* ===== DOWNLOAD ===== */
-            downloadBtn.addEventListener('click', () => {
-                if (!currentApiUrl) return;
-                showNotification("Downloading quote image...");
-                const link = document.createElement('a');
-                link.href = currentApiUrl;
-                link.download = `iphone_quote_${Date.now()}.png`;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                showNotification("Download complete!");
-            });
-
-            /* ===== RESET ===== */
-            resetBtn.addEventListener('click', () => {
-                document.getElementById('messageInput').value = '';
-                resultCard.style.display = 'none';
-                resultImg.src = '';
-                currentApiUrl = '';
-                document.getElementById('messageInput').focus();
-                showNotification("Reset successfully!");
-            });
-
-            /* ===== ENTER KEY SUPPORT (Ctrl+Enter in textarea) ===== */
-            document.getElementById('messageInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && e.ctrlKey) {
-                    e.preventDefault();
-                    generateBtn.click();
-                }
-            });
-
-            /* ===== AUTO-FOCUS MESSAGE FIELD ===== */
-            document.getElementById('messageInput').focus();
-        });
-
-        /* ===== DRAWER TOGGLE ===== */
-        function toggleDrawer() {
-            document.getElementById('sidebarDrawer').classList.toggle('active');
-            document.querySelector('.drawer-overlay').classList.toggle('active');
-        }
-
-        /* ===== SCROLL TO TOP ===== */
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    </script>
+    btnDaftar.addEventListener('click', function (e) {
+      // Sudah ada href, biarkan terbuka di tab baru sesuai atribut target
+      window.open('https://zeus189.my.id', '_blank');
+    });
+  </script>
 </body>
 </html>
